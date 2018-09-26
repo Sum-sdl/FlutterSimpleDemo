@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
         Page.page_home_1: (BuildContext context) => new StartPage(),
         Page.page_home_listView: (BuildContext context) => new ListDemoPage(),
         Page.page_home_widget: (BuildContext context) => new WidgetDemoPage(),
+        Page.page_home_widget_bg: (BuildContext context) => new WidgetBgPage(),
       },
     );
   }
@@ -43,7 +44,7 @@ class _HomePageList extends State<StartPage> {
 
   _textClick() {
     setState(() {
-      text = "click->${index++}";
+      text = "${index++}";
     });
   }
 
@@ -56,27 +57,28 @@ class _HomePageList extends State<StartPage> {
         // the App.build method, and use it to set our appbar title.
         title: new Text(widget.title),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: new Center( //居中
-          child: new Column( //Column内容居中
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              new GestureDetector(child: new Text(
-                '点击:' + text,
-                textAlign: TextAlign.center,
-              ), onTap: () {
-                _textClick();
-              }),
-              new MaterialButton(onPressed: () {
-                Navigator.of(context).pushNamed(Page.page_home_listView);
-              }, child: new Text("ListView测试")),
-              new MaterialButton(onPressed: () {
-                Navigator.of(context).pushNamed(Page.page_home_listView);
-              }, child: new Text("常用组件测试")),
-            ],
-          ),
-        ),)
+      body: new Center( //居中
+        child: new Column( //Column内容居中
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            new GestureDetector(child: new Text(
+              '文本点击:' + text,
+              style: new TextStyle(color: Colors.red, fontSize: 18.0),
+            ), onTap: () {
+              _textClick();
+            }),
+            new MaterialButton(onPressed: () {
+              Navigator.of(context).pushNamed(Page.page_home_listView);
+            }, child: new Text("ListView测试")),
+            new MaterialButton(onPressed: () {
+              Navigator.of(context).pushNamed(Page.page_home_widget);
+            }, child: new Text("按钮组件")),
+            new MaterialButton(onPressed: () {
+              Navigator.of(context).pushNamed(Page.page_home_widget_bg);
+            }, child: new Text("组件背景装饰+文本设置")),
+          ],
+        ),
+      )
       ,
     );
   }
