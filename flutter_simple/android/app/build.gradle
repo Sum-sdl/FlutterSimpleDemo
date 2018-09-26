@@ -31,21 +31,41 @@ android {
         disable 'InvalidPackage'
     }
 
+    signingConfigs {
+        config {
+            keyAlias 'sum'
+            keyPassword '123456'
+            storeFile file('../app/debug_keystore.jks')
+            storePassword '123456'
+        }
+    }
+
+    //Android 配置部分功能需要手动配置
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "sum.fluttersimple"
         minSdkVersion 16
         targetSdkVersion 27
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        signingConfig signingConfigs.config
     }
 
+//    android.applicationVariants.all { variant ->
+//        variant.outputs.all {
+//            outputFileName = "sum_flutter_v${variant.versionName}_${variant.buildType.name}.apk"
+//        }
+//    }
+
+
     buildTypes {
+
         release {
-            // TODO: Add your own signing config for the release build.
+            //flutter run --release
+            //执行正式版的打包安装
             // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.config
         }
     }
 }
