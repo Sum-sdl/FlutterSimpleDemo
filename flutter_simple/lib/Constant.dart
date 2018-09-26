@@ -3,6 +3,7 @@ class Page {
   static const String page_home_listView = "page_2";
   static const String page_home_widget = "page_3";
   static const String page_home_widget_bg = "page_4";
+  static const String page_home_layout = "page_5";
 }
 
 class Strings {

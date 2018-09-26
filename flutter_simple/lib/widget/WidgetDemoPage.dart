@@ -111,7 +111,7 @@ class _WidgetBg extends State<WidgetBgPage> {
       child: new Center(
         child: Padding(
           padding: const EdgeInsets.only(top: 50.0, right: 9.0),
-          child: Column(
+          child: Column(//Column不能超出内容
             children: <Widget>[
               new Text(
                 'Custom Button',
