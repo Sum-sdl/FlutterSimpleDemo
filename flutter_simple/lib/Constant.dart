@@ -7,6 +7,7 @@ class Page {
   static const String page_home_layout = "page_5";
   static const String page_layout_table = "page_7";
   static const String page_layout_warp = "page_8";
+  static const String page_thread = "page_9";
 }
 
 class Strings {

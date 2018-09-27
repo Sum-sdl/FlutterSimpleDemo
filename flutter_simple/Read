@@ -9,6 +9,8 @@ open build/app/outputs/apk/release
 Ios 打包
 
 签名
+
+//打开xcode编辑项目
 open ios/Runner.xcworkspace
 
 1.flutter build ios 打包ios

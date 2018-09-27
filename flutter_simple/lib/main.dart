@@ -1,6 +1,7 @@
 import 'package:FlutterSimple/Layout/LayoutDemoPage.dart';
 import 'package:FlutterSimple/Layout/TableLayoutPage.dart';
 import 'package:FlutterSimple/list/ListDemoPage.dart';
+import 'package:FlutterSimple/thread/ThreadTestPage.dart';
 import 'package:FlutterSimple/widget/WidgetDemoPage.dart';
 import 'package:flutter/material.dart';
 
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         Page.page_home_layout: (BuildContext context) => new LayoutDemoPage(),
         Page.page_layout_table: (BuildContext context) => new TableLayoutPage(),
         Page.page_layout_warp: (BuildContext context) => new FlowWarpLayoutPage(),
+        Page.page_thread: (BuildContext context) => new ThreadPage(),
       },
     );
   }
@@ -140,6 +142,15 @@ class _HomePageList extends State<StartPage> {
                 Navigator.of(context).pushNamed(Page.page_layout_warp);
               },
               child: new Text("Warp")),
+
+          new FlatButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(Page.page_thread);
+              },
+              textColor: Colors.white,
+              color: Colors.orangeAccent,
+              splashColor: Colors.blueAccent,
+              child: new Text("线程功能测试")),
         ],
       ),
     );
