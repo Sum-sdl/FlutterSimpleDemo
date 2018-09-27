@@ -5,6 +5,10 @@ class WidgetDemoPage extends StatefulWidget {
   State<StatefulWidget> createState() => new _WidgetButton();
 }
 
+class SelfBtn extends FlatButton{
+
+}
+
 //按钮界面
 class _WidgetButton extends State<WidgetDemoPage> {
   @override

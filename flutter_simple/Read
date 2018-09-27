@@ -1,0 +1,4 @@
+1. flutter run --release 运行正式版本,需要手机或者模拟器连接
+2. flutter build apk 打包Apk
+
+open build/app/outputs/apk/release

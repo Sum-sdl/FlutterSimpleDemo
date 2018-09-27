@@ -47,19 +47,22 @@ class _HomePageList extends State<StartPage> {
         // the App.build method, and use it to set our appbar title.
         title: new Text(widget.title),
       ),
-      body: new Center(
-        //居中
+      body: new Container(
+        alignment: Alignment.center,
+        color: Colors.cyan,
         child: Padding(
-          padding: const EdgeInsets.only(top: 30.0),
+          padding: const EdgeInsets.only(top: 30.0, bottom: 20.0),
           child: new Stack(
+            alignment: Alignment.center,
             children: <Widget>[
               new Container(
-                color: Colors.amberAccent,
-                padding: EdgeInsets.all(15.0),
+                alignment: Alignment.center,
+                color: Colors.cyanAccent,
+                height: 100.0,
+                width: 300.0,
                 child: new Text(
-                  "Statck 帧布局",
-                  style:
-                  new TextStyle(color: Colors.red, fontSize: 18.0),
+                  "Statck 帧布局 第一层，事件不能传递",
+                  style: new TextStyle(color: Colors.red, fontSize: 18.0),
                 ),
               ),
               buildColumn(context)
@@ -73,16 +76,16 @@ class _HomePageList extends State<StartPage> {
   //按钮
   Widget buildColumn(BuildContext context) {
     return new Container(
-      color: Colors.black12,
+      color: Colors.black26,
       child: Padding(
         padding: const EdgeInsets.only(top: 12.0),
         child: new Flex(
+          //Flex 就是LinearLayout
           direction: Axis.vertical,
           mainAxisSize: MainAxisSize.max,
           //默认是最大，这里设置最小，类似LinearLayout+warp_content
           //Column内容居中
           children: <Widget>[
-
             new FlatButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed(Page.page_home_widget);
@@ -97,7 +100,8 @@ class _HomePageList extends State<StartPage> {
                 onPressed: () {
                   Navigator.of(context).pushNamed(Page.page_home_layout);
                 },
-                child: new Text("Row+Column+Expanded")), new FlatButton(
+                child: new Text("Row+Column+Expanded")),
+            new FlatButton(
                 onPressed: () {
                   Navigator.of(context).pushNamed(Page.page_home_listView);
                 },
@@ -106,6 +110,7 @@ class _HomePageList extends State<StartPage> {
                 child: new Text("ListView测试")),
           ],
         ),
-      ),);
+      ),
+    );
   }
 }
