@@ -11,7 +11,7 @@ class _LayoutState extends State<LayoutDemoPage> {
     return new Scaffold(
       appBar: new AppBar(
         centerTitle: true,
-        title: new Text("Row+Column+Expanded"),
+        title: new Text("比例布局"),
       ),
       body: buildColumn(),
     );
@@ -32,7 +32,7 @@ class _LayoutState extends State<LayoutDemoPage> {
             ),
             Expanded(
               child: Container(
-                height:55.0,
+                height: 55.0,
                 color: Colors.blue,
               ),
               flex: 2,
@@ -49,11 +49,8 @@ class _LayoutState extends State<LayoutDemoPage> {
         Expanded(
           child: new Container(
             constraints: new BoxConstraints.expand(
-              height: Theme
-                  .of(context)
-                  .textTheme
-                  .display1
-                  .fontSize * 1.1 + 200.0,
+              height:
+                  Theme.of(context).textTheme.display1.fontSize * 1.1 + 200.0,
             ),
             decoration: new BoxDecoration(
               border: new Border.all(width: 2.0, color: Colors.red),
@@ -67,18 +64,23 @@ class _LayoutState extends State<LayoutDemoPage> {
             ),
             alignment: Alignment.center,
             child: new Text('Expanded',
-                style: Theme
-                    .of(context)
+                style: Theme.of(context)
                     .textTheme
                     .display2
                     .copyWith(color: Colors.black)),
 //            transform: new Matrix4.rotationZ(0.3),
           ),
-//          flex: 1,
+          flex: 1,
         ),
         Expanded(
           child: Container(
             color: Colors.amberAccent,
+          ),
+          flex: 1,
+        ),
+        Expanded(
+          child: Container(
+            color: Colors.blueAccent,
           ),
           flex: 1,
         ),

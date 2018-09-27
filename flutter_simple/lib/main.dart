@@ -1,4 +1,5 @@
 import 'package:FlutterSimple/Layout/LayoutDemoPage.dart';
+import 'package:FlutterSimple/Layout/TableLayoutPage.dart';
 import 'package:FlutterSimple/list/ListDemoPage.dart';
 import 'package:FlutterSimple/widget/WidgetDemoPage.dart';
 import 'package:flutter/material.dart';
@@ -12,17 +13,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return new MaterialApp(
-      title: 'Flutter Simple',
+      title: 'Flutter Widget Demo',
       theme: new ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: new StartPage(title: 'Flutter Simple Start'),
+      home: new StartPage(title: 'Flutter 测试'),
       routes: <String, WidgetBuilder>{
         Page.page_home_1: (BuildContext context) => new StartPage(),
         Page.page_home_listView: (BuildContext context) => new ListDemoPage(),
+        Page.page_home_GridView: (BuildContext context) => new GridDemoPage(),
         Page.page_home_widget: (BuildContext context) => new WidgetDemoPage(),
         Page.page_home_widget_bg: (BuildContext context) => new WidgetBgPage(),
         Page.page_home_layout: (BuildContext context) => new LayoutDemoPage(),
+        Page.page_layout_table: (BuildContext context) => new TableLayoutPage(),
+        Page.page_layout_warp: (BuildContext context) => new FlowWarpLayoutPage(),
       },
     );
   }
@@ -30,15 +34,22 @@ class MyApp extends StatelessWidget {
 
 class StartPage extends StatefulWidget {
   StartPage({Key key, this.title}) : super(key: key);
-
   final String title;
-
   @override
   State<StatefulWidget> createState() => new _HomePageList();
 }
 
 //_HomePageList 能够获取到StartPage里面的参数title
 class _HomePageList extends State<StartPage> {
+
+  int index = 0;
+
+  _addIndex() {
+    setState(() {
+      index++;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -51,21 +62,24 @@ class _HomePageList extends State<StartPage> {
         alignment: Alignment.center,
         color: Colors.cyan,
         child: Padding(
-          padding: const EdgeInsets.only(top: 30.0, bottom: 20.0),
+          padding: const EdgeInsets.only(top: 30.0, bottom: 30.0),
           child: new Stack(
-            alignment: Alignment.center,
+            alignment: Alignment.bottomCenter,
             children: <Widget>[
               new Container(
-                alignment: Alignment.center,
+                alignment: Alignment.topCenter,
                 color: Colors.cyanAccent,
                 height: 100.0,
-                width: 300.0,
-                child: new Text(
-                  "Statck 帧布局 第一层，事件不能传递",
-                  style: new TextStyle(color: Colors.red, fontSize: 18.0),
-                ),
+                width: 320.0,
+                child:
+                new FlatButton(child: new Text(
+                  "帧布局第一层，事件可以透传->${index + 1}",
+                  style: new TextStyle(color: Colors.black54, fontSize: 18.0),
+                ), onPressed: () {
+                  _addIndex();
+                },),
               ),
-              buildColumn(context)
+              buildColumn(context),
             ],
           ),
         ),
@@ -73,43 +87,60 @@ class _HomePageList extends State<StartPage> {
     );
   }
 
-  //按钮
+  /// Container 展示区域都拦截了事件
+  ///
+  //按钮列表
   Widget buildColumn(BuildContext context) {
-    return new Container(
+    return new Container( //拦截点击事件
       color: Colors.black26,
-      child: Padding(
-        padding: const EdgeInsets.only(top: 12.0),
-        child: new Flex(
-          //Flex 就是LinearLayout
-          direction: Axis.vertical,
-          mainAxisSize: MainAxisSize.max,
-          //默认是最大，这里设置最小，类似LinearLayout+warp_content
-          //Column内容居中
-          children: <Widget>[
-            new FlatButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed(Page.page_home_widget);
-                },
-                child: new Text("按钮组件")),
-            new MaterialButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed(Page.page_home_widget_bg);
-                },
-                child: new Text("组件背景装饰+文本设置")),
-            new FlatButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed(Page.page_home_layout);
-                },
-                child: new Text("Row+Column+Expanded")),
-            new FlatButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed(Page.page_home_listView);
-                },
-                color: Colors.white30,
-                splashColor: Colors.blue, // 波纹颜色
-                child: new Text("ListView测试")),
-          ],
-        ),
+      padding: EdgeInsets.only(top: 0.0),
+      transform: Matrix4.translationValues(0.0, -10.0, 0.0),
+      child: new Flex(
+        //Flex 就是LinearLayout
+        direction: Axis.vertical,
+        mainAxisSize: MainAxisSize.max,
+        //默认是最大，这里设置最小，类似LinearLayout+warp_content
+        //Column内容居中
+        children: <Widget>[
+          new FlatButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(Page.page_home_widget);
+              },
+              textColor: Colors.white,
+              color: Colors.orange,
+              child: new Text("按钮组件")),
+          new MaterialButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(Page.page_home_widget_bg);
+              },
+              child: new Text("组件背景装饰+文本设置")),
+          new FlatButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(Page.page_home_layout);
+              },
+              child: new Text("Row+Column+Expanded")),
+          new FlatButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(Page.page_home_listView);
+              },
+              splashColor: Colors.blue,
+              child: new Text("ListView测试")),
+          new FlatButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(Page.page_home_GridView);
+              },
+              child: new Text("GridView")),
+          new FlatButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(Page.page_layout_table);
+              },
+              child: new Text("Table")),
+          new FlatButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(Page.page_layout_warp);
+              },
+              child: new Text("Warp")),
+        ],
       ),
     );
   }
