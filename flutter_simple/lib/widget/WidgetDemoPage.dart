@@ -210,32 +210,96 @@ class TabbedAppBarSample extends StatelessWidget {
     return new MaterialApp(
       home: new DefaultTabController(
         length: choices.length,
-        child: new Scaffold(
-          appBar: new AppBar(
-            title: const Text('Tabbed AppBar'),
-            bottom: new TabBar(
-              isScrollable: true,
-              tabs: choices.map((Choice choice) {
-                return new Tab(
-                  text: choice.title,
-                  icon: new Icon(choice.icon),
-                );
-              }).toList(),
-            ),
-          ),
-          body: new TabBarView(
-            children: choices.map((Choice choice) {
-              return new Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: new ChoiceCard(choice: choice),
-              );
-            }).toList(),
-          ),
-        ),
+          child: Builder(builder: (BuildContext co) {
+            return buildScaffold(co);
+          })
       ),
       routes: <String, WidgetBuilder>{
         Page.page_other_page: (BuildContext context) => new WidgetDemoPage(),
       },
+    );
+  }
+
+  Scaffold buildScaffold(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: const Text('TabBar+TabBarView'),
+        centerTitle: false,
+        actions: <Widget>[
+          new IconButton( // action button
+            icon: new Icon(Icons.timer, color: Colors.black),
+            onPressed: () {
+              showDatePicker(context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(1990),
+                  lastDate: DateTime(2200));
+            },
+          ),
+
+          new Builder(builder: (c) {
+            return new IconButton( // action button
+              icon: new Icon(Icons.ac_unit),
+              onPressed: () {
+                Scaffold.of(context).showSnackBar(
+                    new SnackBar(content: new Text("SnackBar")));
+              },
+            );
+          }),
+
+          new IconButton( // action button
+            icon: new Icon(Icons.dialpad),
+            onPressed: () {
+//                  showDialog(context: context,
+//                      barrierDismissible: false,
+//                      builder: (BuildContext context) {
+//                        print(context);
+//                        return new Text("Dialog");
+//                      }
+//                  );
+
+//              showBottomSheet(
+//                  context: context, builder: (BuildContext context) {
+//                print("showBottomSheet->$context");
+//                return new Text("showBottomSheet");
+//              });
+
+//              Scaffold.of(context).showBottomSheet((c) =>
+//              new Text("showBottomSheet"));
+
+              Scaffold.of(context).showSnackBar(
+                  new SnackBar(content: new Text("SnackBar")));
+            },
+          ),
+          new PopupMenuButton<Choice>( // overflow menu
+            itemBuilder: (BuildContext context) {
+              return choices.skip(2).map((Choice choice) {
+                return new PopupMenuItem<Choice>(
+                  value: choice,
+                  child: new Text(choice.title),
+                );
+              }).toList();
+            },)
+        ],
+
+
+        bottom: new TabBar(
+          isScrollable: true,
+          tabs: choices.map((Choice choice) {
+            return new Tab(
+              text: choice.title,
+              icon: new Icon(choice.icon, color: Colors.red,),
+            );
+          }).toList(),
+        ),
+      ),
+      body: new TabBarView(
+        children: choices.map((Choice choice) {
+          return new Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: new ChoiceCard(choice: choice),
+          );
+        }).toList(),
+      ),
     );
   }
 }
@@ -279,10 +343,73 @@ class ChoiceCard extends StatelessWidget {
             new FlatButton(onPressed: () {
               Navigator.of(context).pushNamed(Page.page_other_page);
 //              Navigator.of(context).pushNamed(Page.page_home_1);//当前的context只能打开当前
-            }, child: new Text("page_other_page"))
+            }, child: new Text("page_other_page")),
+            new RaisedButton(
+              onPressed: () {
+                final snackBar = new SnackBar(
+                  content: new Text("Tip->${choice.title}"),
+                  action: new SnackBarAction(
+                      label: "Hide",
+                      onPressed: () {
+                        Scaffold.of(context).hideCurrentSnackBar();
+                      }),
+                );
+                Scaffold.of(context).hideCurrentSnackBar(
+                    reason: SnackBarClosedReason.hide);
+                Scaffold.of(context).showSnackBar(snackBar);
+              },
+              child: new Text("显示Snackbar"),),
+            new RaisedButton(
+              onPressed: () {
+                Scaffold.of(context).showBottomSheet((c) =>
+                new Row(children: <Widget>[
+                  Expanded(
+                      flex: 1,
+                      child: Container(
+                        height: 200.0,
+                        color: Colors.black26,
+                        child: new Text(
+                          "showBottomSheet->${choice.title}",
+                          textAlign: TextAlign.center,),
+                      ))
+                ],));
+              },
+              child: new Text("显示BottomSheetView"),),
           ],
         ),
       ),
+    );
+  }
+}
+
+
+class BasicWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: new AppBar(
+        title: new Text("Basic Widget"),
+      ),
+      body: new Builder(builder: (BuildContext context) {
+        return new Column(
+          children: <Widget>[
+            new RaisedButton(
+              onPressed: () {
+                final snackBar = new SnackBar(
+                  content: new Text("这是一个Snackbar"),
+                  action: new SnackBarAction(
+                      label: "Undo",
+                      onPressed: () {
+
+                      }),
+                );
+                Scaffold.of(context).showSnackBar(snackBar);
+              },
+              child: new Text("显示Snackbar"),
+            )
+          ],
+        );
+      }),
     );
   }
 }

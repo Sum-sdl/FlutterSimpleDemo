@@ -23,9 +23,11 @@ class MyApp extends StatelessWidget {
         Page.page_home_widget_bg: (BuildContext context) => new WidgetBgPage(),
         Page.page_home_layout: (BuildContext context) => new LayoutDemoPage(),
         Page.page_layout_table: (BuildContext context) => new TableLayoutPage(),
-        Page.page_layout_warp: (BuildContext context) => new FlowWarpLayoutPage(),
+        Page.page_layout_warp: (BuildContext context) =>
+            new FlowWarpLayoutPage(),
         Page.page_thread: (BuildContext context) => new ThreadPage(),
         Page.page_other: (BuildContext context) => new TabbedAppBarSample(),
+        Page.page_list_anim: (BuildContext context) => new BasicWidget(),
       },
     );
   }
@@ -34,13 +36,13 @@ class MyApp extends StatelessWidget {
 class StartPage extends StatefulWidget {
   StartPage({Key key, this.title}) : super(key: key);
   final String title;
+
   @override
   State<StatefulWidget> createState() => new _HomePageList();
 }
 
 //_HomePageList 能够获取到StartPage里面的参数title
 class _HomePageList extends State<StartPage> {
-
   int index = 0;
 
   _addIndex() {
@@ -70,13 +72,15 @@ class _HomePageList extends State<StartPage> {
                 color: Colors.cyanAccent,
                 height: 100.0,
                 width: 320.0,
-                child:
-                new FlatButton(child: new Text(
-                  "帧布局第一层，事件可以透传->${index + 1}",
-                  style: new TextStyle(color: Colors.black54, fontSize: 18.0),
-                ), onPressed: () {
-                  _addIndex();
-                },),
+                child: new FlatButton(
+                  child: new Text(
+                    "帧布局第一层，事件可以透传->${index + 1}",
+                    style: new TextStyle(color: Colors.black54, fontSize: 18.0),
+                  ),
+                  onPressed: () {
+                    _addIndex();
+                  },
+                ),
               ),
               buildColumn(context),
             ],
@@ -90,7 +94,8 @@ class _HomePageList extends State<StartPage> {
   ///
   //按钮列表
   Widget buildColumn(BuildContext context) {
-    return new Container( //拦截点击事件
+    return new Container(
+      //拦截点击事件
       color: Colors.black26,
       padding: EdgeInsets.only(top: 0.0),
       transform: Matrix4.translationValues(0.0, -10.0, 0.0),
@@ -126,6 +131,11 @@ class _HomePageList extends State<StartPage> {
               child: new Text("ListView测试")),
           new FlatButton(
               onPressed: () {
+                Navigator.of(context).pushNamed(Page.page_list_anim);
+              },
+              child: new Text("ListView 动画增删")),
+          new FlatButton(
+              onPressed: () {
                 Navigator.of(context).pushNamed(Page.page_home_GridView);
               },
               child: new Text("GridView")),
@@ -139,7 +149,6 @@ class _HomePageList extends State<StartPage> {
                 Navigator.of(context).pushNamed(Page.page_layout_warp);
               },
               child: new Text("Warp")),
-
           new FlatButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(Page.page_thread);
