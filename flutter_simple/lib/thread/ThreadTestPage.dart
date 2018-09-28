@@ -98,10 +98,6 @@ class _ThreadTestState extends State<ThreadPage> {
   }
 
 
-  _sort(Object a, Object b) {
-
-  }
-
 
   ///https://flutterchina.club/networking/
   ///部分变更
@@ -120,7 +116,9 @@ class _ThreadTestState extends State<ThreadPage> {
       var response = await request.close();
       if (response.statusCode == HttpStatus.ok) {
         var d = await response.transform(utf8.decoder).join();
-        var data = json.decode(d);
+        var data = json.decode(d, reviver: (a, b) {
+          print("$a->$b");
+        });
         result = data['origin'];
       } else {
         result =
@@ -135,6 +133,7 @@ class _ThreadTestState extends State<ThreadPage> {
     print("NetWork IO Test End");
   }
 
+
   //async 异步操作
   _netTest() async {
     print("NetWork Test Start");
@@ -143,11 +142,16 @@ class _ThreadTestState extends State<ThreadPage> {
     });
     String dataURL = "https://jsonplaceholder.typicode.com/posts";
     http.Response response = await http.get(dataURL);
-
+    int index = 0;
     var data = json.decode(response.body);
+    /* var data = json.decode(response.body, reviver: (a, b) {
+      if (a!=null) {
+        print("${++index}->$a:$b");
+      }
+    });*/
 
     setState(() {
-      _netDataChange("网络请求结束->${(data[0]["body"] as String).substring(0, 20)}");
+      _netDataChange("网络请求结束->${data[0]["id"]}+${data[0]["title"]}");
     });
     print("rsp->${response.body}");
     print("NetWork Test End");
@@ -169,18 +173,18 @@ class _ThreadTestState extends State<ThreadPage> {
   }
 
   _test2() {
-    Future f1 = new Future(() => null);
-    Future f2 = new Future(() => null);
-    Future f3 = new Future(() => null);
-
-    f3.then((_) => print("f3 then"));
-
-    f2.then((_) {
-      print("f2 then");
-      new Future(() => print("new Future befor f1 then"));
-      f1.then((_) {
-        print("f1 then");
-      });
-    });
+//    Future f1 = new Future(() => null);
+//    Future f2 = new Future(() => null);
+//    Future f3 = new Future(() => null);
+//
+//    f3.then((_) => print("f3 then"));
+//
+//    f2.then((_) {
+//      print("f2 then");
+//      new Future(() => print("new Future befor f1 then"));
+//      f1.then((_) {
+//        print("f1 then");
+//      });
+//    });
   }
 }

@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
         Page.page_layout_table: (BuildContext context) => new TableLayoutPage(),
         Page.page_layout_warp: (BuildContext context) => new FlowWarpLayoutPage(),
         Page.page_thread: (BuildContext context) => new ThreadPage(),
+        Page.page_other: (BuildContext context) => new TabbedAppBarSample(),
       },
     );
   }
@@ -143,10 +144,13 @@ class _HomePageList extends State<StartPage> {
               onPressed: () {
                 Navigator.of(context).pushNamed(Page.page_thread);
               },
-              textColor: Colors.white,
-              color: Colors.orangeAccent,
-              splashColor: Colors.blueAccent,
               child: new Text("线程功能测试")),
+          new FlatButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(Page.page_other);
+              },
+              splashColor: Colors.blueAccent,
+              child: new Text("其他功能")),
         ],
       ),
     );

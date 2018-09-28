@@ -8,6 +8,8 @@ class Page {
   static const String page_layout_table = "page_7";
   static const String page_layout_warp = "page_8";
   static const String page_thread = "page_9";
+  static const String page_other= "page_10";
+  static const String page_other_page= "page_11";
 }
 
 class Strings {

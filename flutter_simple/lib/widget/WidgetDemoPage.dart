@@ -1,12 +1,9 @@
+import 'package:FlutterSimple/Constant.dart';
 import 'package:flutter/material.dart';
 
 class WidgetDemoPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => new _WidgetButton();
-}
-
-class SelfBtn extends FlatButton{
-
 }
 
 //按钮界面
@@ -47,7 +44,11 @@ class _WidgetButton extends State<WidgetDemoPage> {
                 // 悬浮按钮
                 onPressed: () {
                   print('FloatingActionButton');
+                  /// 首页main启动的界面可以启动
+                  /// 第二个界面TabbedAppBarSample启动，无法启动对应界面
+                  Navigator.of(context).pushNamed(Page.page_home_widget_bg);
                 },
+                child: Icon(Icons.directions_car)
               ),
               new IconButton(
                 // 图片按钮
@@ -198,6 +199,90 @@ class _WidgetBg extends State<WidgetBgPage> {
             inherit: false,
             height: 3.0,
           )),
+    );
+  }
+}
+
+
+class TabbedAppBarSample extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      home: new DefaultTabController(
+        length: choices.length,
+        child: new Scaffold(
+          appBar: new AppBar(
+            title: const Text('Tabbed AppBar'),
+            bottom: new TabBar(
+              isScrollable: true,
+              tabs: choices.map((Choice choice) {
+                return new Tab(
+                  text: choice.title,
+                  icon: new Icon(choice.icon),
+                );
+              }).toList(),
+            ),
+          ),
+          body: new TabBarView(
+            children: choices.map((Choice choice) {
+              return new Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: new ChoiceCard(choice: choice),
+              );
+            }).toList(),
+          ),
+        ),
+      ),
+      routes: <String, WidgetBuilder>{
+        Page.page_other_page: (BuildContext context) => new WidgetDemoPage(),
+      },
+    );
+  }
+}
+
+class Choice {
+  const Choice({ this.title, this.icon });
+
+  final String title;
+  final IconData icon;
+}
+
+const List<Choice> choices = const <Choice>[
+  const Choice(title: 'CAR', icon: Icons.directions_car),
+  const Choice(title: 'BICYCLE', icon: Icons.directions_bike),
+  const Choice(title: 'BOAT', icon: Icons.directions_boat),
+  const Choice(title: 'BUS', icon: Icons.directions_bus),
+  const Choice(title: 'TRAIN', icon: Icons.directions_railway),
+  const Choice(title: 'WALK', icon: Icons.directions_walk),
+];
+
+class ChoiceCard extends StatelessWidget {
+  const ChoiceCard({ Key key, this.choice }) : super(key: key);
+
+  final Choice choice;
+
+  @override
+  Widget build(BuildContext context) {
+    final TextStyle textStyle = Theme
+        .of(context)
+        .textTheme
+        .display1;
+    return new Card(
+      color: Colors.white,
+      child: new Center(
+        child: new Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            new Icon(choice.icon, size: 128.0, color: textStyle.color),
+            new Text(choice.title, style: textStyle),
+            new FlatButton(onPressed: () {
+              Navigator.of(context).pushNamed(Page.page_other_page);
+//              Navigator.of(context).pushNamed(Page.page_home_1);//当前的context只能打开当前
+            }, child: new Text("page_other_page"))
+          ],
+        ),
+      ),
     );
   }
 }
