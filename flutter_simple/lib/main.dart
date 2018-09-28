@@ -1,11 +1,7 @@
-import 'package:FlutterSimple/Layout/LayoutDemoPage.dart';
-import 'package:FlutterSimple/Layout/TableLayoutPage.dart';
-import 'package:FlutterSimple/list/ListDemoPage.dart';
-import 'package:FlutterSimple/thread/ThreadTestPage.dart';
-import 'package:FlutterSimple/widget/WidgetDemoPage.dart';
 import 'package:flutter/material.dart';
 
 import 'Constant.dart';
+import 'flutter_demo.dart';
 
 void main() => runApp(new MyApp());
 
