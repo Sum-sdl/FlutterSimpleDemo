@@ -227,7 +227,7 @@ class TabbedAppBarSample extends StatelessWidget {
         centerTitle: false,
         actions: <Widget>[
           new IconButton( // action button
-            icon: new Icon(Icons.timer, color: Colors.black),
+            icon: new Icon(Icons.timer),
             onPressed: () {
               showDatePicker(context: context,
                   initialDate: DateTime.now(),
@@ -235,39 +235,23 @@ class TabbedAppBarSample extends StatelessWidget {
                   lastDate: DateTime(2200));
             },
           ),
-
-          new Builder(builder: (c) {
-            return new IconButton( // action button
-              icon: new Icon(Icons.ac_unit),
-              onPressed: () {
-                Scaffold.of(context).showSnackBar(
-                    new SnackBar(content: new Text("SnackBar")));
-              },
-            );
-          }),
+          new IconButton( // action button
+            icon: new Icon(Icons.ac_unit),
+            onPressed: () {
+              showAboutDialog(
+                  context: context,
+                  children: [
+                    new Text("Child")
+                  ]);
+            },
+          ),
 
           new IconButton( // action button
             icon: new Icon(Icons.dialpad),
             onPressed: () {
-//                  showDialog(context: context,
-//                      barrierDismissible: false,
-//                      builder: (BuildContext context) {
-//                        print(context);
-//                        return new Text("Dialog");
-//                      }
-//                  );
-
-//              showBottomSheet(
-//                  context: context, builder: (BuildContext context) {
-//                print("showBottomSheet->$context");
-//                return new Text("showBottomSheet");
-//              });
-
-//              Scaffold.of(context).showBottomSheet((c) =>
-//              new Text("showBottomSheet"));
-
-              Scaffold.of(context).showSnackBar(
-                  new SnackBar(content: new Text("SnackBar")));
+              showDialog(context: context, builder: (c) {
+                return new AlertDialog(content: new Text("ShowDialog"),);
+              });
             },
           ),
           new PopupMenuButton<Choice>( // overflow menu
@@ -278,7 +262,12 @@ class TabbedAppBarSample extends StatelessWidget {
                   child: new Text(choice.title),
                 );
               }).toList();
-            },)
+            }, onSelected: (choice) {
+            showDialog(context: context, builder: (c) {
+              return new AlertDialog(
+                content: new Text("choice ${choice.title}"),);
+            });
+          },)
         ],
 
 
@@ -369,7 +358,7 @@ class ChoiceCard extends StatelessWidget {
                         height: 200.0,
                         color: Colors.black26,
                         child: new Text(
-                          "showBottomSheet->${choice.title}",
+                          "${choice.title}",
                           textAlign: TextAlign.center,),
                       ))
                 ],));

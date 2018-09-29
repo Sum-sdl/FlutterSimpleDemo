@@ -1,3 +1,4 @@
+import 'package:FlutterSimple/list/NestedScrollViewDemoPage.dart';
 import 'package:flutter/material.dart';
 
 import 'Constant.dart';
@@ -24,10 +25,11 @@ class MyApp extends StatelessWidget {
         Page.page_home_layout: (BuildContext context) => new LayoutDemoPage(),
         Page.page_layout_table: (BuildContext context) => new TableLayoutPage(),
         Page.page_layout_warp: (BuildContext context) =>
-            new FlowWarpLayoutPage(),
+        new FlowWarpLayoutPage(),
         Page.page_thread: (BuildContext context) => new ThreadPage(),
         Page.page_other: (BuildContext context) => new TabbedAppBarSample(),
-        Page.page_list_anim: (BuildContext context) => new BasicWidget(),
+        Page.page_list_anim: (BuildContext context) => new AnimatedListSample(),
+        Page.page_list_nested: (BuildContext context) => new NestedPage(),
       },
     );
   }
@@ -46,9 +48,10 @@ class _HomePageList extends State<StartPage> {
   int index = 0;
 
   _addIndex() {
-    setState(() {
-      index++;
-    });
+//    setState(() {
+//      index++;
+//    });
+    index++;
   }
 
   @override
@@ -82,7 +85,11 @@ class _HomePageList extends State<StartPage> {
                   },
                 ),
               ),
-              buildColumn(context),
+//              new IgnorePointer(child: buildColumn(context),),//child 不接受事件，事件传给上一级
+//              new AbsorbPointer(child: buildColumn(context),),//child 不接受事件，事件拦截
+              new ListView(children: <Widget>[
+                buildColumn(context),
+              ],),
             ],
           ),
         ),
@@ -97,8 +104,7 @@ class _HomePageList extends State<StartPage> {
     return new Container(
       //拦截点击事件
       color: Colors.black26,
-      padding: EdgeInsets.only(top: 0.0),
-      transform: Matrix4.translationValues(0.0, -10.0, 0.0),
+      padding: EdgeInsets.only(top: 10.0),
       child: new Flex(
         //Flex 就是LinearLayout
         direction: Axis.vertical,
@@ -106,13 +112,21 @@ class _HomePageList extends State<StartPage> {
         //默认是最大，这里设置最小，类似LinearLayout+warp_content
         //Column内容居中
         children: <Widget>[
-          new FlatButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(Page.page_home_widget);
-              },
-              textColor: Colors.white,
-              color: Colors.orange,
-              child: new Text("按钮组件")),
+          new LongPressDraggable(
+              child: new FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(Page.page_home_widget);
+                  },
+                  textColor: Colors.white,
+                  color: Colors.orange,
+                  child: new Text("按钮组件")),
+              feedback: new FlatButton(
+                  onPressed: () {
+                    Navigator.of(context).pushNamed(Page.page_home_widget);
+                  },
+                  textColor: Colors.white,
+                  color: Colors.orange,
+                  child: new Text("长按按钮组件"))),
           new MaterialButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(Page.page_home_widget_bg);
@@ -123,6 +137,12 @@ class _HomePageList extends State<StartPage> {
                 Navigator.of(context).pushNamed(Page.page_home_layout);
               },
               child: new Text("Row+Column+Expanded")),
+          new FlatButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(Page.page_list_nested);
+              },
+              splashColor: Colors.blue,
+              child: new Text("NestedPage")),
           new FlatButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(Page.page_home_listView);

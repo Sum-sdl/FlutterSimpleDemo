@@ -1,7 +1,10 @@
 
 Android 打包
-1. flutter run --release 运行正式版本,需要手机或者模拟器连接
-2. flutter build apk 打包Apk
+运行正式版本,需要手机或者模拟器连接
+flutter run --release
+
+打包Apk
+flutter build apk
 
 open build/app/outputs/apk/release
 

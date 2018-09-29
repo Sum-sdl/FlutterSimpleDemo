@@ -11,31 +11,67 @@ class _ListPage extends State<ListDemoPage> {
   @override
   void initState() {
     super.initState();
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 10; i++) {
       widgets.add(getRow(i));
     }
   }
 
   Widget getRow(int i) {
+    //一次性new全部的widget
+    print("list init item widget $i");
     return new GestureDetector(
       child: new Padding(
-          padding: new EdgeInsets.all(10.0), child: new Text("Row $i")),
+          padding: new EdgeInsets.all(10.0),
+          child: new Text("Row $i ,size->$aSize")),
       onTap: () {
         setState(() {
+          _changeSize();
           widgets = new List.from(widgets);
           widgets.add(getRow(widgets.length + 1));
-          print('row $i');
+          print('add row $i');
         });
       },
     );
   }
 
+  int aSize = 1;
+
+  _changeSize() {
+    setState(() {
+      aSize += 2;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    print("list  build");
+
     return new Scaffold(
       body: new ListView(
-        children: widgets,
+        children: widgets, //创建之后，item的内容不能变更,
       ),
+    );
+//
+
+//    return buildScaffold();
+  }
+
+  ///根据滚动的item来创建项目
+  /// 内容的值变了，item会重新走一次创建
+  Scaffold buildScaffold() {
+    return new Scaffold(
+      body: new ListView.builder(
+        itemCount: aSize,
+        itemBuilder: (c, index) { //一直滚动，创建可见范围内的item项目
+          print("list new item widget $index");
+          if (index == 100) {
+            return null; //结束滚动
+          }
+          return new FlatButton(
+            onPressed: () {
+              _changeSize();
+            }, child: new Text("index ->$index,$aSize"),);
+        },),
     );
   }
 }

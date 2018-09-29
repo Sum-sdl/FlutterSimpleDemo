@@ -61,6 +61,10 @@ android {
 
     buildTypes {
 
+        debug {
+            signingConfig signingConfigs.config
+        }
+
         release {
             //flutter run --release
             //执行正式版的打包安装

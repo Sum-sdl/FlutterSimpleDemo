@@ -11,6 +11,7 @@ class Page {
   static const String page_other= "page_10";
   static const String page_other_page= "page_11";
   static const String page_list_anim= "page_12";
+  static const String page_list_nested= "page_13";
 }
 
 class Strings {
