@@ -24,8 +24,7 @@ class MyApp extends StatelessWidget {
         Page.page_home_widget_bg: (BuildContext context) => new WidgetBgPage(),
         Page.page_home_layout: (BuildContext context) => new LayoutDemoPage(),
         Page.page_layout_table: (BuildContext context) => new TableLayoutPage(),
-        Page.page_layout_warp: (BuildContext context) =>
-        new FlowWarpLayoutPage(),
+        Page.page_layout_warp: (BuildContext context) =>new FlowWarpLayoutPage(),
         Page.page_thread: (BuildContext context) => new ThreadPage(),
         Page.page_other: (BuildContext context) => new TabbedAppBarSample(),
         Page.page_list_anim: (BuildContext context) => new AnimatedListSample(),

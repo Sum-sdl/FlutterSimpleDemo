@@ -70,7 +70,7 @@ class _HomeState extends State<_HomePage> {
   Widget build(BuildContext context) {
     return new Scaffold(
         body: _pages[_curPage],
-        backgroundColor: Colors.black26,
+        backgroundColor: Colors.white,
         bottomNavigationBar: BottomAppBar(
             child: BottomBarParent(
               items: items, defaultChooseItem: items[_curPage],)));
