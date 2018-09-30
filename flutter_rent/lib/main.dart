@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rent/ui/HomeHouseLIstPage.dart';
+import 'package:flutter_rent/ui/HomeMsgPage.dart';
 import 'package:flutter_rent/ui/HomePage.dart';
-import 'package:flutter_rent/ui/MsgPage.dart';
-import 'package:flutter_rent/ui/SelfPage.dart';
+import 'package:flutter_rent/ui/HomeSelfPage.dart';
 
 void main() => runApp(new MyApp());
 
@@ -15,8 +16,8 @@ class Page {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    print("MyApp build");
     return new MaterialApp(
-      title: 'Flutter Demo',
       theme: new ThemeData(
         primarySwatch: Colors.orange,
       ),
@@ -40,7 +41,7 @@ class _HomeState extends State<_HomePage> {
   List<ChooseItem> items;
 
   _itemClick(ChooseItem item) {
-    print("click item -> ${item.title}");
+    print("click item bar -> ${item.title},${item.index}");
     setState(() {
       if (_curPage != item.index) {
         _curPage = item.index;
@@ -51,73 +52,92 @@ class _HomeState extends State<_HomePage> {
   @override
   void initState() {
     super.initState();
+    print("_HomePage initState");
     items = <ChooseItem>[
       new ChooseItem(0, "首页", Icons.home, choose: true, callback: _itemClick),
-      new ChooseItem(1, "收藏", Icons.collections, callback: _itemClick),
+      new ChooseItem(1, "房源", Icons.collections, callback: _itemClick),
       new ChooseItem(2, "消息", Icons.message, callback: _itemClick),
       new ChooseItem(3, "我的", Icons.account_box, callback: _itemClick),
     ];
     _pages = new List();
-    _pages
-      ..add(new HomeView())
-      ..add(new MsgView())
-      ..add(new SelfView())
-      ..add(new HomeView());
+    _pages.add(new HomeView());
+    _pages.add(new HouseListView());
+    _pages.add(new MsgView());
+    _pages.add(new SelfView());
   }
 
   @override
   Widget build(BuildContext context) {
-    print("_HomeState build->${_curPage + 0}");
     return new Scaffold(
         body: _pages[_curPage],
         backgroundColor: Colors.black26,
         bottomNavigationBar: BottomAppBar(
-          child: Row(children: <Widget>[
-            new ChoiceView(item: items[0]),
-            new ChoiceView(item: items[1]),
-            new ChoiceView(item: items[2]),
-            new ChoiceView(item: items[3]),
-          ]),
-        ));
+            child: BottomBarParent(
+              items: items, defaultChooseItem: items[_curPage],)));
   }
 }
 
-class ChoiceView extends StatefulWidget {
-  final ChooseItem item;
+//管理一组底部按钮的单选状态
+class BottomBarParent extends StatefulWidget {
+  final List<ChooseItem> items;
+  final ChooseItem defaultChooseItem; //默认选项
 
-  const ChoiceView({Key key, this.item}) : super(key: key);
-
-  @override
-  State<StatefulWidget> createState() => new _ChoiceViewState();
-}
-
-class _ChoiceViewState extends State<ChoiceView> {
-  bool isChoose = false;
-
-  @override
-  void initState() {
-    super.initState();
-    isChoose = widget.item.choose;
+  BottomBarParent({Key key, this.items, this.defaultChooseItem})
+      : super(key: key) {
+    print("BottomBarParent new ${defaultChooseItem.index}");
   }
 
-  _changeState() {
-    setState(() {
-      isChoose = !isChoose;
-    });
+  @override
+  _BottomBarParentState createState() =>
+      new _BottomBarParentState(defaultChooseItem);
+}
+
+//TODO BottomBarParent 重新new了，但是createState没走, _BottomBarParentState没new ！why？
+class _BottomBarParentState extends State<BottomBarParent> {
+
+  ChooseItem curItem; //默认选项
+
+  _BottomBarParentState(this.curItem) {
+    print("_BottomBarParentState new ${curItem.index}");
+  }
+
+  //bar点击的
+  _itemBarClick(ChooseItem item) {
+    if (curItem != item) {
+      curItem.choose = false;
+      item.choose = true;
+      item.callback(item);
+      setState(() {
+        curItem = item;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return new Expanded(child: content());
+    print("_BottomBarParentState build ${curItem.index}");
+    return new Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: widget.items.map((item) {
+          return BottomBarItem(item: item, itemBarClick: _itemBarClick,);
+        }).toList());
   }
+}
 
-  Widget content() {
+class BottomBarItem extends StatelessWidget {
+  final ChooseItem item;
+  final Function itemBarClick;
+
+  const BottomBarItem({Key key, this.item, this.itemBarClick})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => barItem();
+
+  Widget barItem() {
     return new InkResponse(
+      //没类型需要动态，定义typedef 回调，类型固定,
       onTap: () {
-//        print("${widget.item.title} onTap");
-        //没类型需要动态，定义typedef 回调，类型固定,
-        widget.item.function(widget.item);
-        _changeState();
+        itemBarClick(item);
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -126,17 +146,17 @@ class _ChoiceViewState extends State<ChoiceView> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Icon(
-              widget.item.icon,
-              color: isChoose ? widget.item.selColor : widget.item.norColor,
+              item.icon,
+              color: item.choose ? item.selColor : item.norColor,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 2.0),
               child: Text(
-                widget.item.title,
+                item.title,
                 style: TextStyle(
                     fontSize: 10.0,
                     color:
-                        isChoose ? widget.item.selColor : widget.item.norColor),
+                    item.choose ? item.selColor : item.norColor),
               ),
             ),
           ],
@@ -146,9 +166,6 @@ class _ChoiceViewState extends State<ChoiceView> {
   }
 }
 
-//定义好Callback固定类型
-typedef _ItemClickCallback(ChooseItem item);
-
 class ChooseItem {
   ChooseItem(
     this.index,
@@ -157,16 +174,13 @@ class ChooseItem {
     this.choose = false,
     this.norColor = Colors.black,
     this.selColor = Colors.orangeAccent,
-    callback(ChooseItem i),
-  }) {
-    function = callback;
-  }
-
+        this.callback,
+      });
   final int index;
   final String title;
   final Color norColor;
   final Color selColor;
   final IconData icon;
-  final bool choose;
-  Function function;
+  final Function callback;
+  bool choose;
 }

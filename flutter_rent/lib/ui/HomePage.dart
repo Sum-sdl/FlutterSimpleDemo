@@ -1,27 +1,15 @@
 import 'package:flutter/material.dart';
 
-class HomeView extends StatefulWidget {
+class HomeView extends StatelessWidget {
   HomeView() {
-    print("HomeView gz");
-  }
-
-  @override
-  _HomeViewState createState() => _HomeViewState();
-}
-
-class _HomeViewState extends State<HomeView> {
-  @override
-  void initState() {
-    super.initState();
-    print("HomeView initState");
+    print("HomeView new");
   }
 
   @override
   Widget build(BuildContext context) {
-    print("HomeView build");
     return Scaffold(
         appBar: new AppBar(
-          title: new Text("Home"),
+          title: new Text("首页"),
         ),
         body: new Container(
           color: Colors.black26,
@@ -32,9 +20,5 @@ class _HomeViewState extends State<HomeView> {
             style: new TextStyle(fontSize: 20.0, color: Colors.blueAccent),
           ),
         ));
-  }
-
-  _HomeViewState() {
-    print("HomeView _HomeViewState gz");
   }
 }
