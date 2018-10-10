@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rent/Constants.dart';
+import 'package:flutter_rent/widget/HouseInfoWidget.dart';
 
 class HomeView extends StatelessWidget {
   HomeView() {
@@ -44,9 +45,6 @@ class _HomePageState extends State<_HomePage> {
 
   @override
   Widget build(BuildContext context) {
-//    return RefreshIndicator(child: createChild(), onRefresh: () {
-//      print("onrefres");
-//    });
     return new Stack(
       children: <Widget>[
         createChild(),
@@ -77,7 +75,8 @@ class _HomePageState extends State<_HomePage> {
           children: opItem.sublist(4, 8).map((op) => barOpItem(op)).toList(),
         );
       } else {
-        item = new Text("index->${index + 1}");
+//        item = new Text("index->${index + 1}");
+        item = new HouseInfoWidget(HouseInfoBean(houseName: "$index"));
       }
       return item;
     });
@@ -98,7 +97,7 @@ class _HomePageState extends State<_HomePage> {
 //        itemBarClick(item);
         },
         child: Padding(
-          padding: const EdgeInsets.all(14.0),
+          padding: ResDimens.padding,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
@@ -109,7 +108,7 @@ class _HomePageState extends State<_HomePage> {
                 child: Image.asset(item.localImage),
               ),
               Padding(
-                  padding: const EdgeInsets.only(top: 4.0),
+                  padding: ResDimens.padding_left,
                   child: Text(
                     item.name,
                     style: TextStyle(
