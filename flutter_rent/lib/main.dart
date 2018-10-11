@@ -68,8 +68,9 @@ class _HomeState extends State<_HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-        body: _pages[_curPage],
+    print("_HomeState build $_curPage");
+    return Scaffold(
+        body: IndexedStack(index: _curPage, children: _pages,),
         backgroundColor: Colors.white,
         bottomNavigationBar: BottomAppBar(
             child: BottomBarParent(
@@ -82,17 +83,17 @@ class BottomBarParent extends StatefulWidget {
   final List<ChooseItem> items;
   final ChooseItem defaultChooseItem; //默认选项
 
-  BottomBarParent({Key key, this.items, this.defaultChooseItem})
-      : super(key: key) {
-    print("BottomBarParent new ${defaultChooseItem.index}");
-  }
+  const BottomBarParent({Key key, this.items, this.defaultChooseItem})
+      : super(key: key);
 
   @override
-  _BottomBarParentState createState() =>
-      new _BottomBarParentState(defaultChooseItem);
+  _BottomBarParentState createState() {
+    print("BottomBarParent createState ${defaultChooseItem.index}");
+    return new _BottomBarParentState(defaultChooseItem);
+  }
 }
 
-//TODO BottomBarParent 重新new了，但是createState没走, _BottomBarParentState没new ！why？
+/// BottomBarParent 重新new了，但是createState没走, _BottomBarParentState没new ！why？
 class _BottomBarParentState extends State<BottomBarParent> {
 
   ChooseItem curItem; //默认选项

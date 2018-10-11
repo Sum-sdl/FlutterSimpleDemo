@@ -86,9 +86,7 @@ class _HomePageList extends State<StartPage> {
               ),
 //              new IgnorePointer(child: buildColumn(context),),//child 不接受事件，事件传给上一级
 //              new AbsorbPointer(child: buildColumn(context),),//child 不接受事件，事件拦截
-              new ListView(children: <Widget>[
-                buildColumn(context),
-              ],),
+              new SingleChildScrollView(child: buildColumn(context),),
             ],
           ),
         ),

@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rent/Constants.dart';
 
 class CommonDivider {
+
+  //2者功能一样
   static Widget buildDividerLeftRight() {
     return new Padding(
-      padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-      child: new Divider(height: 1.0),
+      padding: const EdgeInsets.only(left: ResDimens.dimen_pub_padding,
+          right: ResDimens.dimen_pub_padding),
+      child: new Divider(height: 2.0),
     );
   }
 

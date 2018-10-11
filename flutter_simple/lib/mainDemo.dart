@@ -1,32 +1,41 @@
 ///dart 基础语法测试
 
 void main() {
-  print("main Start");
+  A a1 = A("a1");
+  var a2 = A("a2");
 
-  SortedCollection coll = SortedCollection(sort);
-  coll._add = sort;
+  print(a1.toString());
+  print(a2.hashCode);
+  print(a1 == a2);
 
-  print(coll.compare is Function);
-  coll.compare("a", "b");
-  coll._add(1, 2);
+  print("\n");
 
-  print("main end");
+  var b1 = new B("b1");
+  var b2 = const B("b2");
+  print(b1.hashCode);
+  print(b2.hashCode);
+  print(b1 == b2);
 }
 
-typedef int _Add(int a, int b);
 
-class SortedCollection {
-  Function compare;
-  _Add _add;
+class A {
+  final String text;
 
-  SortedCollection(int f(Object a, Object b)) {
-    compare = f;
-  }
+  A(this.text);
+
+  @override
+  int get hashCode => super.hashCode;
+
 }
 
-// Initial, broken implementation.
-int sort(Object a, Object b) {
-  print(a);
-  print(b);
-  return 0;
+class B {
+  final String text;
+
+  const B(this.text);
+}
+
+class C {
+  String text;
+
+  C(this.text);
 }

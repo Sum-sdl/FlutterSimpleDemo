@@ -1,11 +1,13 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rent/Constants.dart';
+import 'package:flutter_rent/net/Api.dart';
+import 'package:flutter_rent/net/DioFactory.dart';
+import 'package:flutter_rent/utils/Utils.dart';
 import 'package:flutter_rent/widget/HouseInfoWidget.dart';
 
 class HomeView extends StatelessWidget {
-  HomeView() {
-    print("HomeView new");
-  }
+  const HomeView();
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +25,26 @@ class OpItemData {
   final String name;
   final String localImage;
 
-  OpItemData(this.name, this.localImage);
+  const OpItemData(this.name, this.localImage);
 }
 
 class _HomePageState extends State<_HomePage> {
   List<OpItemData> opItem;
+
+  _loadData(String tag) async {
+    print("_loadData ->" + tag);
+
+    Map<String, String> p = new Map();
+    p["city"] = "nj";
+    p["device_id"] = "ffffffff-8650-ca15-ffff-ffffd8967aa8";
+
+    Dio dio = await DioFactory.getInstance().getDio();
+    dio.options.data = p; //请求参数
+
+    Response response = await dio.get(Api.home);
+
+    print(response.toString());
+  }
 
   @override
   void initState() {
@@ -41,60 +58,89 @@ class _HomePageState extends State<_HomePage> {
     opItem.add(OpItemData("通勤找房", ResImages.image_home_op6));
     opItem.add(OpItemData("语言找房", ResImages.image_home_op7));
     opItem.add(OpItemData("支付房租", ResImages.image_home_op8));
+
+    _scrollController = new ScrollController()
+      ..addListener(_scrollListener);
+    _loadData("initState");
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _scrollController.removeListener(_scrollListener);
+  }
+
+  ScrollController _scrollController;
+
+  Color titleBg = Color(0x00FFFFFF);
+
+  //滚动偏移量
+  void _scrollListener() {
+    double distance = _scrollController.offset;
+//    titleWidget._scrollChange(distance);
+    double opacity = Utils.progressPercent(distance.round(), 118);
+    int alpha = (255.0 * opacity).round();
+    if (titleBg.alpha == alpha) {
+      return;
+    }
+    setState(() {
+      titleBg = titleBg.withOpacity(opacity);
+    });
+  }
+
+  TitleWidget titleWidget;
+
+  @override
   Widget build(BuildContext context) {
+    print("build ->${titleBg.alpha}");
+    titleWidget = TitleWidget();
     return new Stack(
       children: <Widget>[
         createChild(),
-        new Container(
-          height: 80.0,
-          color: Colors.black26,
-        ),
+        titleWidget,
       ],
     );
   }
 
   Widget createChild() {
-    return ListView.builder(itemBuilder: (c, index) {
-      Widget item;
-      if (index == 0) {
-        item = new Container(
-          height: 240.0,
-          color: Colors.orangeAccent,
-        );
-      } else if (index == 1) {
-        item = new Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: opItem.sublist(0, 4).map((op) => barOpItem(op)).toList(),
-        );
-      } else if (index == 2) {
-        item = new Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: opItem.sublist(4, 8).map((op) => barOpItem(op)).toList(),
-        );
-      } else {
-//        item = new Text("index->${index + 1}");
-        item = new HouseInfoWidget(HouseInfoBean(houseName: "$index"));
-      }
-      return item;
-    });
-  }
-
-  Widget itemOp() {
-    return new GridView.count(
-        crossAxisCount: 4,
-        children: opItem.map((op) {
-          return barOpItem(op);
-        }).toList());
+    return ListView.builder(
+        physics: AlwaysScrollableScrollPhysics(),
+        controller: _scrollController,
+        addAutomaticKeepAlives: false,
+        addRepaintBoundaries: false,
+        itemBuilder: (c, index) {
+          Widget item;
+          if (index == 0) {
+            item = new Container(
+              height: 180.0,
+              color: Colors.orangeAccent,
+            );
+          } else if (index == 1) {
+            item = new Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: opItem.sublist(0, 4)
+                  .map((op) => barOpItem(op))
+                  .toList(),
+            );
+          } else if (index == 2) {
+            item = new Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: opItem.sublist(4, 8)
+                  .map((op) => barOpItem(op))
+                  .toList(),
+            );
+          } else {
+            item = new HouseInfoWidget(HouseInfoBean(houseName: "$index"));
+          }
+          return item;
+        });
   }
 
   Widget barOpItem(OpItemData item) {
     return new Expanded(
       child: new InkWell(
         onTap: () {
-//        itemBarClick(item);
+          _loadData(item.name);
         },
         child: Padding(
           padding: ResDimens.padding,
@@ -103,23 +149,57 @@ class _HomePageState extends State<_HomePage> {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               SizedBox(
-                width: 40.0,
-                height: 40.0,
+                width: 38.0,
+                height: 38.0,
                 child: Image.asset(item.localImage),
               ),
               Padding(
-                  padding: ResDimens.padding_left,
+                  padding: const EdgeInsets.only(top: 5.0),
                   child: Text(
                     item.name,
                     style: TextStyle(
-                      fontSize: 14.0,
-                      color: Colors.black87,
+                      fontSize: 13.0,
+                      color: ResColors.color_text_666666,
                     ),
                   )),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class TitleWidget extends StatefulWidget {
+
+
+  @override
+  State<StatefulWidget> createState() {
+    return new TitleWidgetState();
+  }
+}
+
+class TitleWidgetState extends State<TitleWidget> {
+
+  Color titleBg = Color(0x00FFFFFF);
+
+  //滚动偏移量
+  void scrollListener(double distance) {
+    double opacity = Utils.progressPercent(distance.round(), 118);
+    int alpha = (255.0 * opacity).round();
+    if (titleBg.alpha == alpha) {
+      return;
+    }
+    setState(() {
+      titleBg = titleBg.withOpacity(opacity);
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      height: 80.0,
+      color: titleBg,
     );
   }
 }

@@ -1,19 +1,12 @@
 import 'package:flutter/material.dart';
 
 class SelfView extends StatelessWidget {
-  SelfView() {
-    print("SelfView new");
-  }
 
-  Widget content;
+  const SelfView();
 
   @override
   Widget build(BuildContext context) {
-    print("SelfView build StatelessWidget content=$content");
-    if (content == null) {
-      content = buildScaffold();
-    }
-    return content;
+    return buildScaffold();
   }
 
   Scaffold buildScaffold() {

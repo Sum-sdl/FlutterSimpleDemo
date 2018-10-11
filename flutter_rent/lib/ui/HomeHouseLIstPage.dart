@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 
 class HouseListView extends StatefulWidget {
 
-  HouseListView() {
-    print("HouseListView new");
-  }
+  const HouseListView();
 
   @override
   State<StatefulWidget> createState() {

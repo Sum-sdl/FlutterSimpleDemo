@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MsgView extends StatelessWidget {
-  MsgView() {
-    print("MsgView new");
-  }
+  const MsgView();
 
   @override
   Widget build(BuildContext context) {
