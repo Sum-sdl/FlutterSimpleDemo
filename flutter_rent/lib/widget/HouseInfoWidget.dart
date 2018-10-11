@@ -33,6 +33,8 @@ class HouseInfoBean {
 class HouseInfoWidget extends StatelessWidget {
   final HouseInfoBean bean;
 
+//  final dynamic data;
+
   const HouseInfoWidget(this.bean);
 
   @override
@@ -43,15 +45,11 @@ class HouseInfoWidget extends StatelessWidget {
         new InkWell(
           child: Padding(
             padding: ResDimens.padding,
-            child: content(),
+              child: Container(child: content(), color: Colors.grey,)
           ),
           onTap: () {
             print("click-> ${bean.houseName}");
           },
-        ),
-        new Divider(
-          height: 1.0,
-          indent: ResDimens.dimen_pub_padding,
         ),
         CommonDivider.buildDividerLeft,
       ],
@@ -60,29 +58,42 @@ class HouseInfoWidget extends StatelessWidget {
 
   Widget content() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         SizedBox(
           height: 83.0,
           width: 110.0,
-          child: new Container(
-            color: Colors.blueAccent,
-          ),
+          child: getImage(),
         ),
-        Padding(
-          padding: ResDimens.padding_left,
-          child: Column(
-            children: <Widget>[
-              Text(
-                bean.houseName,
-                style: new TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: 14.0,
-                    color: ResColors.color_text_333333),
-              ),
-            ],
+        Container(
+          child: Padding(
+            padding: ResDimens.padding_left,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  bean.houseName,
+                  style: new TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 16.0,
+                      color: ResColors.color_text_333333),
+                ),
+
+
+              ],
+            ),
           ),
+          color: Colors.blueAccent,
         )
       ],
     );
+  }
+
+  Widget getImage() {
+    if (bean.houseImage == null || bean.houseImage.length == 0) {
+      return Image.asset(ResImages.image_error);
+    }
+    return new Image.network(bean.houseImage);
   }
 }

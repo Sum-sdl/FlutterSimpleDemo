@@ -16,32 +16,31 @@ class Page {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    print("MyApp build");
+//    MediaQueryData.fromWindow(context.widget.window).padding.top
     return new MaterialApp(
       theme: new ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: new _HomePage(),
+      home: new _MainPage(),
     );
   }
 }
 
-class _HomePage extends StatefulWidget {
+class _MainPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    print("_HomePage createState");
-    return new _HomeState();
+    print("_MainPage createState");
+    return new _MainPageState();
   }
 }
 
-class _HomeState extends State<_HomePage> {
+class _MainPageState extends State<_MainPage> {
   List<Widget> _pages;
   int _curPage = 0;
 
   List<ChooseItem> items;
 
   _itemClick(ChooseItem item) {
-    print("click item bar -> ${item.title},${item.index}");
     setState(() {
       if (_curPage != item.index) {
         _curPage = item.index;
@@ -52,7 +51,7 @@ class _HomeState extends State<_HomePage> {
   @override
   void initState() {
     super.initState();
-    print("_HomePage initState");
+    print("_MainPageState initState");
     items = <ChooseItem>[
       new ChooseItem(0, "首页", Icons.home, choose: true, callback: _itemClick),
       new ChooseItem(1, "房源", Icons.collections, callback: _itemClick),
@@ -68,9 +67,9 @@ class _HomeState extends State<_HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    print("_HomeState build $_curPage");
+//    print("_MainPageState build $_curPage");
     return Scaffold(
-        body: IndexedStack(index: _curPage, children: _pages,),
+        body: IndexedStack(index: _curPage, children: _pages),
         backgroundColor: Colors.white,
         bottomNavigationBar: BottomAppBar(
             child: BottomBarParent(
@@ -116,7 +115,6 @@ class _BottomBarParentState extends State<BottomBarParent> {
 
   @override
   Widget build(BuildContext context) {
-    print("_BottomBarParentState build ${curItem.index}");
     return new Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: widget.items.map((item) {
           return BottomBarItem(item: item, itemBarClick: _itemBarClick,);
@@ -135,7 +133,7 @@ class BottomBarItem extends StatelessWidget {
   Widget build(BuildContext context) => barItem();
 
   Widget barItem() {
-    return new InkResponse(
+    return InkResponse(
       //没类型需要动态，定义typedef 回调，类型固定,
       onTap: () {
         itemBarClick(item);

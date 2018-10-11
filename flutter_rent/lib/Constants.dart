@@ -17,6 +17,8 @@ class ResImages {
   static const image_home_op6 = "images/ic_home_grid_6.png";
   static const image_home_op7 = "images/ic_home_grid_7.png";
   static const image_home_op8 = "images/ic_home_grid_8.png";
+  static const image_home_search = "images/ic_home_search.png";
+  static const image_error = "images/img_bg_shelves.png";
 }
 
 class ResColors {
@@ -25,6 +27,7 @@ class ResColors {
   static const Color color_text_333333 = Color(0xFF333333);
   static const Color color_text_666666 = Color(0xFF666666);
   static const Color color_text_999999 = Color(0xFF999999);
+  static const Color color_line = Color(0xFFe5e5e5);
 }
 
 class ResDimens {
@@ -35,6 +38,7 @@ class ResDimens {
       dimen_pub_padding);
 
   static const double dimen_pub_padding = 14.0;
+  static const double dimen_pub_status_bar_height = 24.0;
 
   ResDimens._();
 }

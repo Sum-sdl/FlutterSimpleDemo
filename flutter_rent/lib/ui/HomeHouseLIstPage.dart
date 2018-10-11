@@ -12,16 +12,6 @@ class HouseListView extends StatefulWidget {
 
 class _HouseListViewState extends State<HouseListView> {
 
-  _HouseListViewState() {
-    print("HouseListView _HouseListViewState new");
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    print("HouseListView initState");
-  }
-
   @override
   Widget build(BuildContext context) {
     print("HouseListView build");

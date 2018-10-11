@@ -51,6 +51,8 @@ flutter:
       - images/ic_home_grid_6.png
       - images/ic_home_grid_7.png
       - images/ic_home_grid_8.png
+      - images/ic_home_search.png
+      - images/img_bg_shelves.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
