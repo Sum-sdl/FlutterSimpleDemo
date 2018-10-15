@@ -1,6 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+const String device_id = "ffffffff-8650-ca15-ffff-ffffd8967aa9";
+String accessToken = "ffffffff-8650-ca15-ffff-ffffd8967aa9";
 
 /// const和final修饰的变量，类型可以省略
 /// 类级别常量使用static const
@@ -9,6 +13,7 @@ import 'package:flutter/cupertino.dart';
 class ResImages {
   ResImages._();
 
+//  static const widget_image_error = const AssetImage(image_error);
   static const image_home_op1 = "images/ic_home_grid_1.png";
   static const image_home_op2 = "images/ic_home_grid_2.png";
   static const image_home_op3 = "images/ic_home_grid_3.png";
@@ -41,4 +46,17 @@ class ResDimens {
   static const double dimen_pub_status_bar_height = 24.0;
 
   ResDimens._();
+}
+
+
+class AppInit {
+  init() {
+    _initSp();
+  }
+
+  _initSp() {
+    SharedPreferences.getInstance().then((sp) {
+      accessToken = sp.get("access-token");
+    });
+  }
 }

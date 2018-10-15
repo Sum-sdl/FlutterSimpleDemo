@@ -17,8 +17,7 @@ class CommonDivider {
   static const Widget buildDividerLeft = const Padding(
     padding: const EdgeInsets.only(left: ResDimens.dimen_pub_padding),
     child: const Divider(
-      height: 2.0,
-      color: Colors.red,
+      height: 1.0,
     ),
   );
 

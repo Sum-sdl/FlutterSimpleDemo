@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rent/Constants.dart';
 import 'package:flutter_rent/ui/HomeHouseLIstPage.dart';
 import 'package:flutter_rent/ui/HomeMsgPage.dart';
 import 'package:flutter_rent/ui/HomePage.dart';
@@ -51,6 +52,8 @@ class _MainPageState extends State<_MainPage> {
   @override
   void initState() {
     super.initState();
+    new AppInit().init();
+
     print("_MainPageState initState");
     items = <ChooseItem>[
       new ChooseItem(0, "首页", Icons.home, choose: true, callback: _itemClick),
@@ -69,7 +72,7 @@ class _MainPageState extends State<_MainPage> {
   Widget build(BuildContext context) {
 //    print("_MainPageState build $_curPage");
     return Scaffold(
-        body: IndexedStack(index: _curPage, children: _pages),
+        body: IndexedStack(index: _curPage, children: _pages,),
         backgroundColor: Colors.white,
         bottomNavigationBar: BottomAppBar(
             child: BottomBarParent(

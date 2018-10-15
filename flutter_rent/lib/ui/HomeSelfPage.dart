@@ -14,6 +14,8 @@ class SelfView extends StatelessWidget {
     return Scaffold(
         appBar: new AppBar(
           title: new Text("我的"),
+          toolbarOpacity: 0.4,
+          bottom: PreferredSize(child: Text("Hello"), preferredSize: Size(100.0, 50.0)),
         ),
         body: new Container(
             color: Colors.black26,

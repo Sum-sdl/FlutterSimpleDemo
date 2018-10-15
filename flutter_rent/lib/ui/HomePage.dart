@@ -1,9 +1,12 @@
+import 'dart:isolate';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rent/Constants.dart';
 import 'package:flutter_rent/net/Api.dart';
 import 'package:flutter_rent/net/DioFactory.dart';
 import 'package:flutter_rent/utils/Utils.dart';
+import 'package:flutter_rent/widget/Banner.dart';
 import 'package:flutter_rent/widget/HouseInfoWidget.dart';
 import 'package:flutter_rent/widget/common_snakeBar.dart';
 
@@ -14,6 +17,17 @@ class HomeView extends StatefulWidget {
   State<StatefulWidget> createState() => _HomePageState();
 }
 
+/**
+ * topAdvert : [{"advert_id":114,"advert_status":1,"advert_name":"","advert_sort":0,"advert_url":"","advert_image":"http://img12.house365.com/upload/2017/09/06/150469080859afc2787c44c.png","advert_editTime":1504690935,"advert_type":8,"advert_detail":"app顶部广告","advert_start":1504690773,"advert_end":1507369174,"advert_client":2,"city":"nj"}]
+ * midAdvert : [{"advert_id":115,"advert_status":1,"advert_name":"","advert_sort":1,"advert_url":"","advert_image":"http://img13.house365.com/upload/2017/09/06/150469089759afc2d162474.png","advert_editTime":1504690924,"advert_type":9,"advert_detail":"app首页测试广告","advert_start":1504690896,"advert_end":1507282898,"advert_client":2,"city":"nj"}]
+ * informations : ["测试标题333"]
+ * hotArea : [{"plate_id":0,"area_id":0,"ss_id":2,"sl_id":1,"hot_name":"测试","list_img":"http://aizunaimg.house365.com/img10000/upload/2017/05/16/1494913618591a9252e06d7.png"},{"plate_id":540,"area_id":777,"ss_id":0,"sl_id":0,"hot_name":"区属","list_img":"https://ss0.baidu.com/73x1bjeh1BF3odCf/it/u=138126325,1485620701&fm=85&s=7FAB2EC3909A35D01E299C1A030010D2"}]
+ * recommendHouse : [{"house_comefrom":1,"id":19026,"r_id":0,"all_rent":2000,"list_images":"https://aizuna.house365.com/upload_wx_images/2017/07/27/f6692aeafe6f73e47cb4ef34baa26a7c.jpg","house_title":"【整租】贝客白下高新店1室1厅"},{"house_comefrom":1,"id":19447,"r_id":0,"all_rent":4100,"list_images":"http://aizunaimg.house365.com/img10000/upload/2017/07/31/1501465837597e8ced72ad4.jpg","house_title":"【整租】南京图书发行大厦1室1厅"},{"house_comefrom":1,"id":27021,"r_id":0,"all_rent":1870,"list_images":"http://aizunaimg.house365.com/img10000/upload/2017/08/18/1503041012599695f4389f9.jpg","house_title":"【整租】龙湖冠寓九竹店1室1厅"},{"house_comefrom":1,"id":28074,"r_id":27859,"all_rent":1360,"list_images":"http://aizunaimg.house365.com/img10000/upload/2017/08/19/150308348859973be054eee.jpg","house_title":"【合租】虎踞北路75号3室1厅主卧"},{"house_comefrom":1,"id":28091,"r_id":27873,"all_rent":1460,"list_images":"http://aizunaimg.house365.com/img10000/upload/2017/08/19/150308615359974649b825f.jpg","house_title":"【合租】万达东坊3室1厅主次"},{"house_comefrom":1,"id":33244,"r_id":32050,"all_rent":1300,"list_images":"http://aizunaimg.house365.com/img10000/upload/2017/08/24/1503558362599e7ada0b663.jpg","house_title":"【合租】拉德芳斯3室1厅主卧"}]
+ * latestHouse : [{"h_id":25089,"r_id":0,"l_id":0,"house_type":1,"address":"中山东路56","c_id":541,"s_id":"","xiaoqu_id":6141,"xiaoqu_name":"南京图书发行大厦","lease_mode":1,"room":1,"hall":1,"kitchen":0,"toilet":1,"acreage":30,"r_acreage":0,"rent":4050,"r_rent":0,"rent_intro":"元/月","renovation_id":3,"orientation_id":4,"r_orientation_id":4,"special":"1,2,3,4,5,7","r_special":"","detail":"","r_description":"","list_images":"http://aizunaimg.house365.com/img10000/upload/2017/08/17/150296049659955b702ec31.jpg","r_list_images":"","detail_images":"http://aizunaimg.house365.com/img10000/upload/2017/08/17/150296050359955b77b36d1.jpg,http://aizunaimg.house365.com/img10000/upload/2017/08/17/150296050659955b7aa82a6.jpg,http://aizunaimg.house365.com/img10000/upload/2017/08/17/150296050959955b7dc533b.jpg,http://aizunaimg.house365.com/img10000/upload/2017/08/17/150296051259955b80b05aa.jpg,http://aizunaimg.house365.com/img10000/upload/2017/08/17/150296051659955b84086d8.jpg,http://aizunaimg.house365.com/img10000/upload/2017/08/17/150296051859955b86df8d8.jpg","r_detail_images":"","facilities":"2,3,4,5,1,8,15,10,11,12,14,9,7,16","r_facilities":"2,3,4,5,1,8,15,10,11,12,14,9,7,16","add_time":1502960555,"h_detail_info":"南京图书发行大厦9栋2单元12室","city":"nj","rooms_num":0,"pay_monthly":1,"c_business":"","c_business_key":"","h_pay_type":1,"r_name":"","house_title":"【整租】南京图书发行大厦1室1厅","hasYh":1,"distance_subway":"","house_comefrom":1,"panorama":[],"xiaoqu_address":"","xiaoqu_info":{"lng":118.794234,"lat":32.047266,"xiaoqu_address":"中山东路56","xiaoqu_name":"南京图书发行大厦","xiaoqu_id":6141,"xdistrict":541,"xdistrict_name":"秦淮区","xstreet":603,"xstreet_name":"新街口"},"work_transit":"","work_minutes":""}]
+ * hasNewMessage :
+ */
+
+
 class OpItemData {
   final String name;
   final String localImage;
@@ -23,15 +37,45 @@ class OpItemData {
 
 class _HomePageState extends State<HomeView> {
   List<OpItemData> opItem;
+  List<HouseInfoBean> houseWidget = [];
+  List<BannerInfo> houseBannerWidget = [];
 
-  _loadData(String tag) async {
+  _loadData() async {
     Map<String, String> p = new Map();
     p["city"] = "nj";
-    p["device_id"] = "ffffffff-8650-ca15-ffff-ffffd8967aa8";
-    Dio dio = await DioFactory.getInstance().getDio();
+    p["device_id"] = device_id;
+    Dio dio = DioFactory.getInstance().getDio();
     dio.options.data = p; //请求参数
     Response response = await dio.get(Api.home);
-    print(response.toString());
+
+    var data = response.data;
+    print(response.data);
+    if (data["code"] == 1) {
+      var house = data["data"]["latestHouse"] as List<dynamic>;
+      houseWidget.clear();
+      house.forEach((it) => houseWidget.add(HouseInfoBean.fromJson(it)));
+
+      houseBannerWidget.clear();
+
+      (data["data"]["latestHouse"] as List<dynamic>).sublist(0,5).forEach((it) =>
+          houseBannerWidget.add(BannerInfo(it['list_images'])));
+
+      setState(() {
+
+      });
+    }
+  }
+
+  showLoadingDialog() {
+    if (houseWidget.length == 0) {
+      return true;
+    }
+    return false;
+  }
+
+
+  getProgressDialog() {
+    return new Center(child: new CircularProgressIndicator());
   }
 
   @override
@@ -48,7 +92,7 @@ class _HomePageState extends State<HomeView> {
     opItem.add(OpItemData("支付房租", ResImages.image_home_op8));
 
     _scrollController = new ScrollController();
-    _loadData("HomeView initState");
+    _loadData();
   }
 
   ///把 ScrollController作为回调对象传给TitleWidget用来做局部刷新使用
@@ -57,12 +101,20 @@ class _HomePageState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     print("HomeView build");
-    return new Stack(
-      children: <Widget>[
-        content(),
-        TitleWidget(_scrollController),
-      ],
-    );
+    return getBody();
+  }
+
+  getBody() {
+    if (showLoadingDialog()) {
+      return getProgressDialog();
+    } else {
+      return new Stack(
+        children: <Widget>[
+          content(),
+          TitleWidget(_scrollController),
+        ],
+      );
+    }
   }
 
   Widget content() {
@@ -71,6 +123,7 @@ class _HomePageState extends State<HomeView> {
         controller: _scrollController,
         addAutomaticKeepAlives: false,
         addRepaintBoundaries: false,
+        itemCount: houseWidget.length + 3,
         itemBuilder: (c, index) {
           Widget item;
           if (index == 0) {
@@ -88,7 +141,13 @@ class _HomePageState extends State<HomeView> {
               opItem.sublist(4, 8).map((op) => barOpItem(op)).toList(),
             );
           } else {
-            item = new HouseInfoWidget(HouseInfoBean(houseName: "$index"));
+            if (houseWidget.length > 0) {
+              int info = index - 3;
+              item = new HouseInfoWidget(houseWidget[info]);
+            } else {
+              item =
+              new HouseInfoWidget(HouseInfoBean(houseName: index.toString()));
+            }
           }
           return item;
         });
@@ -96,8 +155,8 @@ class _HomePageState extends State<HomeView> {
 
   Widget contentBanner() {
     return new Container(
-      height: 180.0,
-      color: Colors.orangeAccent,
+      height: 220.0,
+      child: HomeBanner(houseBannerWidget, 220.0),
     );
   }
 
@@ -105,7 +164,7 @@ class _HomePageState extends State<HomeView> {
     return new Expanded(
       child: new InkWell(
         onTap: () {
-          _loadData(item.name);
+          _loadData();
         },
         child: Padding(
           padding: ResDimens.padding,
@@ -188,7 +247,7 @@ class TitleWidgetState extends State<TitleWidget> {
     //滚动一点就会触发
     return new Stack(
       children: <Widget>[
-        title(),
+        searchTitle(),
         Offstage(
           offstage: percent != 1,
           child: Container(
@@ -202,7 +261,7 @@ class TitleWidgetState extends State<TitleWidget> {
     );
   }
 
-  Widget title() {
+  Widget searchTitle() {
     return Container(
       height: 80.0,
       color: titleBg,
@@ -226,8 +285,7 @@ class TitleWidgetState extends State<TitleWidget> {
                       CommonSnakeBar.buildSnakeBar(context, "search click");
                     },
                     child: searchContainer(),
-                  )
-              ),
+                  )),
             ),
           ],
         ),
@@ -235,13 +293,13 @@ class TitleWidgetState extends State<TitleWidget> {
     );
   }
 
-  Container searchContainer() {
+  Widget searchContainer() {
     return Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(20.0)),
             color: const Color(0xd8f5f5f5)),
-        padding: EdgeInsets.only(
-            left: 12.0, right: 12.0, top: 9.0, bottom: 9.0),
+        padding:
+        EdgeInsets.only(left: 12.0, right: 12.0, top: 8.0, bottom: 8.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -252,8 +310,7 @@ class TitleWidgetState extends State<TitleWidget> {
             ),
             Text(
               "  请输入小区、区域、地铁",
-              style: TextStyle(
-                  color: Color(0xFFb5b5b5), fontSize: 14.0),
+              style: TextStyle(color: Color(0xFFb5b5b5), fontSize: 14.0),
             ),
           ],
         ));

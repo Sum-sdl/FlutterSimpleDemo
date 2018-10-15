@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rent/Constants.dart';
 import 'package:flutter_rent/widget/CommonWidget.dart';
@@ -6,17 +7,18 @@ class HouseInfoBean {
   final String houseId;
   final String houseName;
   final String houseImage;
+  final String houseRoom;
+  final String houseLocation;
+  final List<String> houseTag;
   final String rent;
-  final String special;
-  final String detail;
 
-  const HouseInfoBean(
-      {this.houseId,
-      this.houseName,
-      this.houseImage,
-      this.rent,
-      this.special,
-      this.detail});
+  const HouseInfoBean({this.houseId,
+    this.houseName = "houseName",
+    this.houseImage = "",
+    this.houseRoom = "houseRoom",
+    this.houseLocation = "houseLocation",
+    this.houseTag,
+    this.rent = "rent"});
 
   static HouseInfoBean formJson(String houseName) {
     return new HouseInfoBean(houseName: "房源名称->" + houseName);
@@ -24,33 +26,32 @@ class HouseInfoBean {
 
   factory HouseInfoBean.fromJson(Map<String, dynamic> json) {
     return new HouseInfoBean(
-      houseId: json['userId'],
-      houseName: json['id'],
+      houseId: json['h_id'].toString(),
+      houseName: json['xiaoqu_name'],
+      houseImage: json['list_images'],
+      houseLocation: json['address'],
+      rent: json['r_rent'].toString() + json['rent_intro'],
+      houseRoom: json['room'].toString() +
+          "室" +
+          json['hall'].toString() +
+          "厅" +
+          json['toilet'].toString() +
+          "卫",
     );
   }
 }
 
 class HouseInfoWidget extends StatelessWidget {
-  final HouseInfoBean bean;
+  final HouseInfoBean data;
 
-//  final dynamic data;
-
-  const HouseInfoWidget(this.bean);
+  const HouseInfoWidget(this.data);
 
   @override
   Widget build(BuildContext context) {
-    return new Flex(
-      direction: Axis.vertical,
+    return new Column(
+      mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        new InkWell(
-          child: Padding(
-            padding: ResDimens.padding,
-              child: Container(child: content(), color: Colors.grey,)
-          ),
-          onTap: () {
-            print("click-> ${bean.houseName}");
-          },
-        ),
+        Padding(padding: ResDimens.padding, child: content()),
         CommonDivider.buildDividerLeft,
       ],
     );
@@ -62,38 +63,72 @@ class HouseInfoWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         SizedBox(
-          height: 83.0,
+          height: 84.0,
           width: 110.0,
           child: getImage(),
         ),
-        Container(
-          child: Padding(
-            padding: ResDimens.padding_left,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Text(
-                  bean.houseName,
-                  style: new TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16.0,
-                      color: ResColors.color_text_333333),
+        Expanded(child: Padding(
+          padding: ResDimens.padding_left,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                data.houseName,
+                maxLines: 1,
+                overflow: TextOverflow.fade,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15.0,
+                    color: ResColors.color_text_333333),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 4.0),
+                child: Text(
+                  data.houseRoom,
+                  style: TextStyle(fontSize: 13.0),
+                  maxLines: 1,
                 ),
-
-
-              ],
-            ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 3.0),
+                child: Text(
+                  data.houseLocation + data.houseLocation,
+                  style: TextStyle(fontSize: 13.0, inherit: true),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 3.0),
+                child: Row(
+                  children: <Widget>[
+                    data.houseTag == null
+                        ? Text("")
+                        : data.houseTag.map((it) {
+                      return Text(it);
+                    }).toList()
+                  ],
+                ),
+              )
+            ],
           ),
-          color: Colors.blueAccent,
-        )
+        )),
       ],
     );
   }
 
   Widget getImage() {
-    if (bean.houseImage == null || bean.houseImage.length == 0) {
+    if (data.houseImage == null || data.houseImage.length == 0) {
       return Image.asset(ResImages.image_error);
     }
-    return new Image.network(bean.houseImage);
+    return CachedNetworkImage(
+      imageUrl: data.houseImage,
+      fadeInDuration: const Duration(milliseconds: 300),
+      placeholder: Image.asset(ResImages.image_error),
+      errorWidget: Image.asset(ResImages.image_error),
+      width: 110.0,
+      height: 84.0,
+      fit: BoxFit.fill,
+    );
   }
 }
