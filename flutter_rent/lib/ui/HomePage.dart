@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +44,7 @@ class _HomePageState extends State<HomeView> {
   List<HotAdBean> recommendWidget = [];
   List<BannerInfo> houseBannerWidget = [];
 
-  _loadData() async {
+  Future<Null> _loadData() async {
     Map<String, String> p = new Map();
     p["city"] = "nj";
     p["device_id"] = device_id;
@@ -75,6 +77,9 @@ class _HomePageState extends State<HomeView> {
 
       setState(() {});
     }
+    var c = new Completer<Null>();
+    c.complete(null);
+    return c.future;
   }
 
   showLoadingDialog() {
@@ -111,7 +116,10 @@ class _HomePageState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     print("HomeView build");
-    return getBody();
+    return new RefreshIndicator(
+      onRefresh: _loadData,
+      child: getBody(),
+    );
   }
 
   getBody() {
@@ -142,13 +150,13 @@ class _HomePageState extends State<HomeView> {
             item = new Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children:
-                  opItem.sublist(0, 4).map((op) => barOpItem(op)).toList(),
+              opItem.sublist(0, 4).map((op) => barOpItem(op)).toList(),
             );
           } else if (index == 2) {
             item = new Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children:
-                  opItem.sublist(4, 8).map((op) => barOpItem(op)).toList(),
+              opItem.sublist(4, 8).map((op) => barOpItem(op)).toList(),
             );
           } else if (index == 3) {
             item = contentJXTJ();
@@ -405,7 +413,7 @@ class TitleWidgetState extends State<TitleWidget> {
             height: 80.0,
             decoration: BoxDecoration(
                 border:
-                    Border(bottom: BorderSide(color: ResColors.color_line))),
+                Border(bottom: BorderSide(color: ResColors.color_line))),
           ),
         )
       ],
@@ -450,7 +458,7 @@ class TitleWidgetState extends State<TitleWidget> {
             borderRadius: BorderRadius.all(Radius.circular(20.0)),
             color: const Color(0xd8f5f5f5)),
         padding:
-            EdgeInsets.only(left: 12.0, right: 12.0, top: 8.0, bottom: 8.0),
+        EdgeInsets.only(left: 12.0, right: 12.0, top: 8.0, bottom: 8.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[

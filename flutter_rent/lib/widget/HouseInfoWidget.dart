@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rent/Constants.dart';
+import 'package:flutter_rent/utils/RouteHelper.dart';
 import 'package:flutter_rent/widget/CommonWidget.dart';
 
 class HouseInfoBean {
@@ -48,13 +49,17 @@ class HouseInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return new Column(
+    return GestureDetector(
+      onTap: () {
+        RouteHelper.route2Detail(context, data.houseId);
+      },
+      child: Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         Padding(padding: ResDimens.padding, child: content()),
         CommonDivider.buildDividerLeft,
       ],
-    );
+      ),);
   }
 
   Widget content() {

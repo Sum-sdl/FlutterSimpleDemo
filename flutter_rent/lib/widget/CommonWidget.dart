@@ -27,28 +27,3 @@ class CommonDivider {
   CommonDivider._();
 }
 
-
-class RouteUtils {
-
-  static route2Detail(BuildContext context, String houseId) {
-    if (null == houseId) {
-      return;
-    }
-    Navigator.of(context).push(new PageRouteBuilder(
-        opaque: false,
-        pageBuilder: (BuildContext context, _, __) {
-//          return new StoryDetailAppPage(id);
-        },
-        transitionsBuilder: (_, Animation<double> animation, __, Widget child) {
-          return new FadeTransition(
-            opacity: animation,
-            child: new FadeTransition(
-              opacity:
-              new Tween<double>(begin: 0.5, end: 1.0).animate(animation),
-              child: child,
-            ),
-          );
-        }));
-  }
-
-}
