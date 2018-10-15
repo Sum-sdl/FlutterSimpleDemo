@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 class CommonSnakeBar{
 
   static  buildSnakeBar(BuildContext context,String str) {
+    Scaffold.of(context).removeCurrentSnackBar();
     final snackBar = new SnackBar(content: new Text(str));
     Scaffold.of(context).showSnackBar(snackBar);
   }

@@ -20,6 +20,9 @@ class CommonDivider {
       height: 1.0,
     ),
   );
+  static const Widget buildDivider = const Divider(
+    height: 1.0,
+  );
 
   CommonDivider._();
 }

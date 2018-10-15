@@ -18,8 +18,14 @@ class HomeBanner extends StatefulWidget {
 
 class BannerInfo {
   final String image;
+  final String url;
+  final String type;
 
-  BannerInfo(this.image);
+  const BannerInfo({this.image, this.url, this.type});
+
+  factory BannerInfo.fromJson(Map<String, dynamic> json) {
+    return new BannerInfo(image: json["advert_image"],url: json['advert_url']);
+  }
 }
 
 class _HomeBannerState extends State<HomeBanner> {
@@ -175,7 +181,7 @@ class _HomeBannerState extends State<HomeBanner> {
             placeholder: kTransparentImage,
             image: item.image,
             height: widget._homeBannerHeight,
-            fit: BoxFit.fitWidth),
+            fit: BoxFit.fill),
       ),
     );
   }
