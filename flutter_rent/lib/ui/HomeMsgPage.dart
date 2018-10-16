@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:image_picker/image_picker.dart';
 
 class MsgView extends StatelessWidget {
@@ -10,10 +11,10 @@ class MsgView extends StatelessWidget {
         appBar: new AppBar(
           title: new Text("插件使用"),
         ),
-        body: buildIntrinsicWidth());
+        body: buildIntrinsicWidth(context));
   }
 
-  Widget buildIntrinsicWidth() {
+  Widget buildIntrinsicWidth(BuildContext c) {
     return Column(
       children: <Widget>[
         Container(
@@ -46,7 +47,43 @@ class MsgView extends StatelessWidget {
           },
           child: Text("拍照"),
         ),
+        FlatButton(
+          onPressed: () {
+            Navigator.of(c).push(MaterialPageRoute(builder: (c) =>
+                CommonWebView("网页", "https://flutterchina.club/ios-release/")));
+          },
+          child: Text("网页"),
+        ),
       ],
+    );
+  }
+}
+
+class CommonWebView extends StatefulWidget {
+  final String title;
+
+  final String url;
+
+  CommonWebView(this.title, this.url);
+
+  @override
+  State<StatefulWidget> createState() {
+    return new _CommonWebViewPageState();
+  }
+}
+
+
+class _CommonWebViewPageState extends State<CommonWebView> {
+
+  @override
+  Widget build(BuildContext context) {
+    return new WebviewScaffold(
+      url: widget.url,
+      appBar: new AppBar(
+        title: new Text(widget.title),
+      ),
+      withZoom: true,
+      withLocalStorage: true,
     );
   }
 }

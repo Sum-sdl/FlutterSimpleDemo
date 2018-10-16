@@ -24,7 +24,7 @@ dependencies:
   transparent_image: ^0.1.0
   shared_preferences: "^0.4.2"
   flutter_webview_plugin: "^0.2.1"
-  image_picker: " ^0.4.10"
+  image_picker: "^0.4.10"
 
 #dev_dependencies:
 #  flutter_test:

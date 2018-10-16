@@ -210,15 +210,15 @@ class _HomePageState extends State<HomeView> {
         children: <Widget>[
           SizedBox(
             width: 200.0,
-            height: 130.0,
+            height: 122.0,
             child: getImage(data.list_img),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 8.0, bottom: 7.0),
+            padding: const EdgeInsets.only(top: 6.0, bottom: 6.0),
             child: Text(data.hot_name),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 10.0),
+            padding: const EdgeInsets.only(bottom: 3.0),
             child: Text(
               '${data.price} 元/月',
               style: TextStyle(color: Theme.of(context).accentColor),

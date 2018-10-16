@@ -1,32 +1,23 @@
 import 'package:flutter/material.dart';
 
-class SelfView extends StatelessWidget {
 
+class SelfView extends StatelessWidget {
   const SelfView();
 
   @override
   Widget build(BuildContext context) {
-    return buildScaffold();
-  }
-
-  Scaffold buildScaffold() {
     return Scaffold(
         appBar: new AppBar(
-          title: new Text("我的"),
-          toolbarOpacity: 0.4,
-          bottom: PreferredSize(child: Text("Hello"), preferredSize: Size(100.0, 50.0)),
+          title: new Text("网页插件"),
         ),
         body: new Container(
-            color: Colors.black26,
+            color: Colors.transparent,
             alignment: Alignment.center,
-            child: new ListView.builder(
-                itemCount: 20,
-                itemBuilder: (c, i) {
-//                  print("ListView item new $i");
-                  return SizedBox(
-                    height: 50.0,
-                    child: new Text("my index->$i"),
-                  );
-                })));
+            child: FlatButton(onPressed: () {
+
+            }, child: Text("网页"))));
   }
+
+
 }
+
