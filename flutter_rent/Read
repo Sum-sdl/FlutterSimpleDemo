@@ -16,4 +16,8 @@ Ios 打包
 //打开xcode编辑项目
 open ios/Runner.xcworkspace
 
-1.flutter build ios 打包ios
+//打包ios
+flutter build ios
+
+//下载podFile 远程代码
+pod install

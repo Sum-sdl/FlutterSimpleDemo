@@ -46,7 +46,7 @@ class ResDimens {
 
   //EdgeInsets padding = MediaQuery.of(context).padding; 系统高度
   //22.0
-  static const double dimen_pub_status_bar_height = 22.0;
+  static const double dimen_pub_status_bar_height = 0.0;
 
   ResDimens._();
 }

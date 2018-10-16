@@ -92,7 +92,9 @@ class _HomeBannerState extends State<HomeBanner> {
           child: new Container(
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: i == _curIndicatorsIndex ? Colors.white : Colors.grey,
+              color: i == _curIndicatorsIndex ? Theme
+                  .of(context)
+                  .accentColor : Colors.grey,
             ),
           )));
     }

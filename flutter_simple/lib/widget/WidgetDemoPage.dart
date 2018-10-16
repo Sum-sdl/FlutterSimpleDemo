@@ -245,7 +245,6 @@ class TabbedAppBarSample extends StatelessWidget {
                   ]);
             },
           ),
-
           new IconButton( // action button
             icon: new Icon(Icons.dialpad),
             onPressed: () {
