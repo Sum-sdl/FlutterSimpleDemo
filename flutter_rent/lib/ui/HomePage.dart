@@ -403,6 +403,10 @@ class TitleWidgetState extends State<TitleWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final EdgeInsets padding = MediaQuery
+        .of(context)
+        .padding;
+    print('状态栏信息：$padding');
     //滚动一点就会触发
     return new Stack(
       children: <Widget>[

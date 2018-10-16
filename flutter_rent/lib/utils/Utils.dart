@@ -1,6 +1,7 @@
 import 'dart:math';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:synchronized/synchronized.dart';
+
+
+import 'package:flutter/services.dart';
 
 class Utils {
   static double getProgress(int value, int min, int max) {
@@ -15,37 +16,40 @@ class Utils {
     double curProgress = max(progress, 0);
     return min(curProgress, 1);
   }
-}
 
+  static int currentTimeMillis() {
+    return new DateTime.now().millisecondsSinceEpoch;
+  }
 
+  static copyToClipboard(final String text) {
+    if (text == null) return;
+    Clipboard.setData(new ClipboardData(text: text));
+  }
 
-class SPUtil {
-  static SharedPreferences _prefs;
+  static const _RollupSize_Units = ["GB", "MB", "KB", "B"];
 
-  static SPUtil _instance;
-
-  static Future<SPUtil> getInstance() async {
-    if (_instance == null) {
-      await synchronized(_lock, () async {
-        if (_instance == null) {
-          _instance = new SPUtil._();
-          await _instance._init();
-        }
-      });
+  static String getRollupSize(int size) {
+    int idx = 3;
+    int r1 = 0;
+    String result = "";
+    while (idx >= 0) {
+      int s1 = size % 1024;
+      size = size >> 10;
+      if (size == 0 || idx == 0) {
+        r1 = (r1 * 100) ~/ 1024;
+        if (r1 > 0) {
+          if (r1 >= 10)
+            result = "$s1.$r1${_RollupSize_Units[idx]}";
+          else
+            result = "$s1.0$r1${_RollupSize_Units[idx]}";
+        } else
+          result = s1.toString() + _RollupSize_Units[idx];
+        break;
+      }
+      r1 = s1;
+      idx--;
     }
-    return _instance;
+    return result;
   }
-
-  SPUtil._();
-
-  static Object _lock = new Object();
-
-  _init() async {
-    _prefs = await SharedPreferences.getInstance();
-  }
-
-  getSP() {
-    return _prefs;
-  }
-
 }
+

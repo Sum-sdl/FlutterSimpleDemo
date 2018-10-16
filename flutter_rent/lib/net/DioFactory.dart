@@ -5,7 +5,7 @@ import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_rent/Constants.dart';
 import 'package:flutter_rent/net/Api.dart';
-import 'package:flutter_rent/utils/Utils.dart';
+import 'package:flutter_rent/utils/SpUtils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DioFactory {
@@ -25,18 +25,18 @@ class DioFactory {
 //  String _accessToken = "";
 
   DioFactory._() {
-    _dio = new Dio();
-
-    ///head 参数
+    //head 参数
     Map<String, String> head = new Map();
     head["debug"] = "0";
     head["version"] = "v1.0";
     head["city"] = "nj";
-//    head["access-token"] = accessToken;
-    head["access-token"] = "";
+    head["access-token"] = accessToken;
     head["user-token"] = "a08b47e1e764063e3807a49e83c4124d";
     //基础请求参数设置
     _baseOptions = new Options(baseUrl: Api.base, headers: head);
+
+    //请求类
+    _dio = new Dio();
     _dio.options = _baseOptions;
     _dio.interceptor.response.onSuccess = (Response rsp) {
       //{code: -996, msg: access-token已过期, data: {}}

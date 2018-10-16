@@ -14,7 +14,6 @@ class _HouseListViewState extends State<HouseListView> {
 
   @override
   Widget build(BuildContext context) {
-    print("HouseListView build");
     return buildScaffold();
   }
 

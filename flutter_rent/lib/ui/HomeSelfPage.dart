@@ -10,7 +10,6 @@ class SelfView extends StatelessWidget {
   }
 
   Scaffold buildScaffold() {
-    print("SelfView build");
     return Scaffold(
         appBar: new AppBar(
           title: new Text("我的"),

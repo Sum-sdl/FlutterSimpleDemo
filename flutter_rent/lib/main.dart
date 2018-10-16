@@ -57,7 +57,7 @@ class _MainPageState extends State<_MainPage> {
     print("_MainPageState initState");
     items = <ChooseItem>[
       new ChooseItem(0, "首页", Icons.home, choose: true, callback: _itemClick),
-      new ChooseItem(1, "房源", Icons.collections, callback: _itemClick),
+      new ChooseItem(1, "房源", Icons.collections,choose: false, callback: _itemClick),
       new ChooseItem(2, "消息", Icons.message, callback: _itemClick),
       new ChooseItem(3, "我的", Icons.account_box, callback: _itemClick),
     ];
@@ -80,6 +80,7 @@ class _MainPageState extends State<_MainPage> {
   }
 }
 
+
 //管理一组底部按钮的单选状态
 class BottomBarParent extends StatefulWidget {
   final List<ChooseItem> items;
@@ -89,19 +90,20 @@ class BottomBarParent extends StatefulWidget {
       : super(key: key);
 
   @override
-  _BottomBarParentState createState() {
-    print("BottomBarParent createState ${defaultChooseItem.index}");
-    return new _BottomBarParentState(defaultChooseItem);
+  BottomBarParentState createState() {
+    return new BottomBarParentState();
   }
 }
 
 /// BottomBarParent 重新new了，但是createState没走, _BottomBarParentState没new ！why？
-class _BottomBarParentState extends State<BottomBarParent> {
+class BottomBarParentState extends State<BottomBarParent> {
 
   ChooseItem curItem; //默认选项
 
-  _BottomBarParentState(this.curItem) {
-    print("_BottomBarParentState new ${curItem.index}");
+  @override
+  initState() {
+    curItem = widget.defaultChooseItem;
+    super.initState();
   }
 
   //bar点击的

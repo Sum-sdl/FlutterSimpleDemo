@@ -1,39 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class MsgView extends StatelessWidget {
   const MsgView();
 
   @override
   Widget build(BuildContext context) {
-    print("MsgView build");
     return Scaffold(
         appBar: new AppBar(
-          title: new Text("消息"),
+          title: new Text("插件使用"),
         ),
-        body: buildIntrinsicWidth2());
+        body: buildIntrinsicWidth());
   }
 
   Widget buildIntrinsicWidth() {
-    return new IntrinsicWidth(
-      stepHeight: 400.0,
-      stepWidth: 400.0,
-      child: new Container(
-        color: Colors.blue,
-        width: 200.0,
-        height: 200.0,
-      ),);
-  }
-
-  Widget buildIntrinsicWidth2() {
-    return new IntrinsicHeight(
-      child: new Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: <Widget>[
-          new Container(color: Colors.blue, width: 100.0),
-          new Container(color: Colors.red, width: 50.0, height: 50.0,),
-          new Container(color: Colors.yellow, width: 150.0),
-        ],
-      ),
+    return Column(
+      children: <Widget>[
+        Container(
+            color: Colors.yellow,
+            width: double.infinity,
+            height: 40.0,
+            child: Center(
+              child: FlatButton(
+                onPressed: () {
+                  ImagePicker.pickImage(
+                      source: ImageSource.gallery,
+                      maxHeight: 200.0,
+                      maxWidth: 200.0)
+                      .then((file) {
+                    print(file);
+                  });
+                },
+                child: Text("选择图片"),
+              ),
+            )),
+        FlatButton(
+          onPressed: () {
+            ImagePicker.pickImage(
+                source: ImageSource.camera,
+                maxHeight: 200.0,
+                maxWidth: 200.0)
+                .then((file) {
+              print(file);
+            });
+          },
+          child: Text("拍照"),
+        ),
+      ],
     );
   }
 }
