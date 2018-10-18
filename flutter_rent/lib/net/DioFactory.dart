@@ -39,7 +39,7 @@ class DioFactory {
     _dio = new Dio();
     _dio.options = _baseOptions;
     _dio.interceptor.response.onSuccess = (Response rsp) {
-      //{code: -996, msg: access-token已过期, data: {}}
+      print("response->${rsp.data}");
       if (rsp.data != null && rsp.data["code"] == -996) {
         //重新请求
         return _reqAccessToken(rsp);

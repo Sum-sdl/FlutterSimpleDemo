@@ -14,7 +14,17 @@ class Page {
   static String page_4 = "page_4";
 }
 
+class MyWidgetsFlutterBinding extends WidgetsFlutterBinding {
+  @override
+  ImageCache createImageCache() {
+    ImageCache cache = ImageCache();
+    cache.maximumSize = 100;
+    return cache;
+  }
+}
+
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
 //    MediaQueryData.fromWindow(context.widget.window).padding.top

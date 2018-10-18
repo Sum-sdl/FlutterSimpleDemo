@@ -57,6 +57,7 @@ class SelfView extends StatelessWidget {
         ),
         Card(
           child: Center(child: Text("未通过")),
+          margin: EdgeInsets.all(0.0),
         ),
       ],
     );

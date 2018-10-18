@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rent/ui/HouseOtDetailsPage.dart';
 
 class RouteHelper {
-  static route2Detail(BuildContext context, String houseId) {
+  static route2Detail(BuildContext context, String houseId,String roomId) {
     if (null == houseId) {
       return;
     }
     Navigator.of(context).push(new PageRouteBuilder(
         opaque: false,
         pageBuilder: (BuildContext context, _, __) {
-          return new HouseDetails(houseId);
+          return new HouseDetails(houseId,roomId);
         },
         transitionsBuilder: (_, Animation<double> animation, __, Widget child) {
           return new FadeTransition(

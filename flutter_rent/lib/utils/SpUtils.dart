@@ -1,6 +1,4 @@
-
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:synchronized/synchronized.dart';
 
 class SPUtil {
   static SharedPreferences _prefs;
@@ -9,19 +7,13 @@ class SPUtil {
 
   static Future<SPUtil> getInstance() async {
     if (_instance == null) {
-      await synchronized(_lock, () async {
-        if (_instance == null) {
-          _instance = new SPUtil._();
-          await _instance._init();
-        }
-      });
+      _instance = new SPUtil._();
+      _instance._init();
     }
     return _instance;
   }
 
   SPUtil._();
-
-  static Object _lock = new Object();
 
   _init() async {
     _prefs = await SharedPreferences.getInstance();
@@ -30,5 +22,4 @@ class SPUtil {
   getSP() {
     return _prefs;
   }
-
 }

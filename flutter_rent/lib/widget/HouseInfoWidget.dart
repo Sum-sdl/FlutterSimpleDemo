@@ -6,6 +6,7 @@ import 'package:flutter_rent/widget/CommonWidget.dart';
 
 class HouseInfoBean {
   final String houseId;
+  final String roomId;
   final String houseName;
   final String houseImage;
   final String houseRoom;
@@ -13,7 +14,7 @@ class HouseInfoBean {
   final List<String> houseTag;
   final String rent;
 
-  const HouseInfoBean({this.houseId,
+  const HouseInfoBean({this.houseId,this.roomId,
     this.houseName = "houseName",
     this.houseImage = "",
     this.houseRoom = "houseRoom",
@@ -28,6 +29,7 @@ class HouseInfoBean {
   factory HouseInfoBean.fromJson(Map<String, dynamic> json) {
     return new HouseInfoBean(
       houseId: json['h_id'].toString(),
+      roomId: json['r_id'].toString(),
       houseName: json['xiaoqu_name'],
       houseImage: json['list_images'],
       houseLocation: json['address'],
@@ -51,7 +53,7 @@ class HouseInfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        RouteHelper.route2Detail(context, data.houseId);
+        RouteHelper.route2Detail(context, data.houseId,data.houseId);
       },
       child: Column(
       mainAxisSize: MainAxisSize.min,
@@ -133,7 +135,7 @@ class HouseInfoWidget extends StatelessWidget {
       errorWidget: Image.asset(ResImages.image_error),
       width: 110.0,
       height: 84.0,
-      fit: BoxFit.fill,
+      fit: BoxFit.cover,
     );
   }
 }

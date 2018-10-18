@@ -45,7 +45,6 @@ class _HomePageState extends State<HomeView> {
     Response response = await dio.get(Api.home);
 
     var data = response.data;
-    print(response.data);
     if (data["code"] == 1) {
       //房源
       houseWidget.clear();
@@ -186,7 +185,9 @@ class _HomePageState extends State<HomeView> {
             child: ListView.builder(
                 itemCount: recommendWidget.length,
                 scrollDirection: Axis.horizontal,
-                itemBuilder: (c, index) => _JXTJItem(recommendWidget[index])),
+                itemBuilder: (c, index) =>
+                    _jXTJItem(recommendWidget[index],
+                        index == recommendWidget.length - 1)),
           ),
         ),
         CommonDivider.buildDivider
@@ -194,12 +195,14 @@ class _HomePageState extends State<HomeView> {
     );
   }
 
-  Widget _JXTJItem(HotAdBean data) {
+  Widget _jXTJItem(HotAdBean data, bool last) {
     return Padding(
-      padding: const EdgeInsets.only(right: 8.0),
+      padding: last
+          ? const EdgeInsets.only(right: 0.0)
+          : const EdgeInsets.only(right: 8.0),
       child: GestureDetector(
         onTap: () {
-          RouteHelper.route2Detail(context, data.list_img);
+          RouteHelper.route2Detail(context, data.houseId, data.roomId);
         },
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -208,11 +211,11 @@ class _HomePageState extends State<HomeView> {
             SizedBox(
               width: 200.0,
               height: 122.0,
-              child: getImage(data.list_img),
+              child: getImage(data.listImg),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 6.0, bottom: 6.0),
-              child: Text(data.hot_name),
+              child: Text(data.hotName),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 3.0),
@@ -241,7 +244,8 @@ class _HomePageState extends State<HomeView> {
             child: ListView.builder(
                 itemCount: hotWidget.length,
                 scrollDirection: Axis.horizontal,
-                itemBuilder: (c, index) => _RDQYItem(hotWidget[index])),
+                itemBuilder: (c, index) =>
+                    _rDQYItem(hotWidget[index], index == hotWidget.length - 1)),
           ),
         ),
         CommonDivider.buildDivider
@@ -249,20 +253,22 @@ class _HomePageState extends State<HomeView> {
     );
   }
 
-  Widget _RDQYItem(HotAdBean data) {
+  Widget _rDQYItem(HotAdBean data, bool last) {
     return Padding(
-      padding: const EdgeInsets.only(right: 8.0),
+      padding: last
+          ? const EdgeInsets.only(right: 0.0)
+          : const EdgeInsets.only(right: 8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           SizedBox(
             height: 100.0,
             width: 100.0,
-            child: getImage(data.list_img),
+            child: getImage(data.listImg),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 8.0, bottom: 10.0),
-            child: Text(data.hot_name),
+            child: Text(data.hotName),
           ),
         ],
       ),
@@ -378,7 +384,7 @@ class TitleWidgetState extends State<TitleWidget> {
 
   //滚动偏移量
   void scrollListener(double distance) {
-    double opacity = Utils.progressPercent(distance.round(), 125);
+    double opacity = Utils.progressPercent(distance.round(), 120);
     percent = opacity;
     int alpha = (255.0 * opacity).round();
     if (titleBg.alpha == alpha) {
@@ -410,25 +416,30 @@ class TitleWidgetState extends State<TitleWidget> {
     return newTitle();
   }
 
+//  //头部间距处理
+//  Widget newTitle() {
+//    return Material(
+//      color: titleBg,
+//      elevation: percent == 1.0 ? 2.0 : 0.0,
+//      child: SafeArea(
+//          child: searchTitle()),
+//    );
+//  }
   //头部间距处理
   Widget newTitle() {
     return Container(
       color: titleBg,
-      child: SafeArea(
-          child: new Stack(
-            children: <Widget>[
-              searchTitle(),
-              Offstage(
-                offstage: percent != 1,
-                child: Container(
-                  height: 56.0,
-                  decoration: BoxDecoration(
-                      border:
-                      Border(bottom: BorderSide(color: ResColors.color_line))),
-                ),
-              )
-            ],
-          )),
+      child: Stack(
+        children: <Widget>[
+          Offstage(offstage: percent != 1, child: Material(
+            color: titleBg,
+            elevation: percent == 1.0 ? 2.0 : 0.0,
+            child: SafeArea(
+                child: SizedBox(width: double.infinity, height: 56.0,)),
+          ),),
+          SafeArea(child: searchTitle()),
+        ],
+      ),
     );
   }
 

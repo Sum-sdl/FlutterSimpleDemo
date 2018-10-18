@@ -15,11 +15,13 @@ class MsgView extends StatelessWidget {
   }
 
   Widget buildIntrinsicWidth(BuildContext c) {
-    return Column(
+    return Wrap(
+      direction: Axis.horizontal,
+      alignment: WrapAlignment.end,
       children: <Widget>[
         Container(
             color: Colors.yellow,
-            width: double.infinity,
+            width: 280.0,
             height: 40.0,
             child: Center(
               child: FlatButton(
