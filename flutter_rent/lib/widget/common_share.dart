@@ -3,9 +3,9 @@ import 'package:flutter_rent/Constants.dart';
 
 const List<Menu> menus_share = const <Menu>[
   const Menu(index: 0, title: "微信", icon: ResImages.image_home_op1),
-  const Menu(index: 1, title: "朋友圈", icon: ResImages.image_home_op1),
-  const Menu(index: 2, title: "新浪", icon: ResImages.image_home_op1),
-  const Menu(index: 3, title: "QQ", icon: ResImages.image_home_op1),
+  const Menu(index: 1, title: "朋友圈", icon: ResImages.image_home_op2),
+  const Menu(index: 2, title: "新浪", icon: ResImages.image_home_op3),
+  const Menu(index: 3, title: "QQ", icon: ResImages.image_home_op4),
 ];
 
 class Menu {

@@ -7,7 +7,6 @@ import 'package:flutter_rent/net/DioFactory.dart';
 import 'package:flutter_rent/widget/HouseInfoWidget.dart';
 
 class HouseListView extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() {
     return new _HouseListViewState();
@@ -15,9 +14,7 @@ class HouseListView extends StatefulWidget {
 }
 
 class _HouseListViewState extends State<HouseListView> {
-
   List<HouseInfoBean> houseWidget = [];
-
 
   showLoadingDialog() {
     if (houseWidget.length == 0) {
@@ -29,7 +26,6 @@ class _HouseListViewState extends State<HouseListView> {
   getProgressDialog() {
     return new Center(child: new CircularProgressIndicator());
   }
-
 
   getBody() {
     if (showLoadingDialog()) {
@@ -47,7 +43,8 @@ class _HouseListViewState extends State<HouseListView> {
             height: 2.0,
             color: Colors.blue,
           );
-        },);
+        },
+      );
     }
   }
 
@@ -56,8 +53,9 @@ class _HouseListViewState extends State<HouseListView> {
   int page = 1;
 
   _scroll() {
-    print('${_scrollController.position.pixels},${_scrollController.position
-        .maxScrollExtent}');
+    print(
+        '${_scrollController.position.pixels},${_scrollController.position
+            .maxScrollExtent}');
     if (_scrollController.position.pixels + 300 >=
         _scrollController.position.maxScrollExtent) {
       page++;
@@ -67,8 +65,8 @@ class _HouseListViewState extends State<HouseListView> {
 
   @override
   void initState() {
-    _scrollController =
-    new ScrollController(initialScrollOffset: 600.0, keepScrollOffset: true);
+    _scrollController = new ScrollController(
+        initialScrollOffset: 600.0, keepScrollOffset: true);
     _scrollController.addListener(_scroll);
     _refreshLoadData();
     super.initState();
@@ -94,7 +92,6 @@ class _HouseListViewState extends State<HouseListView> {
     return _loadData();
   }
 
-
   Future<Null> _loadData() async {
     Map<String, String> p = new Map();
     p["page"] = page.toString();
@@ -102,19 +99,21 @@ class _HouseListViewState extends State<HouseListView> {
     p["city"] = "nj";
     Dio dio = DioFactory.getInstance().getDio();
     dio.options.data = p; //请求参数
-    Response response = await dio.get(Api.list);
-
-    var data = response.data;
-    if (data["code"] == 1) {
-      //房源
-      if (page == 1) {
-        houseWidget.clear();
-      }
-      var house = data["data"]["data"] as List<dynamic>;
-      house.forEach((it) => houseWidget.add(HouseInfoBean.fromJson(it)));
-
-      setState(() {});
+    try {
+      var response = await dio.get(Api.list);
+      var data = response.data;
+      if (data["code"] == 1) {
+            //房源
+            if (page == 1) {
+              houseWidget.clear();
+            }
+            var house = data["data"]["data"] as List<dynamic>;
+            house.forEach((it) => houseWidget.add(HouseInfoBean.fromJson(it)));
+          }
+    } catch (e) {
+      print(e);
     }
+    setState(() {});
     var c = new Completer<Null>();
     c.complete(null);
     return c.future;

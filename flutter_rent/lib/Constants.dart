@@ -24,6 +24,11 @@ class ResImages {
   static const image_home_op8 = "images/ic_home_grid_8.png";
   static const image_home_search = "images/ic_home_search.png";
   static const image_error = "images/img_bg_shelves.png";
+  static const image_nav_collect = "images/nav_collect.png";
+  static const image_nav_collect_gray = "images/nav_collect_gray.png";
+  static const image_nav_share = "images/nav_share.png";
+  static const image_nav_share_gray = "images/nav_share_gray.png";
+
 }
 
 class ResColors {

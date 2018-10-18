@@ -39,11 +39,15 @@ class DioFactory {
     _dio = new Dio();
     _dio.options = _baseOptions;
     _dio.interceptor.response.onSuccess = (Response rsp) {
-      print("response->${rsp.data}");
+      print("rsp->${rsp.data}");
       if (rsp.data != null && rsp.data["code"] == -996) {
         //重新请求
         return _reqAccessToken(rsp);
       }
+    };
+    _dio.interceptor.request.onSend = (Options o) {
+      print("req->${o.data}");
+      return o;
     };
   }
 

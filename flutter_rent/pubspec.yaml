@@ -54,6 +54,10 @@ flutter:
       - images/ic_home_grid_8.png
       - images/ic_home_search.png
       - images/img_bg_shelves.png
+      - images/nav_collect.png
+      - images/nav_collect_gray.png
+      - images/nav_share.png
+      - images/nav_share_gray.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

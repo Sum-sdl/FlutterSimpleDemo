@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rent/Constants.dart';
+import 'package:flutter_rent/net/Api.dart';
 import 'package:flutter_rent/utils/RouteHelper.dart';
 import 'package:flutter_rent/widget/CommonWidget.dart';
 
@@ -13,13 +14,16 @@ class HouseInfoBean {
   final String houseLocation;
   final List<String> houseTag;
   final String rent;
+  final int houseType;
 
-  const HouseInfoBean({this.houseId,this.roomId,
+  const HouseInfoBean({this.houseId,
+    this.roomId,
     this.houseName = "houseName",
     this.houseImage = "",
     this.houseRoom = "houseRoom",
     this.houseLocation = "houseLocation",
     this.houseTag,
+    this.houseType = 1,
     this.rent = "rent"});
 
   static HouseInfoBean formJson(String houseName) {
@@ -30,7 +34,8 @@ class HouseInfoBean {
     return new HouseInfoBean(
       houseId: json['h_id'].toString(),
       roomId: json['r_id'].toString(),
-      houseName: json['xiaoqu_name'],
+      houseType: json['house_type'],
+      houseName: json['house_title'],
       houseImage: json['list_images'],
       houseLocation: json['address'],
       rent: json['r_rent'].toString() + json['rent_intro'],
@@ -51,17 +56,19 @@ class HouseInfoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
-        RouteHelper.route2Detail(context, data.houseId,data.houseId);
+        RouteHelper.route2Detail(context, data.houseId, data.roomId,
+            url: data.houseType == 1 ? Api.details_gy : Api.details_gr);
       },
       child: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        Padding(padding: ResDimens.padding, child: content()),
-        CommonDivider.buildDividerLeft,
-      ],
-      ),);
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Padding(padding: ResDimens.padding, child: content()),
+          CommonDivider.buildDividerLeft,
+        ],
+      ),
+    );
   }
 
   Widget content() {
@@ -74,7 +81,8 @@ class HouseInfoWidget extends StatelessWidget {
           width: 110.0,
           child: getImage(),
         ),
-        Expanded(child: Padding(
+        Expanded(
+            child: Padding(
           padding: ResDimens.padding_left,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,

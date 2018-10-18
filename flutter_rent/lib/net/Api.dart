@@ -10,5 +10,5 @@ class Api {
   //公寓
   static const details_gy = "58ccbeb90c4d4";
   //个人
-  static const details_gr = "58ccbf0313fdf";
+  static const details_gr =  "58ccbf0313fdf";
 }

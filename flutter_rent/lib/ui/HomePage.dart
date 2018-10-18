@@ -5,15 +5,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rent/Constants.dart';
+import 'package:flutter_rent/base/BaseWidget.dart';
 import 'package:flutter_rent/model/Home.dart';
 import 'package:flutter_rent/net/Api.dart';
 import 'package:flutter_rent/net/DioFactory.dart';
 import 'package:flutter_rent/utils/RouteHelper.dart';
 import 'package:flutter_rent/utils/Utils.dart';
-import 'package:flutter_rent/widget/Banner.dart';
 import 'package:flutter_rent/widget/CommonWidget.dart';
+import 'package:flutter_rent/widget/HomeBanner.dart';
 import 'package:flutter_rent/widget/HouseInfoWidget.dart';
-import 'package:flutter_rent/widget/common_snakeBar.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView();
@@ -29,7 +29,7 @@ class OpItemData {
   const OpItemData(this.name, this.localImage);
 }
 
-class _HomePageState extends State<HomeView> {
+class _HomePageState extends State<HomeView> with BaseConfig {
   List<OpItemData> opItem;
   List<HouseInfoBean> houseWidget = [];
   List<HotAdBean> hotWidget = [];
@@ -42,39 +42,47 @@ class _HomePageState extends State<HomeView> {
     p["device_id"] = device_id;
     Dio dio = DioFactory.getInstance().getDio();
     dio.options.data = p; //请求参数
-    Response response = await dio.get(Api.home);
-
-    var data = response.data;
-    if (data["code"] == 1) {
-      //房源
-      houseWidget.clear();
-      var house = data["data"]["latestHouse"] as List<dynamic>;
-      house.forEach((it) => houseWidget.add(HouseInfoBean.fromJson(it)));
-
-      //广告
-      houseBannerWidget.clear();
-      (data["data"]["topAdvert"] as List<dynamic>)
-          .forEach((it) => houseBannerWidget.add(BannerInfo.fromJson(it)));
-
-      //热门区域
-      hotWidget.clear();
-      (data["data"]["hotArea"] as List<dynamic>)
-          .forEach((it) => hotWidget.add(HotAdBean.fromJson(it)));
-
-      //精选推荐
-      recommendWidget.clear();
-      (data["data"]["recommendHouse"] as List<dynamic>)
-          .forEach((it) => recommendWidget.add(HotAdBean.fromJson2(it)));
-
-      setState(() {});
+    Response response;
+    try {
+      response = await dio.get(Api.home);
+    } catch (e) {
+      print(e);
     }
+    if (response != null) {
+      var data = response.data;
+      if (data["code"] == 1) {
+        //房源
+        houseWidget.clear();
+        var house = data["data"]["latestHouse"] as List<dynamic>;
+        house.forEach((it) => houseWidget.add(HouseInfoBean.fromJson(it)));
+
+        //广告
+        houseBannerWidget.clear();
+        (data["data"]["topAdvert"] as List<dynamic>)
+            .forEach((it) => houseBannerWidget.add(BannerInfo.fromJson(it)));
+
+        //热门区域
+        hotWidget.clear();
+        (data["data"]["hotArea"] as List<dynamic>)
+            .forEach((it) => hotWidget.add(HotAdBean.fromJson(it)));
+
+        //精选推荐
+        recommendWidget.clear();
+        (data["data"]["recommendHouse"] as List<dynamic>)
+            .forEach((it) => recommendWidget.add(HotAdBean.fromJson2(it)));
+      }
+    }
+    setState(() {});
+    isFirst = false;
     var c = new Completer<Null>();
     c.complete(null);
     return c.future;
   }
 
+  bool isFirst = true;
+
   showLoadingDialog() {
-    if (houseWidget.length == 0) {
+    if (houseWidget.length == 0 && isFirst) {
       return true;
     }
     return false;
@@ -156,7 +164,7 @@ class _HomePageState extends State<HomeView> {
             item = contentRDQY();
           } else if (index == 5) {
             item = itemTitle("最新房源", true, () {
-              CommonSnakeBar.buildSnakeBar(context, "最新房源");
+              showSnackBar(context, "最新房源");
             });
           } else {
             if (houseWidget.length > 0) {
@@ -175,7 +183,7 @@ class _HomePageState extends State<HomeView> {
     return Column(
       children: <Widget>[
         itemTitle("精选推荐", true, () {
-          CommonSnakeBar.buildSnakeBar(context, "精选推荐");
+          showSnackBar(context, "精选推荐");
         }),
         SizedBox(
           width: double.infinity,
@@ -202,7 +210,8 @@ class _HomePageState extends State<HomeView> {
           : const EdgeInsets.only(right: 8.0),
       child: GestureDetector(
         onTap: () {
-          RouteHelper.route2Detail(context, data.houseId, data.roomId);
+          RouteHelper.route2Detail(context, data.houseId, data.roomId,
+              url: data.houseComefrom == 1 ? Api.details_gy : Api.details_gr);
         },
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -238,7 +247,7 @@ class _HomePageState extends State<HomeView> {
         itemTitle("热点区域", false, () {}),
         SizedBox(
           width: double.infinity,
-          height: 140.0,
+          height: 134.0,
           child: Padding(
             padding: const EdgeInsets.only(left: 14.0, right: 14.0),
             child: ListView.builder(
@@ -282,8 +291,8 @@ class _HomePageState extends State<HomeView> {
     return CachedNetworkImage(
       imageUrl: url,
       fadeInDuration: const Duration(milliseconds: 300),
-      placeholder: Image.asset(ResImages.image_error),
-      errorWidget: Image.asset(ResImages.image_error),
+      placeholder: Image.asset(ResImages.image_error, fit: BoxFit.cover,),
+      errorWidget: Image.asset(ResImages.image_error, fit: BoxFit.cover),
       fit: BoxFit.fill,
     );
   }
@@ -371,7 +380,7 @@ class TitleWidget extends StatefulWidget {
   }
 }
 
-class TitleWidgetState extends State<TitleWidget> {
+class TitleWidgetState extends State<TitleWidget> with BaseConfig {
   Color titleBg = Color(0x00FFFFFF);
   Color titleText = Colors.white;
 
@@ -409,34 +418,28 @@ class TitleWidgetState extends State<TitleWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final EdgeInsets padding = MediaQuery
-        .of(context)
-        .padding;
-    print('状态栏信息：$padding');
+    print('状态栏高度：${getStatusBarHeight(context)}');
     return newTitle();
   }
 
-//  //头部间距处理
-//  Widget newTitle() {
-//    return Material(
-//      color: titleBg,
-//      elevation: percent == 1.0 ? 2.0 : 0.0,
-//      child: SafeArea(
-//          child: searchTitle()),
-//    );
-//  }
   //头部间距处理
   Widget newTitle() {
     return Container(
       color: titleBg,
       child: Stack(
         children: <Widget>[
-          Offstage(offstage: percent != 1, child: Material(
-            color: titleBg,
-            elevation: percent == 1.0 ? 2.0 : 0.0,
-            child: SafeArea(
-                child: SizedBox(width: double.infinity, height: 56.0,)),
-          ),),
+          Offstage(
+            offstage: percent != 1,
+            child: Material(
+              color: titleBg,
+              elevation: percent == 1.0 ? 2.0 : 0.0,
+              child: SafeArea(
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 56.0,
+                  )),
+            ),
+          ),
           SafeArea(child: searchTitle()),
         ],
       ),
@@ -464,7 +467,7 @@ class TitleWidgetState extends State<TitleWidget> {
                   padding: const EdgeInsets.only(left: 22.0),
                   child: GestureDetector(
                     onTap: () {
-                      CommonSnakeBar.buildSnakeBar(context, "search click");
+                      showAppShare(context);
                     },
                     child: searchContainer(),
                   )),

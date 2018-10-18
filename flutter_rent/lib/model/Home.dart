@@ -8,10 +8,11 @@ class HotAdBean {
   final int areaId;
   final int ssId;
   final int slId;
+  final int houseComefrom;
 
   HotAdBean(
       {this.roomId, this.houseId, this.hotName, this.listImg, this.plateId, this.areaId,
-        this.ssId, this.slId, this.price});
+        this.ssId, this.slId, this.price, this.houseComefrom});
 
   factory HotAdBean.fromJson(Map<String, dynamic> json) {
     return new HotAdBean(
@@ -25,6 +26,7 @@ class HotAdBean {
         listImg: json['list_images'],
         roomId: json['r_id'].toString(),
         houseId: json['h_id'].toString(),
+        houseComefrom: json['house_comefrom'],
         price: json['all_rent']);
   }
 }

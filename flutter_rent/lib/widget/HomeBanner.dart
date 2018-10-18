@@ -24,7 +24,7 @@ class BannerInfo {
   const BannerInfo({this.image, this.url, this.type});
 
   factory BannerInfo.fromJson(Map<String, dynamic> json) {
-    return new BannerInfo(image: json["advert_image"],url: json['advert_url']);
+    return new BannerInfo(image: json["advert_image"], url: json['advert_url']);
   }
 }
 
@@ -56,7 +56,6 @@ class _HomeBannerState extends State<HomeBanner> {
   void initState() {
     super.initState();
     _curPageIndex = fakeLength ~/ 2;
-
     initTimer();
   }
 
@@ -69,7 +68,7 @@ class _HomeBannerState extends State<HomeBanner> {
   //通过时间timer做轮询，达到自动播放的效果
   initTimer() {
     _timer = new Timer.periodic(_bannerDuration, (timer) {
-      if (_isEndScroll) {
+      if (_isEndScroll && widget.topList.length > 1) {
         _pageController.animateToPage(_curPageIndex + 1,
             duration: _bannerAnimationDuration, curve: Curves.linear);
       }
@@ -92,9 +91,11 @@ class _HomeBannerState extends State<HomeBanner> {
           child: new Container(
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: i == _curIndicatorsIndex ? Theme
+              color: i == _curIndicatorsIndex
+                  ? Theme
                   .of(context)
-                  .accentColor : Colors.grey,
+                  .accentColor
+                  : Colors.grey,
             ),
           )));
     }
@@ -154,6 +155,21 @@ class _HomeBannerState extends State<HomeBanner> {
   }
 
   Widget _buildBanner() {
+    if ( widget.topList.length == 0) {
+      return Container(
+        height: widget._homeBannerHeight,
+        color: Theme
+            .of(context)
+            .accentColor,
+      );
+    }
+    if ( widget.topList.length == 1) {
+      return new FadeInImage.memoryNetwork(
+          placeholder: kTransparentImage,
+          image: _fakeList[0].image,
+          height: widget._homeBannerHeight,
+          fit: BoxFit.fill);
+    }
     return new Container(
       height: widget._homeBannerHeight,
       //指示器覆盖在pagerview上，所以用Stack
