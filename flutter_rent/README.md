@@ -1,5 +1,7 @@
 # Flutter App
 
+[App测试下载地址](https://www.pgyer.com/ppCP)
+
 完全的Flutter项目案例，不断更新中
 
 ### IOS 打包问题
