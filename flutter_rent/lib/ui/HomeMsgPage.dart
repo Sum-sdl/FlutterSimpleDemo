@@ -3,10 +3,10 @@ import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:image_picker/image_picker.dart';
 
 class MsgView extends StatelessWidget {
-  const MsgView();
 
   @override
   Widget build(BuildContext context) {
+    print("MsgView build");
     return Scaffold(
         appBar: new AppBar(
           title: new Text("插件使用"),

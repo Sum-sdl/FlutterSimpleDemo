@@ -23,8 +23,8 @@ class HotAdBean {
     return new HotAdBean(
         hotName: json["house_title"],
         listImg: json['list_images'],
-        roomId: json['r_id'],
-        houseId: json['h_id'],
+        roomId: json['r_id'].toString(),
+        houseId: json['h_id'].toString(),
         price: json['all_rent']);
   }
 }

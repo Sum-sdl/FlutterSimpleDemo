@@ -81,12 +81,25 @@ class _MainPageState extends State<_MainPage> {
   @override
   Widget build(BuildContext context) {
 //    print("_MainPageState build $_curPage");
+
     return Scaffold(
         body: IndexedStack(index: _curPage, children: _pages,),
         backgroundColor: Colors.white,
         bottomNavigationBar: BottomAppBar(
             child: BottomBarParent(
               items: items, defaultChooseItem: items[_curPage],)));
+
+    //效果同上
+//    return Scaffold(
+//        body: Stack(children: [
+//          Offstage(offstage: _curPage != 0, child: _pages[0],),
+//          Offstage(offstage: _curPage != 1, child: _pages[1],),
+//          Offstage(offstage: _curPage != 2, child: _pages[2],),
+//          Offstage(offstage: _curPage != 3, child: _pages[3],),
+//        ],),
+//        bottomNavigationBar: BottomAppBar(
+//            child: BottomBarParent(
+//              items: items, defaultChooseItem: items[_curPage],)));
   }
 }
 

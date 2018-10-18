@@ -8,8 +8,6 @@ import 'package:flutter_rent/widget/HouseInfoWidget.dart';
 
 class HouseListView extends StatefulWidget {
 
-  const HouseListView();
-
   @override
   State<StatefulWidget> createState() {
     return new _HouseListViewState();
@@ -45,7 +43,6 @@ class _HouseListViewState extends State<HouseListView> {
           return new HouseInfoWidget(houseWidget[index]);
         },
         separatorBuilder: (BuildContext context, int index) {
-          print("$index");
           return const Divider(
             height: 2.0,
             color: Colors.blue,

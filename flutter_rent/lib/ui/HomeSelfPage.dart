@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class SelfView extends StatelessWidget {
-  const SelfView();
 
   @override
   Widget build(BuildContext context) {
+    print("SelfView build");
     return DefaultTabController(
       length: 4,
       child: Scaffold(
