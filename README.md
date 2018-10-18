@@ -4,6 +4,7 @@
 - [测试组件使用](https://github.com/Sum-sdl/FlutterSimpleDemo/tree/master/flutter_simple)
 
 
+### [App测试下载地址](https://www.pgyer.com/ppCP)
 
 ----
 ### 个人总结
