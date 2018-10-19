@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rent/Constants.dart';
 import 'package:flutter_rent/base/BaseWidget.dart';
+import 'package:flutter_rent/flutter_plugin.dart';
 import 'package:flutter_rent/model/Home.dart';
 import 'package:flutter_rent/net/Api.dart';
 import 'package:flutter_rent/utils/RouteHelper.dart';
@@ -36,9 +37,10 @@ class _HomePageState extends State<HomeView> with BaseConfig {
   List<BannerInfo> houseBannerWidget = [];
 
   Future<Null> _loadData() async {
-    Map<String, String> p = new Map();
+    String dId = deviceId;
+    Map<String, Object> p = new Map();
     p["city"] = "nj";
-    p["device_id"] = deviceId;
+    p["device_id"] = dId;
     dio.options.data = p; //请求参数
     Response response;
     try {
@@ -336,7 +338,7 @@ class _HomePageState extends State<HomeView> with BaseConfig {
     return new Expanded(
       child: new InkWell(
         onTap: () {
-         Utils.getAppUniqueUUID();
+          FlutterPlugin.showToast("click msg->${item.name}");
         },
         child: Padding(
           padding: ResDimens.padding,

@@ -1,7 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_rent/Constants.dart';
+import 'package:flutter_rent/flutter_plugin.dart';
+import 'package:flutter_rent/flutter_receiver.dart';
 import 'package:flutter_rent/ui/HomeHouseLIstPage.dart';
 import 'package:flutter_rent/ui/HomeMsgPage.dart';
 import 'package:flutter_rent/ui/HomePage.dart';
@@ -48,6 +48,7 @@ class _MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<_MainPage> {
+
   List<Widget> _pages;
   int _curPage = 0;
 
@@ -63,10 +64,14 @@ class _MainPageState extends State<_MainPage> {
 
   @override
   void initState() {
-    super.initState();
     new AppInit().init();
+    super.initState();
+    //只实现了安卓平台代码
+    FlutterReceiver.PUSH.setMessageHandler((String app) {
+      print("app 主动发送的消息：" + app);
+      FlutterPlugin.showToast(app);
+    });
 
-    Platform.operatingSystem;
 
     print("_MainPageState initState");
     items = <ChooseItem>[
@@ -84,8 +89,6 @@ class _MainPageState extends State<_MainPage> {
 
   @override
   Widget build(BuildContext context) {
-//    print("_MainPageState build $_curPage");
-
     return Scaffold(
         body: IndexedStack(index: _curPage, children: _pages,),
         backgroundColor: Colors.white,

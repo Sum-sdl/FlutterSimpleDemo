@@ -1,11 +1,26 @@
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_rent/utils/Utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-String deviceId = "ffffffff-8650-ca15-ffff-ffffd8aa9";
+String get deviceId => _dId;
 String accessToken = "";
+
+String _dId = "ffffffff-8650-ca15-ffff-fbb";
+
+////读取平台id
+//reGetDeviceId() async {
+//  if (Platform.isAndroid) {
+//    try {
+//      String id = await FlutterPlugin.getAppUniqueUUID;
+//      return id;
+//    } catch (e) {
+//      print(e);
+//    }
+//    return "ffffffff-8650-ca15-ffff-fbb";
+//  }
+//  return "ffffffff-8650-ca15-ffff-fbb";
+//}
 
 /// const和final修饰的变量，类型可以省略
 /// 类级别常量使用static const
@@ -59,9 +74,8 @@ class ResDimens {
 
 
 class AppInit {
-  init() {
+  init() async {
     _initSp();
-    deviceId = Utils.getAppUniqueUUID();
   }
 
   _initSp() {

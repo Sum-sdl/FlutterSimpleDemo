@@ -66,7 +66,7 @@ class _HouseListViewState extends State<HouseListView> {
   @override
   void initState() {
     _scrollController = new ScrollController(
-        initialScrollOffset: 600.0, keepScrollOffset: true);
+        initialScrollOffset: 10.0, keepScrollOffset: true);
     _scrollController.addListener(_scroll);
     _refreshLoadData();
     super.initState();
@@ -103,13 +103,15 @@ class _HouseListViewState extends State<HouseListView> {
       var response = await dio.get(Api.list);
       var data = response.data;
       if (data["code"] == 1) {
-            //房源
-            if (page == 1) {
-              houseWidget.clear();
-            }
-            var house = data["data"]["data"] as List<dynamic>;
-            house.forEach((it) => houseWidget.add(HouseInfoBean.fromJson(it)));
-          }
+        //房源
+        if (page == 1) {
+          houseWidget.clear();
+        }
+        var house = data["data"]["data"] as List<dynamic>;
+        house.forEach((it) => houseWidget.add(HouseInfoBean.fromJson(it)));
+      } else if (data["code"] == -996) {
+        _loadData();
+      }
     } catch (e) {
       print(e);
     }
