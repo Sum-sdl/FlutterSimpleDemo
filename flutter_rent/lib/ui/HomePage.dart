@@ -273,7 +273,7 @@ class _HomePageState extends State<HomeView> with BaseConfig {
             child: getImage(data.listImg),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 8.0, bottom: 10.0),
+            padding: const EdgeInsets.only(top: 8.0),
             child: Text(data.hotName),
           ),
         ],
