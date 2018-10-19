@@ -8,7 +8,6 @@ import 'package:flutter_rent/Constants.dart';
 import 'package:flutter_rent/base/BaseWidget.dart';
 import 'package:flutter_rent/model/Home.dart';
 import 'package:flutter_rent/net/Api.dart';
-import 'package:flutter_rent/net/DioFactory.dart';
 import 'package:flutter_rent/utils/RouteHelper.dart';
 import 'package:flutter_rent/utils/Utils.dart';
 import 'package:flutter_rent/widget/CommonWidget.dart';
@@ -39,8 +38,7 @@ class _HomePageState extends State<HomeView> with BaseConfig {
   Future<Null> _loadData() async {
     Map<String, String> p = new Map();
     p["city"] = "nj";
-    p["device_id"] = device_id;
-    Dio dio = DioFactory.getInstance().getDio();
+    p["device_id"] = deviceId;
     dio.options.data = p; //请求参数
     Response response;
     try {
@@ -136,7 +134,7 @@ class _HomePageState extends State<HomeView> with BaseConfig {
 
   Widget content() {
     return ListView.builder(
-      //设置为0，就没有默认间距了
+        //设置为0，就没有默认间距了
         padding: EdgeInsets.only(top: 0.0),
         physics: AlwaysScrollableScrollPhysics(),
         controller: _scrollController,
@@ -150,13 +148,13 @@ class _HomePageState extends State<HomeView> with BaseConfig {
             item = new Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children:
-              opItem.sublist(0, 4).map((op) => barOpItem(op)).toList(),
+                  opItem.sublist(0, 4).map((op) => barOpItem(op)).toList(),
             );
           } else if (index == 2) {
             item = new Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children:
-              opItem.sublist(4, 8).map((op) => barOpItem(op)).toList(),
+                  opItem.sublist(4, 8).map((op) => barOpItem(op)).toList(),
             );
           } else if (index == 3) {
             item = contentJXTJ();
@@ -193,9 +191,8 @@ class _HomePageState extends State<HomeView> with BaseConfig {
             child: ListView.builder(
                 itemCount: recommendWidget.length,
                 scrollDirection: Axis.horizontal,
-                itemBuilder: (c, index) =>
-                    _jXTJItem(recommendWidget[index],
-                        index == recommendWidget.length - 1)),
+                itemBuilder: (c, index) => _jXTJItem(recommendWidget[index],
+                    index == recommendWidget.length - 1)),
           ),
         ),
         CommonDivider.buildDivider
@@ -224,15 +221,13 @@ class _HomePageState extends State<HomeView> with BaseConfig {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 6.0, bottom: 6.0),
-              child: Text(data.hotName),
+              child: SizedBox(width: 200.0, child: Text(data.hotName,maxLines: 1,)),
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 3.0),
               child: Text(
                 '${data.price} 元/月',
-                style: TextStyle(color: Theme
-                    .of(context)
-                    .accentColor),
+                style: TextStyle(color: Theme.of(context).accentColor),
               ),
             ),
           ],
@@ -291,7 +286,10 @@ class _HomePageState extends State<HomeView> with BaseConfig {
     return CachedNetworkImage(
       imageUrl: url,
       fadeInDuration: const Duration(milliseconds: 300),
-      placeholder: Image.asset(ResImages.image_error, fit: BoxFit.cover,),
+      placeholder: Image.asset(
+        ResImages.image_error,
+        fit: BoxFit.cover,
+      ),
       errorWidget: Image.asset(ResImages.image_error, fit: BoxFit.cover),
       fit: BoxFit.fill,
     );
@@ -338,7 +336,7 @@ class _HomePageState extends State<HomeView> with BaseConfig {
     return new Expanded(
       child: new InkWell(
         onTap: () {
-          _loadData();
+         Utils.getAppUniqueUUID();
         },
         child: Padding(
           padding: ResDimens.padding,
@@ -435,9 +433,9 @@ class TitleWidgetState extends State<TitleWidget> with BaseConfig {
               elevation: percent == 1.0 ? 2.0 : 0.0,
               child: SafeArea(
                   child: SizedBox(
-                    width: double.infinity,
-                    height: 56.0,
-                  )),
+                width: double.infinity,
+                height: 56.0,
+              )),
             ),
           ),
           SafeArea(child: searchTitle()),
@@ -484,7 +482,7 @@ class TitleWidgetState extends State<TitleWidget> with BaseConfig {
             borderRadius: BorderRadius.all(Radius.circular(20.0)),
             color: const Color(0xd0f5f5f5)),
         padding:
-        EdgeInsets.only(left: 12.0, right: 12.0, top: 6.6, bottom: 6.6),
+            EdgeInsets.only(left: 12.0, right: 12.0, top: 6.6, bottom: 6.6),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[

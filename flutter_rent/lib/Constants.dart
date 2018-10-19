@@ -1,10 +1,11 @@
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_rent/utils/Utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const String device_id = "ffffffff-8650-ca15-ffff-ffffd8967aa9";
-String accessToken = "ffffffff-8650-ca15-ffff-ffffd8967aa9";
+String deviceId = "ffffffff-8650-ca15-ffff-ffffd8aa9";
+String accessToken = "";
 
 /// const和final修饰的变量，类型可以省略
 /// 类级别常量使用static const
@@ -60,6 +61,7 @@ class ResDimens {
 class AppInit {
   init() {
     _initSp();
+    deviceId = Utils.getAppUniqueUUID();
   }
 
   _initSp() {

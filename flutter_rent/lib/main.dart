@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_rent/Constants.dart';
 import 'package:flutter_rent/ui/HomeHouseLIstPage.dart';
@@ -63,6 +65,8 @@ class _MainPageState extends State<_MainPage> {
   void initState() {
     super.initState();
     new AppInit().init();
+
+    Platform.operatingSystem;
 
     print("_MainPageState initState");
     items = <ChooseItem>[

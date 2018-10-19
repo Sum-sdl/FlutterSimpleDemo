@@ -22,7 +22,8 @@ class DioFactory {
 
   Options _baseOptions;
 
-//  String _accessToken = "";
+  //正在请求token中
+  bool _isReqAccessTokenIng = false;
 
   DioFactory._() {
     //head 参数
@@ -38,11 +39,17 @@ class DioFactory {
     //请求类
     _dio = new Dio();
     _dio.options = _baseOptions;
-    _dio.interceptor.response.onSuccess = (Response rsp) {
+    _dio.interceptor.response.onSuccess = (Response rsp) async {
       print("rsp->${rsp.data}");
+
       if (rsp.data != null && rsp.data["code"] == -996) {
-        //重新请求
-        return _reqAccessToken(rsp);
+        String accessToken = await _reqAccessToken();
+        rsp.request.headers["access-token"] = accessToken;
+        var newRsp = await new Dio().get(rsp.request.path, options: rsp.request);
+        print("rsp-new:${newRsp.data}");
+        return newRsp;
+      } else {
+        return rsp;
       }
     };
     _dio.interceptor.request.onSend = (Options o) {
@@ -56,18 +63,20 @@ class DioFactory {
   }
 
 
-  _reqAccessToken(Response rsp) async {
-    int timestamp = DateTime
-        .now()
-        .millisecondsSinceEpoch;
+  _reqAccessToken() async {
+    if (_isReqAccessTokenIng) {
+      return accessToken;
+    }
+    _isReqAccessTokenIng = true;
+    int timestamp = DateTime.now().millisecondsSinceEpoch;
     String random = "abcdefghijklmn";
-    String signature = "app_id=46877648&app_secret=kCkrePwPpHOsYYSYWTDKzvczWRyvhknG&device_id=" +
-        device_id + "&rand_str=$random&timestamp=$timestamp";
+    String signature = "app_id=46877648&app_secret=kCkrePwPpHOsYYSYWTDKzvczWRyvhknG&"
+        "device_id=$deviceId&rand_str=$random&timestamp=$timestamp";
 
     String url = Api.base + "58bf98c1dcb63?city=nj&timestamp=$timestamp"
         "&app_id=46877648&rand_str=" + random +
         "&signature=" + _generateMd5(signature) +
-        "&device_id=" + device_id;
+        "&device_id=" + deviceId;
     Response response = await new Dio().get(url, options: _baseOptions);
     print(response.data);
 
@@ -79,7 +88,8 @@ class DioFactory {
         sp.setString("access-token", accessToken);
       });
     }
-    return await new Dio().get(rsp.request.path, options: _baseOptions);
+    _isReqAccessTokenIng = false;
+    return accessToken;
   }
 
   String _generateMd5(String data) {
