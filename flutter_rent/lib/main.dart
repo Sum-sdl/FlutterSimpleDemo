@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rent/Constants.dart';
-import 'package:flutter_rent/flutter_plugin.dart';
+import 'package:flutter_rent/flutter_sender.dart';
 import 'package:flutter_rent/flutter_receiver.dart';
 import 'package:flutter_rent/ui/HomeHouseLIstPage.dart';
 import 'package:flutter_rent/ui/HomeMsgPage.dart';

@@ -37,29 +37,111 @@ class SelfView extends StatelessWidget {
     );
   }
 
+//  Widget body() {
+//    print("SelfView build body");
+//    return TabBarView(
+//      children: <Widget>[
+//        Card(
+//          child: TabView("已发布"),
+//          margin: EdgeInsets.all(0.0),
+//        ),
+//        Card(
+//          child: TabView("待审核"),
+//          margin: EdgeInsets.all(20.0),
+//        ),
+//        Card(
+//          child: TabView("已下架"),
+//          margin: EdgeInsets.all(40.0),
+//          shape: RoundedRectangleBorder(
+//              borderRadius: BorderRadius.all(Radius.circular(40.0))),
+//        ),
+//        Card(
+//          child: TabView("未通过"),
+//          margin: EdgeInsets.all(0.0),
+//        ),
+//      ],
+//    );
+//  }
+
   Widget body() {
     print("SelfView build body");
-    return TabBarView(
-      children: <Widget>[
-        Card(
-          child: Center(child: Text("已发布")),
-          margin: EdgeInsets.all(0.0),
-        ),
-        Card(
-          child: Center(child: Text("待审核")),
-          margin: EdgeInsets.all(20.0),
-        ),
-        Card(
-          child: Center(child: Text("已下架")),
-          margin: EdgeInsets.all(40.0),
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(Radius.circular(40.0))),
-        ),
-        Card(
-          child: Center(child: Text("未通过")),
-          margin: EdgeInsets.all(0.0),
-        ),
-      ],
-    );
+    return PageView.builder(itemBuilder: (c, i) {
+      return TabView("$i");
+    });
+  }
+}
+
+//class TabView extends StatelessWidget {
+//  final String tip;
+//
+//  const TabView(this.tip, {Key key}) : super(key: key);
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    print("TabView build $tip");
+//    return ListView.builder(itemCount: 100, shrinkWrap: false, itemBuilder: (c, i) {
+//      print("$tip index->$i");
+//      return Text("$tip index->$i");
+//    });
+//  }
+//}
+class TabView extends StatefulWidget {
+  final String tip;
+
+  const TabView(this.tip, {Key key}) : super(key: key);
+
+  @override
+  State<StatefulWidget> createState() => TabViewState();
+}
+
+class TabViewState extends State<TabView> {
+
+//  GlobalObjectKey key;
+
+  GlobalKey key2 = new GlobalKey();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    print("TabViewState didChangeDependencies ${widget.tip}");
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    print("TabViewState initState ${widget.tip}");
+  }
+
+  @override
+  void deactivate() {
+    super.deactivate();
+    print("TabViewState deactivate ${widget.tip}");
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    print("TabViewState dispose ${widget.tip}");
+  }
+
+  @override
+  void didUpdateWidget(TabView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    print(
+        "TabViewState didUpdateWidget old:${oldWidget.tip},new ${widget.tip}");
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    print("TabViewState build ${widget.tip}");
+    return buildListView();
+  }
+
+  ListView buildListView() {
+    return ListView.builder(
+        key: key2,
+        itemCount: 100, shrinkWrap: false, itemBuilder: (c, i) {
+      return Text("${widget.tip} index->$i");
+    });
   }
 }

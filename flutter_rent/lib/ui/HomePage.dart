@@ -6,7 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rent/Constants.dart';
 import 'package:flutter_rent/base/BaseWidget.dart';
-import 'package:flutter_rent/flutter_plugin.dart';
+import 'package:flutter_rent/flutter_sender.dart';
 import 'package:flutter_rent/model/Home.dart';
 import 'package:flutter_rent/net/Api.dart';
 import 'package:flutter_rent/utils/RouteHelper.dart';
