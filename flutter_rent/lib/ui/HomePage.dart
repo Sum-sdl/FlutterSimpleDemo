@@ -4,6 +4,8 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_page_indicator/flutter_page_indicator.dart';
 import 'package:flutter_rent/Constants.dart';
 import 'package:flutter_rent/base/BaseWidget.dart';
 import 'package:flutter_rent/flutter_sender.dart';
@@ -14,6 +16,7 @@ import 'package:flutter_rent/utils/Utils.dart';
 import 'package:flutter_rent/widget/CommonWidget.dart';
 import 'package:flutter_rent/widget/HomeBanner.dart';
 import 'package:flutter_rent/widget/HouseInfoWidget.dart';
+import 'package:flutter_rent/widget/common_notifier.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 
 class HomeView extends StatefulWidget {
@@ -30,7 +33,8 @@ class OpItemData {
   const OpItemData(this.name, this.localImage);
 }
 
-class _HomePageState extends State<HomeView> with BaseConfig {
+class _HomePageState extends State<HomeView>
+    with BaseConfig, AutomaticKeepAliveClientMixin {
   List<OpItemData> opItem;
   List<HouseInfoBean> houseWidget = [];
   List<HotAdBean> hotWidget = [];
@@ -129,7 +133,9 @@ class _HomePageState extends State<HomeView> with BaseConfig {
       return new Stack(
         children: <Widget>[
           content(),
-          TitleWidget(_scrollController),
+          Notifier(child: TitleWidget(_scrollController), callBack: (size) {
+            print("callBack $size");
+          },),
         ],
       );
     }
@@ -144,6 +150,7 @@ class _HomePageState extends State<HomeView> with BaseConfig {
         itemCount: houseWidget.length + 6,
         shrinkWrap: true,
         itemBuilder: (c, index) {
+          print("home item build index = $index");
           Widget item;
           if (index == 0) {
 //            item = HomeBanner(houseBannerWidget, 194.0);
@@ -151,9 +158,8 @@ class _HomePageState extends State<HomeView> with BaseConfig {
               width: double.infinity,
               height: 220.0,
               child: new Swiper(
-//                autoplay: houseBannerWidget.length != 1,
+                autoplay: houseBannerWidget.length != 1,
                 itemBuilder: (BuildContext context, int index) {
-                  print(houseBannerWidget[index].image);
                   return getImage(houseBannerWidget[index].image);
                 },
                 itemCount: houseBannerWidget.length,
@@ -167,13 +173,13 @@ class _HomePageState extends State<HomeView> with BaseConfig {
             item = new Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children:
-                  opItem.sublist(0, 4).map((op) => barOpItem(op)).toList(),
+              opItem.sublist(0, 4).map((op) => barOpItem(op)).toList(),
             );
           } else if (index == 2) {
             item = new Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children:
-                  opItem.sublist(4, 8).map((op) => barOpItem(op)).toList(),
+              opItem.sublist(4, 8).map((op) => barOpItem(op)).toList(),
             );
           } else if (index == 3) {
             item = contentJXTJ();
@@ -386,6 +392,9 @@ class _HomePageState extends State<HomeView> with BaseConfig {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 //标题栏
@@ -400,7 +409,8 @@ class TitleWidget extends StatefulWidget {
   }
 }
 
-class TitleWidgetState extends State<TitleWidget> with BaseConfig {
+class TitleWidgetState extends State<TitleWidget>
+    with BaseConfig, AutomaticKeepAliveClientMixin {
   Color titleBg = Color(0x00FFFFFF);
   Color titleText = Colors.white;
 
@@ -439,7 +449,7 @@ class TitleWidgetState extends State<TitleWidget> with BaseConfig {
 
   @override
   Widget build(BuildContext context) {
-    print('状态栏高度：${getStatusBarHeight(context)}');
+//    print('状态栏高度：${getStatusBarHeight(context)}');
     return newTitle();
   }
 
@@ -521,4 +531,7 @@ class TitleWidgetState extends State<TitleWidget> with BaseConfig {
           ],
         ));
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

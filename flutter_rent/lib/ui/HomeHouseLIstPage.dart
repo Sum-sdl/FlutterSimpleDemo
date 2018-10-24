@@ -13,7 +13,7 @@ class HouseListView extends StatefulWidget {
   }
 }
 
-class _HouseListViewState extends State<HouseListView> {
+class _HouseListViewState extends State<HouseListView> with AutomaticKeepAliveClientMixin{
   List<HouseInfoBean> houseWidget = [];
 
   showLoadingDialog() {
@@ -36,6 +36,7 @@ class _HouseListViewState extends State<HouseListView> {
         physics: AlwaysScrollableScrollPhysics(),
         controller: _scrollController,
         itemBuilder: (c, index) {
+//          print("house list build $index");
           return new HouseInfoWidget(houseWidget[index]);
         },
         separatorBuilder: (BuildContext context, int index) {
@@ -53,9 +54,9 @@ class _HouseListViewState extends State<HouseListView> {
   int page = 1;
 
   _scroll() {
-    print(
-        '${_scrollController.position.pixels},${_scrollController.position
-            .maxScrollExtent}');
+//    print(
+//        '${_scrollController.position.pixels},${_scrollController.position
+//            .maxScrollExtent}');
     if (_scrollController.position.pixels + 300 >=
         _scrollController.position.maxScrollExtent) {
       page++;
@@ -120,4 +121,7 @@ class _HouseListViewState extends State<HouseListView> {
     c.complete(null);
     return c.future;
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

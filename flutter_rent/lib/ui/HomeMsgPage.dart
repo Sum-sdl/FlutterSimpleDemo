@@ -86,6 +86,14 @@ class _CommonWebViewPageState extends State<CommonWebView> {
       ),
       withZoom: true,
       withLocalStorage: true,
+      bottomNavigationBar: Container(
+        color: Colors.blue,
+        width: 100.0,
+        child: new SizedBox(
+          width: 200.0,
+          height: 30.0,
+          child: Text("BottomNabar", style: TextStyle(color: Colors.black),),),
+      ),
     );
   }
 }

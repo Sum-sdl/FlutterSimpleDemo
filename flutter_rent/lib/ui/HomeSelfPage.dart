@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 
 class SelfView extends StatelessWidget {
 
@@ -81,7 +80,7 @@ class TabView extends StatefulWidget {
   State<StatefulWidget> createState() => TabViewState();
 }
 
-class TabViewState extends State<TabView> with AutomaticKeepAliveClientMixin {
+class TabViewState extends State<TabView> with AutomaticKeepAliveClientMixin,TickerProviderStateMixin {
 
   @override
   void didChangeDependencies() {
@@ -96,13 +95,13 @@ class TabViewState extends State<TabView> with AutomaticKeepAliveClientMixin {
   }
 
   @override
-  void deactivate() {
+  void deactivate() {//类似stop
     super.deactivate();
     print("TabViewState deactivate ${widget.tip}");
   }
 
   @override
-  void dispose() {
+  void dispose() {//类似destory
     super.dispose();
     print("TabViewState dispose ${widget.tip}");
   }
@@ -111,7 +110,8 @@ class TabViewState extends State<TabView> with AutomaticKeepAliveClientMixin {
   void didUpdateWidget(TabView oldWidget) {
     super.didUpdateWidget(oldWidget);
     print(
-        "TabViewState didUpdateWidget old:${oldWidget.tip},new ${widget.tip}");
+        "TabViewState didUpdateWidget old:${oldWidget.hashCode},new ${widget
+            .hashCode}");
   }
 
   @override
@@ -131,6 +131,7 @@ class TabViewState extends State<TabView> with AutomaticKeepAliveClientMixin {
   ListView buildListView() {
     return ListView.builder(
         itemCount: 100, shrinkWrap: false, itemBuilder: (c, i) {
+//      print("${widget.tip} index->$i");
       return Text("${widget.tip} index->$i");
     });
   }

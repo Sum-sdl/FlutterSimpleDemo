@@ -59,7 +59,7 @@ class _MainPage extends StatefulWidget {
   }
 }
 
-class _MainPageState extends State<_MainPage> {
+class _MainPageState extends State<_MainPage> with AutomaticKeepAliveClientMixin{
 
   List<Widget> _pages;
   int _curPage = 0;
@@ -120,6 +120,9 @@ class _MainPageState extends State<_MainPage> {
 //            child: BottomBarParent(
 //              items: items, defaultChooseItem: items[_curPage],)));
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 
