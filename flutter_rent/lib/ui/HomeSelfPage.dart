@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 
 class SelfView extends StatelessWidget {
 
@@ -37,54 +38,40 @@ class SelfView extends StatelessWidget {
     );
   }
 
-//  Widget body() {
-//    print("SelfView build body");
-//    return TabBarView(
-//      children: <Widget>[
-//        Card(
-//          child: TabView("已发布"),
-//          margin: EdgeInsets.all(0.0),
-//        ),
-//        Card(
-//          child: TabView("待审核"),
-//          margin: EdgeInsets.all(20.0),
-//        ),
-//        Card(
-//          child: TabView("已下架"),
-//          margin: EdgeInsets.all(40.0),
-//          shape: RoundedRectangleBorder(
-//              borderRadius: BorderRadius.all(Radius.circular(40.0))),
-//        ),
-//        Card(
-//          child: TabView("未通过"),
-//          margin: EdgeInsets.all(0.0),
-//        ),
-//      ],
-//    );
-//  }
-
   Widget body() {
     print("SelfView build body");
-    return PageView.builder(itemBuilder: (c, i) {
-      return TabView("$i");
-    });
+    return TabBarView(
+      children: <Widget>[
+        Card(
+          child: TabView("已发布"),
+          margin: EdgeInsets.all(0.0),
+        ),
+        Card(
+          child: TabView("待审核"),
+          margin: EdgeInsets.all(20.0),
+        ),
+        Card(
+          child: TabView("已下架"),
+          margin: EdgeInsets.all(40.0),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(40.0))),
+        ),
+        Card(
+          child: TabView("未通过"),
+          margin: EdgeInsets.all(0.0),
+        ),
+      ],
+    );
   }
-}
 
-//class TabView extends StatelessWidget {
-//  final String tip;
-//
-//  const TabView(this.tip, {Key key}) : super(key: key);
-//
-//  @override
-//  Widget build(BuildContext context) {
-//    print("TabView build $tip");
-//    return ListView.builder(itemCount: 100, shrinkWrap: false, itemBuilder: (c, i) {
-//      print("$tip index->$i");
-//      return Text("$tip index->$i");
+//  Widget body() {
+//    print("SelfView build body");
+//    return PageView.builder(itemBuilder: (c, i) {
+//      return TabView("$i");
 //    });
 //  }
-//}
+}
+
 class TabView extends StatefulWidget {
   final String tip;
 
@@ -94,11 +81,7 @@ class TabView extends StatefulWidget {
   State<StatefulWidget> createState() => TabViewState();
 }
 
-class TabViewState extends State<TabView> {
-
-//  GlobalObjectKey key;
-
-  GlobalKey key2 = new GlobalKey();
+class TabViewState extends State<TabView> with AutomaticKeepAliveClientMixin {
 
   @override
   void didChangeDependencies() {
@@ -135,13 +118,24 @@ class TabViewState extends State<TabView> {
   Widget build(BuildContext context) {
     print("TabViewState build ${widget.tip}");
     return buildListView();
+//    return new Swiper(
+//      itemBuilder: (BuildContext context, int index) {
+//        return new Image.network(
+//          "http://via.placeholder.com/350x150", fit: BoxFit.fill,);
+//      },
+//      itemCount: 3,
+//      pagination: new SwiperPagination(),
+//    );
   }
 
   ListView buildListView() {
     return ListView.builder(
-        key: key2,
         itemCount: 100, shrinkWrap: false, itemBuilder: (c, i) {
       return Text("${widget.tip} index->$i");
     });
   }
+
+  // TODO: implement wantKeepAlive
+  @override
+  bool get wantKeepAlive => true;
 }
