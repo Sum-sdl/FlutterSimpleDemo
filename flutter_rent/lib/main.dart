@@ -1,13 +1,25 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_rent/Constants.dart';
-import 'package:flutter_rent/flutter_sender.dart';
 import 'package:flutter_rent/flutter_receiver.dart';
+import 'package:flutter_rent/flutter_sender.dart';
 import 'package:flutter_rent/ui/HomeHouseLIstPage.dart';
 import 'package:flutter_rent/ui/HomeMsgPage.dart';
 import 'package:flutter_rent/ui/HomePage.dart';
 import 'package:flutter_rent/ui/HomeSelfPage.dart';
 
-void main() => runApp(new MyApp());
+void main() {
+  runApp(new MyApp());
+  if (Platform.isAndroid) {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.dark,
+    ));
+  }
+}
 
 class Page {
   static String page_1 = "page_1";
@@ -201,15 +213,15 @@ class BottomBarItem extends StatelessWidget {
 }
 
 class ChooseItem {
-  ChooseItem(
-    this.index,
-    this.title,
-    this.icon, {
-    this.choose = false,
-    this.norColor = Colors.black,
-    this.selColor = Colors.orangeAccent,
+  ChooseItem(this.index,
+      this.title,
+      this.icon, {
+        this.choose = false,
+        this.norColor = Colors.black,
+        this.selColor = Colors.orangeAccent,
         this.callback,
       });
+
   final int index;
   final String title;
   final Color norColor;

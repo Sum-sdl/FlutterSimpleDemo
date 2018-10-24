@@ -24,7 +24,7 @@ class BannerInfo {
   const BannerInfo({this.image, this.url, this.type});
 
   factory BannerInfo.fromJson(Map<String, dynamic> json) {
-    return new BannerInfo(image: json["advert_image"], url: json['advert_url']);
+    return new BannerInfo(image: json["list_images"], url: json['advert_url']);
   }
 }
 
@@ -130,7 +130,6 @@ class _HomeBannerState extends State<HomeBanner> {
   }
 
   Widget _buildPagerView() {
-    _initFakeList();
     //检查手指和自动播放的是否冲突，如果滚动停止开启自动播放，反之停止自动播放
     return new NotificationListener(
         onNotification: (ScrollNotification scrollNotification) {
@@ -206,6 +205,7 @@ class _HomeBannerState extends State<HomeBanner> {
 
   @override
   Widget build(BuildContext context) {
+    _initFakeList();
     return _buildBanner();
   }
 }

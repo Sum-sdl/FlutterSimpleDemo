@@ -1,0 +1,37 @@
+
+project.android.buildTypes.each {
+    addFlutterJarImplementationDependency(project, releaseFlutterJar)
+}
+project.android.buildTypes.whenObjectAdded {
+    addFlutterJarImplementationDependency(project, releaseFlutterJar)
+}
+
+private static void addFlutterJarImplementationDependency(Project project, releaseFlutterJar) {
+    project.dependencies {
+        String configuration
+        if (project.getConfigurations().findByName("implementation")) {
+            configuration = "implementation"
+        } else {
+            configuration = "compile"
+        }
+        add(configuration, project.files {
+            releaseFlutterJar
+        })
+    }
+}
+
+// merge flutter assets
+def allertAsset ="${project.projectDir.getAbsolutePath()}/flutter/assets/release"
+Task mergeFlutterAssets = project.tasks.create(name: "mergeFlutterAssets${variant.name.capitalize()}", type: Copy) {
+    dependsOn mergeFlutterMD5Assets
+    from (allertAsset){
+        include "flutter_assets/**" // the working dir and its files
+        include "vm_snapshot_data"
+        include "vm_snapshot_instr"
+        include "isolate_snapshot_data"
+        include "isolate_snapshot_instr"
+    }
+    into variant.mergeAssets.outputDir
+}
+variant.outputs[0].processResources.dependsOn(mergeFlutterAssets)
+

@@ -14,6 +14,7 @@ import 'package:flutter_rent/utils/Utils.dart';
 import 'package:flutter_rent/widget/CommonWidget.dart';
 import 'package:flutter_rent/widget/HomeBanner.dart';
 import 'package:flutter_rent/widget/HouseInfoWidget.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView();
@@ -58,7 +59,7 @@ class _HomePageState extends State<HomeView> with BaseConfig {
 
         //广告
         houseBannerWidget.clear();
-        (data["data"]["topAdvert"] as List<dynamic>)
+        (data["data"]["recommendHouse"] as List<dynamic>)
             .forEach((it) => houseBannerWidget.add(BannerInfo.fromJson(it)));
 
         //热门区域
@@ -145,7 +146,23 @@ class _HomePageState extends State<HomeView> with BaseConfig {
         itemBuilder: (c, index) {
           Widget item;
           if (index == 0) {
-            item = HomeBanner(houseBannerWidget, 194.0);
+//            item = HomeBanner(houseBannerWidget, 194.0);
+            item = SizedBox(
+              width: double.infinity,
+              height: 220.0,
+              child: new Swiper(
+//                autoplay: houseBannerWidget.length != 1,
+                itemBuilder: (BuildContext context, int index) {
+                  print(houseBannerWidget[index].image);
+                  return getImage(houseBannerWidget[index].image);
+                },
+                itemCount: houseBannerWidget.length,
+//                pagination: new SwiperPagination(builder: SwiperPagination.dots),
+                pagination: new SwiperPagination(
+                    builder: const DotSwiperPaginationBuilder(
+                        size: 5.0, activeSize: 5.0)),
+              ),
+            );
           } else if (index == 1) {
             item = new Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -183,7 +200,10 @@ class _HomePageState extends State<HomeView> with BaseConfig {
     return Column(
       children: <Widget>[
         itemTitle("精选推荐", true, () {
+          //offset: 0.0, range: 0.0..3164.7, viewport: 588.0, ScrollableState, AlwaysScrollableScrollPhysics -> ClampingScrollPhysics, IdleScrollActivity#45359, ScrollDirection.idle)
+
           showSnackBar(context, "精选推荐");
+          print(_scrollController.position);
         }),
         SizedBox(
           width: double.infinity,
@@ -389,6 +409,7 @@ class TitleWidgetState extends State<TitleWidget> with BaseConfig {
   void _scroll() {
     double dis = widget._scrollController.offset;
     scrollListener(dis);
+//    print(widget._scrollController.position);
   }
 
   //滚动偏移量
