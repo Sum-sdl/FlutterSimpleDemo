@@ -43,7 +43,7 @@ class DioFactory {
       print("rsp->${rsp.data}");
 
       if (rsp.data != null && rsp.data["code"] == -996) {
-        String accessToken = await _reqAccessToken();
+        String accessToken = await reqAccessToken();
         print("new accessToken->$accessToken");
         rsp.request.headers["access-token"] = accessToken;
         var newRsp = await new Dio().get(rsp.request.path, options: rsp.request);
@@ -64,7 +64,7 @@ class DioFactory {
   }
 
 
-  _reqAccessToken() async {
+  reqAccessToken() async {
     if (_isReqAccessTokenIng) {
       return accessToken;
     }

@@ -5,7 +5,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_page_indicator/flutter_page_indicator.dart';
 import 'package:flutter_rent/Constants.dart';
 import 'package:flutter_rent/base/BaseWidget.dart';
 import 'package:flutter_rent/flutter_sender.dart';

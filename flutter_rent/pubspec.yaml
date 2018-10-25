@@ -59,6 +59,7 @@ flutter:
       - images/nav_collect_gray.png
       - images/nav_share.png
       - images/nav_share_gray.png
+      - images/bg_splash.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

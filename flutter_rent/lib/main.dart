@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_rent/Constants.dart';
 import 'package:flutter_rent/flutter_receiver.dart';
 import 'package:flutter_rent/flutter_sender.dart';
+import 'package:flutter_rent/net/DioFactory.dart';
 import 'package:flutter_rent/ui/HomeHouseLIstPage.dart';
 import 'package:flutter_rent/ui/HomeMsgPage.dart';
 import 'package:flutter_rent/ui/HomePage.dart';
@@ -43,13 +45,37 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 //    MediaQueryData.fromWindow(context.widget.window).padding.top
     return new MaterialApp(
-      theme: new ThemeData(
-        primarySwatch: Colors.orange,
-      ),
-      home: new _MainPage(),
+        theme: new ThemeData(
+          primarySwatch: Colors.orange,
+        ),
+        home: new _StartPage(),
+        routes: {
+          'home': (BuildContext context) => new _MainPage(),
+          'start': (BuildContext context) => new _StartPage(),
+        }
     );
   }
 }
+
+class _StartPage extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    //延迟加载
+    new Timer.periodic(Duration(seconds: 3), (timer) {
+      timer.cancel();
+      Navigator.pushNamedAndRemoveUntil(
+          context, "home", (route) => route == null);
+    });
+
+    //获取token
+    DioFactory.getInstance().reqAccessToken();
+
+    return Scaffold(body: Container(color: Colors.transparent,
+        child: Image.asset(ResImages.image_start, fit: BoxFit.cover,)),);
+  }
+}
+
 
 class _MainPage extends StatefulWidget {
   @override

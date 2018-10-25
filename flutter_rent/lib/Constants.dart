@@ -44,6 +44,7 @@ class ResImages {
   static const image_nav_collect_gray = "images/nav_collect_gray.png";
   static const image_nav_share = "images/nav_share.png";
   static const image_nav_share_gray = "images/nav_share_gray.png";
+  static const image_start = "images/bg_splash.png";
 
 }
 
