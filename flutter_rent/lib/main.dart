@@ -40,7 +40,6 @@ class MyWidgetsFlutterBinding extends WidgetsFlutterBinding {
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
 //    MediaQueryData.fromWindow(context.widget.window).padding.top
@@ -52,13 +51,11 @@ class MyApp extends StatelessWidget {
         routes: {
           'home': (BuildContext context) => new _MainPage(),
           'start': (BuildContext context) => new _StartPage(),
-        }
-    );
+        });
   }
 }
 
 class _StartPage extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     //延迟加载
@@ -71,11 +68,19 @@ class _StartPage extends StatelessWidget {
     //获取token
     DioFactory.getInstance().reqAccessToken();
 
-    return Scaffold(body: Container(color: Colors.transparent,
-        child: Image.asset(ResImages.image_start, fit: BoxFit.cover,)),);
+    return Scaffold(
+      body: Container(
+          color: Colors.transparent,
+          child: Container(
+            color: Colors.blue,
+            child: Image.asset(
+              ResImages.image_start,
+              fit: BoxFit.fill,
+            ),
+          )),
+    );
   }
 }
-
 
 class _MainPage extends StatefulWidget {
   @override
@@ -85,20 +90,28 @@ class _MainPage extends StatefulWidget {
   }
 }
 
-class _MainPageState extends State<_MainPage> with AutomaticKeepAliveClientMixin{
-
+class _MainPageState extends State<_MainPage>
+    with AutomaticKeepAliveClientMixin {
   List<Widget> _pages;
   int _curPage = 0;
 
   List<ChooseItem> items;
 
   _itemClick(ChooseItem item) {
-    setState(() {
-      if (_curPage != item.index) {
-        _curPage = item.index;
-      }
-    });
+//    setState(() {
+//      if (_curPage != item.index) {
+//        _curPage = item.index;
+//      }
+//    });
+    if (_curPage != item.index) {
+      _curPage = item.index;
+      _pageCon.animateToPage(
+          _curPage, duration: Duration(microseconds: 1),
+          curve: Curves.linear);
+    }
   }
+
+  var _pageCon = PageController(keepPage: false);
 
   @override
   void initState() {
@@ -110,11 +123,11 @@ class _MainPageState extends State<_MainPage> with AutomaticKeepAliveClientMixin
       FlutterPlugin.showToast(app);
     });
 
-
     print("_MainPageState initState");
     items = <ChooseItem>[
       new ChooseItem(0, "首页", Icons.home, choose: true, callback: _itemClick),
-      new ChooseItem(1, "房源", Icons.collections,choose: false, callback: _itemClick),
+      new ChooseItem(1, "房源", Icons.collections,
+          choose: false, callback: _itemClick),
       new ChooseItem(2, "消息", Icons.message, callback: _itemClick),
       new ChooseItem(3, "我的", Icons.account_box, callback: _itemClick),
     ];
@@ -125,14 +138,35 @@ class _MainPageState extends State<_MainPage> with AutomaticKeepAliveClientMixin
     _pages.add(new SelfView());
   }
 
+  _update() {
+    setState(() {
+
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: IndexedStack(index: _curPage, children: _pages,),
+        body: PageView.builder(
+          itemCount: _pages.length,
+          itemBuilder: (c, index) {
+            print("PageView itemBuilder ->$index");
+            return _pages[index];
+          },
+          controller: _pageCon,
+          onPageChanged: (int index) {
+            print("PageView onPageChanged ->$index");
+            _curPage = index;
+          },
+          physics: NeverScrollableScrollPhysics(),
+        ),
         backgroundColor: Colors.white,
         bottomNavigationBar: BottomAppBar(
             child: BottomBarParent(
-              items: items, defaultChooseItem: items[_curPage],)));
+              items: items,
+              defaultChooseItem: items[_curPage],
+              pageController: _pageCon,
+            )));
 
     //效果同上
 //    return Scaffold(
@@ -151,13 +185,14 @@ class _MainPageState extends State<_MainPage> with AutomaticKeepAliveClientMixin
   bool get wantKeepAlive => true;
 }
 
-
 //管理一组底部按钮的单选状态
 class BottomBarParent extends StatefulWidget {
   final List<ChooseItem> items;
   final ChooseItem defaultChooseItem; //默认选项
+  final PageController pageController;
 
-  const BottomBarParent({Key key, this.items, this.defaultChooseItem})
+  const BottomBarParent(
+      {Key key, this.items, this.defaultChooseItem, this.pageController})
       : super(key: key);
 
   @override
@@ -168,14 +203,21 @@ class BottomBarParent extends StatefulWidget {
 
 /// BottomBarParent 重新new了，但是createState没走, _BottomBarParentState没new ！why？
 class BottomBarParentState extends State<BottomBarParent> {
-
   ChooseItem curItem; //默认选项
+
+  _tabChange() {
+    int page = widget.pageController.page.toInt();
+    _itemBarClick(widget.items[page]);
+  }
 
   @override
   initState() {
     curItem = widget.defaultChooseItem;
+    widget.pageController.addListener(_tabChange);
     super.initState();
   }
+
+//  dispose{}
 
   //bar点击的
   _itemBarClick(ChooseItem item) {
@@ -191,9 +233,13 @@ class BottomBarParentState extends State<BottomBarParent> {
 
   @override
   Widget build(BuildContext context) {
-    return new Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+    return new Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: widget.items.map((item) {
-          return BottomBarItem(item: item, itemBarClick: _itemBarClick,);
+          return BottomBarItem(
+            item: item,
+            itemBarClick: _itemBarClick,
+          );
         }).toList());
   }
 }
@@ -230,8 +276,7 @@ class BottomBarItem extends StatelessWidget {
                 item.title,
                 style: TextStyle(
                     fontSize: 10.0,
-                    color:
-                    item.choose ? item.selColor : item.norColor),
+                    color: item.choose ? item.selColor : item.norColor),
               ),
             ),
           ],

@@ -84,10 +84,10 @@ class DioFactory {
     if (response.data != null && response.data["code"] == 1) {
       accessToken = response.data["data"]["access_token"];
       _baseOptions.headers["access-token"] = accessToken;
-      SPUtil.getInstance().then((spUtil) {
-        SharedPreferences sp = spUtil.getSP();
-        sp.setString("access-token", accessToken);
-      });
+//      SPUtil.getInstance().then((spUtil) {
+//        SharedPreferences sp = spUtil.getSP();
+//        sp.setString("access-token", accessToken);
+//      });
     }
     _isReqAccessTokenIng = false;
     return accessToken;

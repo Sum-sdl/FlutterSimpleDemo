@@ -149,7 +149,7 @@ class _HomePageState extends State<HomeView>
         itemCount: houseWidget.length + 6,
         shrinkWrap: true,
         itemBuilder: (c, index) {
-          print("home item build index = $index");
+//          print("home item build index = $index");
           Widget item;
           if (index == 0) {
 //            item = HomeBanner(houseBannerWidget, 194.0);
