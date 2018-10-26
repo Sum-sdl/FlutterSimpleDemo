@@ -68,16 +68,16 @@ class _StartPage extends StatelessWidget {
     //获取token
     DioFactory.getInstance().reqAccessToken();
 
-    return Scaffold(
-      body: Container(
-          color: Colors.transparent,
-          child: Container(
-            color: Colors.blue,
-            child: Image.asset(
-              ResImages.image_start,
-              fit: BoxFit.fill,
-            ),
-          )),
+//    return Container(
+//        color: Colors.blue,
+//        child: Image.asset(
+//          ResImages.image_start,
+//          fit: BoxFit.cover,
+//        ));
+
+    return Image.asset(
+      ResImages.image_start,
+      fit: BoxFit.cover,
     );
   }
 }
@@ -106,12 +106,12 @@ class _MainPageState extends State<_MainPage>
     if (_curPage != item.index) {
       _curPage = item.index;
       _pageCon.animateToPage(
-          _curPage, duration: Duration(microseconds: 1),
+          _curPage, duration: const Duration(milliseconds: 1),
           curve: Curves.linear);
     }
   }
 
-  var _pageCon = PageController(keepPage: false);
+  var _pageCon = PageController(keepPage: true);
 
   @override
   void initState() {
@@ -205,6 +205,7 @@ class BottomBarParent extends StatefulWidget {
 class BottomBarParentState extends State<BottomBarParent> {
   ChooseItem curItem; //默认选项
 
+  //处理手势滚动，底部状态也跟着变动的监听
   _tabChange() {
     int page = widget.pageController.page.toInt();
     _itemBarClick(widget.items[page]);
