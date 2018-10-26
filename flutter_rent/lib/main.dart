@@ -68,17 +68,18 @@ class _StartPage extends StatelessWidget {
     //获取token
     DioFactory.getInstance().reqAccessToken();
 
-//    return Container(
-//        color: Colors.blue,
-//        child: Image.asset(
-//          ResImages.image_start,
-//          fit: BoxFit.cover,
-//        ));
-
-    return Image.asset(
-      ResImages.image_start,
-      fit: BoxFit.cover,
-    );
+    //考虑安卓跟ios的加载快慢问题，需要单独优化
+    return Container(
+        color: Colors.white,
+        child: Image.asset(
+          ResImages.image_start,
+          fit: BoxFit.cover,
+        ));
+// 直接绘制图片 会黑屏一下
+//    return Image.asset(
+//      ResImages.image_start,
+//      fit: BoxFit.cover,
+//    );
   }
 }
 
