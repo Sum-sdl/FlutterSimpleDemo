@@ -1,9 +1,15 @@
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:video_player/video_player.dart';
 
-class MsgView extends StatelessWidget {
+class MsgView extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => new MsgState();
+}
 
+class MsgState extends State<MsgView> {
   @override
   Widget build(BuildContext context) {
     print("MsgView build");
@@ -13,6 +19,7 @@ class MsgView extends StatelessWidget {
         ),
         body: buildIntrinsicWidth(context));
   }
+
 
   Widget buildIntrinsicWidth(BuildContext c) {
     return Wrap(
@@ -56,10 +63,43 @@ class MsgView extends StatelessWidget {
           },
           child: Text("网页"),
         ),
+
+        Container(
+            color: Colors.black12,
+            width: MediaQuery
+                .of(c)
+                .size
+                .width,
+            height: 200,
+            child: new Chewie(controller)
+        )
+
       ],
     );
   }
+
+  VideoPlayerController controller;
+
+  @override
+  void initState() {
+    controller = VideoPlayerController.network(
+        'https://video.pc6.com/v/1807/hsxspzmpxinxg.mp4');
+    super.initState();
+  }
+
+  @override
+  void deactivate() {
+    controller.pause();
+    super.deactivate();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
 }
+
 
 class CommonWebView extends StatefulWidget {
   final String title;

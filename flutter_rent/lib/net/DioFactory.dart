@@ -5,8 +5,6 @@ import 'package:crypto/crypto.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_rent/Constants.dart';
 import 'package:flutter_rent/net/Api.dart';
-import 'package:flutter_rent/utils/SpUtils.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class DioFactory {
   static Dio _dio;

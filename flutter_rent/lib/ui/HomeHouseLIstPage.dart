@@ -109,7 +109,10 @@ class _HouseListViewState extends State<HouseListView> with AutomaticKeepAliveCl
           houseWidget.clear();
         }
         var house = data["data"]["data"] as List<dynamic>;
-        house.forEach((it) => houseWidget.add(HouseInfoBean.fromJson(it)));
+//        house.forEach((it) => houseWidget.add(HouseInfoBean.fromJson(it)));
+        for (var item in house) {
+          houseWidget.add(HouseInfoBean.fromJson(item));
+        }
       } else if (data["code"] == -996) {
         _loadData();
       }

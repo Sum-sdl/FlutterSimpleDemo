@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
 class ThreadPage extends StatefulWidget {
   @override
@@ -141,20 +140,24 @@ class _ThreadTestState extends State<ThreadPage> {
       _netDataChange("网络请求开始");
     });
     String dataURL = "https://jsonplaceholder.typicode.com/posts";
-    http.Response response = await http.get(dataURL);
-    int index = 0;
-    var data = json.decode(response.body);
-    /* var data = json.decode(response.body, reviver: (a, b) {
-      if (a!=null) {
-        print("${++index}->$a:$b");
-      }
-    });*/
 
-    setState(() {
-      _netDataChange("网络请求结束->${data[0]["id"]}+${data[0]["title"]}");
-    });
-    print("rsp->${response.body}");
-    print("NetWork Test End");
+    var http = HttpClient();
+
+//    var request = await http.openUrl("GET", Uri(path: dataURL));
+
+    int index = 0;
+//    var data = json.decode(response.body);
+//    /* var data = json.decode(response.body, reviver: (a, b) {
+//      if (a!=null) {
+//        print("${++index}->$a:$b");
+//      }
+//    });*/
+//
+//    setState(() {
+//      _netDataChange("网络请求结束->${data[0]["id"]}+${data[0]["title"]}");
+//    });
+//    print("rsp->${response.body}");
+//    print("NetWork Test End");
   }
 
 

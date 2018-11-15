@@ -25,6 +25,8 @@ flutter build ios
 //打包AOT
 flutter build aot --release
 
- 添加脚本的执行权限
- 	 ls -l 查看文件的权限，如果没有 x,说明无执行权限
-	通过命令 chmod +x gradle 给gradle文件添加执行权限
+
+
+添加脚本的执行权限
+ls -l 查看文件的权限，如果没有 x,说明无执行权限
+通过命令 chmod +x gradle 给gradle文件添加执行权限

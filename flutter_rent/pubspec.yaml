@@ -26,6 +26,7 @@ dependencies:
   flutter_webview_plugin: "^0.2.1"
   image_picker: "^0.4.10"
   flutter_swiper : "^1.1.4"
+  chewie: ^0.8.0
 
 #dev_dependencies:
 #  flutter_test:

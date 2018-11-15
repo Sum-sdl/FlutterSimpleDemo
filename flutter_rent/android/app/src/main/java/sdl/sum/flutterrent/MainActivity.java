@@ -1,6 +1,5 @@
 package sdl.sum.flutterrent;
 
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 
@@ -31,7 +30,7 @@ public class MainActivity extends FlutterActivity {
             public void run() {
                 sendToFlutter();
             }
-        }, 12000);
+        }, 15000);
     }
 
     private String flutter_channel = "push";

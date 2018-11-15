@@ -99,16 +99,10 @@ class _MainPageState extends State<_MainPage>
   List<ChooseItem> items;
 
   _itemClick(ChooseItem item) {
-//    setState(() {
-//      if (_curPage != item.index) {
-//        _curPage = item.index;
-//      }
-//    });
     if (_curPage != item.index) {
       _curPage = item.index;
-      _pageCon.animateToPage(
-          _curPage, duration: const Duration(milliseconds: 1),
-          curve: Curves.linear);
+      _pageCon.animateToPage(_curPage,
+          duration: const Duration(milliseconds: 1), curve: Curves.linear);
     }
   }
 
@@ -122,6 +116,14 @@ class _MainPageState extends State<_MainPage>
     FlutterReceiver.PUSH.setMessageHandler((String app) {
       print("app 主动发送的消息：" + app);
       FlutterPlugin.showToast(app);
+    });
+
+    //FlutterView实现
+    FlutterReceiver.lifecycle.setMessageHandler((String app) {
+      print("lifecycle：" + app);
+    });
+    FlutterReceiver.lifecycle.setMockMessageHandler((String app) {
+      print("lifecycle Mock：" + app);
     });
 
     print("_MainPageState initState");
@@ -139,12 +141,6 @@ class _MainPageState extends State<_MainPage>
     _pages.add(new SelfView());
   }
 
-  _update() {
-    setState(() {
-
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -155,10 +151,6 @@ class _MainPageState extends State<_MainPage>
             return _pages[index];
           },
           controller: _pageCon,
-          onPageChanged: (int index) {
-            print("PageView onPageChanged ->$index");
-            _curPage = index;
-          },
           physics: NeverScrollableScrollPhysics(),
         ),
         backgroundColor: Colors.white,
@@ -168,18 +160,6 @@ class _MainPageState extends State<_MainPage>
               defaultChooseItem: items[_curPage],
               pageController: _pageCon,
             )));
-
-    //效果同上
-//    return Scaffold(
-//        body: Stack(children: [
-//          Offstage(offstage: _curPage != 0, child: _pages[0],),
-//          Offstage(offstage: _curPage != 1, child: _pages[1],),
-//          Offstage(offstage: _curPage != 2, child: _pages[2],),
-//          Offstage(offstage: _curPage != 3, child: _pages[3],),
-//        ],),
-//        bottomNavigationBar: BottomAppBar(
-//            child: BottomBarParent(
-//              items: items, defaultChooseItem: items[_curPage],)));
   }
 
   @override
@@ -202,24 +182,15 @@ class BottomBarParent extends StatefulWidget {
   }
 }
 
-/// BottomBarParent 重新new了，但是createState没走, _BottomBarParentState没new ！why？
+/// BottomBarParent 重新new了，但是createState没走, _BottomBarParentState 保存了之前组件的状态
 class BottomBarParentState extends State<BottomBarParent> {
   ChooseItem curItem; //默认选项
-
-  //处理手势滚动，底部状态也跟着变动的监听
-  _tabChange() {
-    int page = widget.pageController.page.toInt();
-    _itemBarClick(widget.items[page]);
-  }
 
   @override
   initState() {
     curItem = widget.defaultChooseItem;
-    widget.pageController.addListener(_tabChange);
     super.initState();
   }
-
-//  dispose{}
 
   //bar点击的
   _itemBarClick(ChooseItem item) {
