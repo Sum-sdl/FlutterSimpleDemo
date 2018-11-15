@@ -3,6 +3,8 @@ package sdl.sum.flutterrent;
 
 import android.util.Log;
 
+import com.sum.library.ui.image.AppImageUtils;
+
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.PluginRegistry;
@@ -40,6 +42,11 @@ public class AppUtilsFlutterPlugin implements MethodChannel.MethodCallHandler {
             case "showToast":
                 Log.e("main", "toast channel msg->" + call.method + "," + call.arguments + ",," + call.toString());
                 AppUtils.toastUtils(mRegistrar.context(), call.argument("msg").toString());
+                result.success("");
+                break;
+            case "choose_image":
+                int num = call.argument("num");
+                AppImageUtils.appImageAlbum(mRegistrar.activity(), num);
                 result.success("");
                 break;
             default:

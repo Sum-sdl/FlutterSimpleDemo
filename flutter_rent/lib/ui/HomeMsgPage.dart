@@ -1,5 +1,5 @@
-import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rent/flutter_sender.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:video_player/video_player.dart';
@@ -15,11 +15,10 @@ class MsgState extends State<MsgView> {
     print("MsgView build");
     return Scaffold(
         appBar: new AppBar(
-          title: new Text("插件使用"),
+          title: new Text("各平台界面调用"),
         ),
         body: buildIntrinsicWidth(context));
   }
-
 
   Widget buildIntrinsicWidth(BuildContext c) {
     return Wrap(
@@ -44,6 +43,19 @@ class MsgState extends State<MsgView> {
                 child: Text("选择图片"),
               ),
             )),
+        Container(
+            color: Colors.blue,
+            width: 200.0,
+            height: 60.0,
+            child: Center(
+              child: FlatButton(
+                onPressed: () {
+                  FlutterPlugin.showImageChoose(7);
+                },
+                child: Text(
+                  "自定义界面，多选图片7涨", style: TextStyle(color: Colors.white),),
+              ),
+            )),
         FlatButton(
           onPressed: () {
             ImagePicker.pickImage(
@@ -64,15 +76,15 @@ class MsgState extends State<MsgView> {
           child: Text("网页"),
         ),
 
-        Container(
-            color: Colors.black12,
-            width: MediaQuery
-                .of(c)
-                .size
-                .width,
-            height: 200,
-            child: new Chewie(controller)
-        )
+//        Container(
+//            color: Colors.black12,
+//            width: MediaQuery
+//                .of(c)
+//                .size
+//                .width,
+//            height: 200,
+//            child: new Chewie(controller)
+//        ),
 
       ],
     );

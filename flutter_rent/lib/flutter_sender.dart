@@ -26,4 +26,9 @@ class FlutterPlugin {
     map["index"] = 1;
     return await _channel.invokeMethod(_fun_showToast, map);
   }
+  static showImageChoose(int num) async {
+    var map = Map<String, Object>();
+    map["num"] = num;
+    return await _channel.invokeMethod("choose_image", map);
+  }
 }
