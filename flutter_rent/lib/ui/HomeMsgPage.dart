@@ -9,15 +9,29 @@ class MsgView extends StatefulWidget {
   State<StatefulWidget> createState() => new MsgState();
 }
 
-class MsgState extends State<MsgView> {
+class MsgState extends State<MsgView> with WidgetsBindingObserver {
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+  }
+
   @override
   Widget build(BuildContext context) {
-    print("MsgView build");
     return Scaffold(
         appBar: new AppBar(
-          title: new Text("各平台界面调用"),
+          title: new Text("第三方库调用以及常用功能测试"),
         ),
-        body: buildIntrinsicWidth(context));
+        body: content(context));
+  }
+
+  String changeText = "";
+
+  Widget content(BuildContext c) {
+    return Column(children: <Widget>[
+      Text(changeText),
+      buildIntrinsicWidth(c)
+    ],);
   }
 
   Widget buildIntrinsicWidth(BuildContext c) {
@@ -53,14 +67,16 @@ class MsgState extends State<MsgView> {
                   FlutterPlugin.showImageChoose(7);
                 },
                 child: Text(
-                  "自定义界面，多选图片7涨", style: TextStyle(color: Colors.white),),
+                  "自定义Activity界面，多选图片7涨",
+                  style: TextStyle(color: Colors.white),),
               ),
             )),
         FlatButton(
+          color: Colors.orange,
           onPressed: () {
             ImagePicker.pickImage(
                 source: ImageSource.camera,
-                maxHeight: 200.0,
+                maxHeight: 400.0,
                 maxWidth: 200.0)
                 .then((file) {
               print(file);
@@ -74,6 +90,19 @@ class MsgState extends State<MsgView> {
                 CommonWebView("网页", "https://flutterchina.club/ios-release/")));
           },
           child: Text("网页"),
+        ),
+
+        FlatButton(
+          onPressed: () {
+
+          },
+          child: Text("获取文件路径"),
+        ),
+        FlatButton(
+          onPressed: () {
+
+          },
+          child: Text("Animation值变化"),
         ),
 
 //        Container(
