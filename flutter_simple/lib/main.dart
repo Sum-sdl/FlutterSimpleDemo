@@ -1,4 +1,6 @@
+import 'package:FlutterSimple/bloc/bloc_test_home.dart';
 import 'package:FlutterSimple/list/NestedScrollViewDemoPage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'Constant.dart';
@@ -109,6 +111,14 @@ class _HomePageList extends State<StartPage> {
         //默认是最大，这里设置最小，类似LinearLayout+warp_content
         //Column内容居中
         children: <Widget>[
+          new MaterialButton(
+              onPressed: () {
+//                Navigator.of(context).push(new CupertinoPageRoute(){});
+                Navigator.push(context, CupertinoPageRoute(builder: (c){
+                  return BlocTestPage();
+                }));
+              },
+              child: new Text("BloC业务模式测试")),
           new LongPressDraggable(
               child: new FlatButton(
                   onPressed: () {

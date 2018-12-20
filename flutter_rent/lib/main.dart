@@ -14,9 +14,10 @@ import 'package:flutter_rent/ui/HomeSelfPage.dart';
 
 void main() {
   runApp(new MyApp());
+
   if (Platform.isAndroid) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
+      statusBarColor: Colors.red,
       statusBarBrightness: Brightness.dark,
       statusBarIconBrightness: Brightness.dark,
     ));

@@ -9,7 +9,8 @@ class MsgView extends StatefulWidget {
   State<StatefulWidget> createState() => new MsgState();
 }
 
-class MsgState extends State<MsgView> with WidgetsBindingObserver {
+class MsgState extends State<MsgView>
+    with WidgetsBindingObserver, TickerProviderStateMixin {
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -26,11 +27,43 @@ class MsgState extends State<MsgView> with WidgetsBindingObserver {
   }
 
   String changeText = "";
+  AnimationController _animationController;
+
+  @override
+  void initState() {
+    controller = VideoPlayerController.network(
+        'https://video.pc6.com/v/1807/hsxspzmpxinxg.mp4');
+
+    _animationController = new AnimationController(
+      animationBehavior: AnimationBehavior.preserve,
+      vsync: this,
+      duration: const Duration(milliseconds: 3000),)
+      ..addListener(() {
+        setState(() {
+          changeText = _animationController.value.toString();
+        });
+      });
+
+
+    super.initState();
+  }
 
   Widget content(BuildContext c) {
     return Column(children: <Widget>[
       Text(changeText),
-      buildIntrinsicWidth(c)
+      FlatButton(
+        onPressed: () {
+          Tween<double>(begin: 1, end: 10).animate(_animationController)
+            ..addListener(() {
+              print(_animationController.value);
+            });
+          _animationController.reset();
+          _animationController.forward();
+        },
+        child: Text("Tween动画"),
+      ),
+
+      buildIntrinsicWidth(c),
     ],);
   }
 
@@ -98,12 +131,7 @@ class MsgState extends State<MsgView> with WidgetsBindingObserver {
           },
           child: Text("获取文件路径"),
         ),
-        FlatButton(
-          onPressed: () {
 
-          },
-          child: Text("Animation值变化"),
-        ),
 
 //        Container(
 //            color: Colors.black12,
@@ -121,12 +149,6 @@ class MsgState extends State<MsgView> with WidgetsBindingObserver {
 
   VideoPlayerController controller;
 
-  @override
-  void initState() {
-    controller = VideoPlayerController.network(
-        'https://video.pc6.com/v/1807/hsxspzmpxinxg.mp4');
-    super.initState();
-  }
 
   @override
   void deactivate() {
@@ -137,6 +159,7 @@ class MsgState extends State<MsgView> with WidgetsBindingObserver {
   @override
   void dispose() {
     controller.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 }
