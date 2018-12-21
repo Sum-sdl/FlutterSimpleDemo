@@ -17,6 +17,9 @@ class BlocProvider {
   // 首次监听，初始值不会触发回调;在第二次监听的时候，值会更新给新的注册者
   var _controller = new BehaviorSubject<int>();
 
+// 跟BehaviorSubject 功能类似
+//  var _controller = new ReplaySubject<int>();
+
   int _count = 1;
 
   Stream<int> get intStream => _controller.stream;
@@ -36,6 +39,9 @@ class BlocProvider {
     }, onDone: () {
       print("onDone,$_count");
     });
+  }
+
+  void testEvent(){
   }
 
   //模拟值变动

@@ -22,7 +22,12 @@ class EventState extends State<EventTest> with AutoManagerEventBus{
       });
     });
     super.initState();
-    print("initState");
+    print("initState ${this.toStringShort()} ,${toString()}");
+  }
+
+  @override
+  String toStringShort() {
+    return super.toStringShort();
   }
 
   @override

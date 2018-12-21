@@ -1,12 +1,20 @@
 import 'package:FlutterSimple/bloc/bloc_provider.dart';
+import 'package:FlutterSimple/eventbus/event_bus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BlocTestPage extends StatelessWidget {
   final BlocProvider _blocProvider = new BlocProvider();
 
+  int count = 0;
+
   @override
   Widget build(BuildContext context) {
+    FlutterEventBus.register("click_event", (data) {
+      print("BlocTestPage->$data");
+    });
+
+    print("BlocTestPage build");
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Bloc模式测试"),
@@ -18,8 +26,8 @@ class BlocTestPage extends StatelessWidget {
   Widget buildStream() {
     return StreamBuilder(
         stream: _blocProvider.intStream,
-        initialData: 0,
         builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+          print("BlocTestPage StreamBuilder build ${snapshot.data}");
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
@@ -55,7 +63,17 @@ class BlocTestPage extends StatelessWidget {
             }));
           },
           child: Text("跳转下一页,数据需要共享"),
-        )
+        ),
+
+        MaterialButton(
+          onPressed: () {
+            FlutterEventBus.sendValue("click_event", count++);
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("EventBus Test"),
+          ),
+        ),
       ],
     );
   }
@@ -68,6 +86,7 @@ class _BlocSecondPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("_BlocSecondPage build");
     return new Scaffold(
       appBar: new AppBar(
         title: new Text("Bloc第二页"),
@@ -79,8 +98,8 @@ class _BlocSecondPage extends StatelessWidget {
   Widget buildStream() {
     return StreamBuilder(
         stream: _blocProvider.intStream,
-        initialData: 1,
         builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+          print("_BlocSecondPage StreamBuilder build ${snapshot.data}");
           return Padding(
             padding: const EdgeInsets.all(20.0),
             child: Text("index->${snapshot.data}"),
@@ -105,6 +124,16 @@ class _BlocSecondPage extends StatelessWidget {
                 "点击修改值",
                 style: TextStyle(color: Colors.white, fontSize: 16.0),
               ))),
+
+        ),
+        MaterialButton(
+          onPressed: () {
+            FlutterEventBus.sendValue("click_event", "Hello Event");
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("EventBus Test"),
+          ),
         ),
       ],
     );

@@ -25,7 +25,19 @@ class FlutterEventBus {
   }
 
   //注册事件，必须和解除注册相对，不然界面关闭后，State会无法释放
+  //同一个key注册2个监听，移除会有问题，StreamController改成单注册流
   static void register(String key, Function onData) {
+    var map = _getCacheBus();
+    var bus = map[key];
+    if (bus == null) {
+      bus = _Bus();
+      map[key] = bus;
+    }
+    bus.streamController.stream.listen(onData);
+    
+  }
+
+  static void autoRegister(State state, String key, Function onData) {
     var map = _getCacheBus();
     var bus = map[key];
     if (bus == null) {
@@ -49,9 +61,6 @@ class FlutterEventBus {
     }
   }
 
-  static void clearAll() {
-    _getCacheBus().clear();
-  }
 }
 
 class _Bus {
@@ -60,15 +69,7 @@ class _Bus {
   StreamController get streamController => _streamController;
 
   _Bus({bool sync: false}) {
-    _streamController = new StreamController.broadcast(sync: sync);
-  }
-
-  Stream<T> on<T>() {
-    if (T == dynamic) {
-      return streamController.stream;
-    } else {
-      return streamController.stream.where((event) => event is T).cast<T>();
-    }
+    _streamController = new StreamController(sync: sync);
   }
 
   void send(event) {
@@ -81,10 +82,11 @@ class _Bus {
 }
 
 mixin AutoManagerEventBus<T extends StatefulWidget> on State<T> {
+
   @override
   void initState() {
     super.initState();
-    print("AutoManagerEventBus initState");
+    print("AutoManagerEventBus initState ${this.toStringShort()}");
   }
 
   @override
@@ -100,8 +102,7 @@ mixin AutoManagerEventBus<T extends StatefulWidget> on State<T> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    print("AutoManagerEventBus build");
-    return null;
+  String toStringShort() {
+    return super.toStringShort();
   }
 }
