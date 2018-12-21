@@ -1,4 +1,5 @@
 import 'package:FlutterSimple/bloc/bloc_test_home.dart';
+import 'package:FlutterSimple/eventbus/event_test.dart';
 import 'package:FlutterSimple/list/NestedScrollViewDemoPage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
         Page.page_home_widget_bg: (BuildContext context) => new WidgetBgPage(),
         Page.page_home_layout: (BuildContext context) => new LayoutDemoPage(),
         Page.page_layout_table: (BuildContext context) => new TableLayoutPage(),
-        Page.page_layout_warp: (BuildContext context) =>new FlowWarpLayoutPage(),
+        Page.page_layout_warp: (BuildContext context) =>
+        new FlowWarpLayoutPage(),
         Page.page_thread: (BuildContext context) => new ThreadPage(),
         Page.page_other: (BuildContext context) => new TabbedAppBarSample(),
         Page.page_list_anim: (BuildContext context) => new AnimatedListSample(),
@@ -88,7 +90,9 @@ class _HomePageList extends State<StartPage> {
               ),
 //              new IgnorePointer(child: buildColumn(context),),//child 不接受事件，事件传给上一级
 //              new AbsorbPointer(child: buildColumn(context),),//child 不接受事件，事件拦截
-              new SingleChildScrollView(child: buildColumn(context),),
+              new SingleChildScrollView(
+                child: buildColumn(context),
+              ),
             ],
           ),
         ),
@@ -114,26 +118,33 @@ class _HomePageList extends State<StartPage> {
           new MaterialButton(
               onPressed: () {
 //                Navigator.of(context).push(new CupertinoPageRoute(){});
-                Navigator.push(context, CupertinoPageRoute(builder: (c){
+                Navigator.push(context, CupertinoPageRoute(builder: (c) {
                   return BlocTestPage();
                 }));
               },
-              child: new Text("BloC业务模式测试")),
+              child: new Text(
+                "BloC业务模式测试", style: TextStyle(color: Colors.yellow),)),
+          new MaterialButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                    new CupertinoPageRoute(builder: (c) => EventTest()));
+              },
+              child: new Text(
+                "EventBus测试", style: TextStyle(color: Colors.yellow),)),
           new LongPressDraggable(
               child: new FlatButton(
                   onPressed: () {
                     Navigator.of(context).pushNamed(Page.page_home_widget);
                   },
                   textColor: Colors.white,
-                  color: Colors.orange,
-                  child: new Text("按钮组件")),
+                  child: new Text("点击或者长按试试")),
               feedback: new FlatButton(
                   onPressed: () {
                     Navigator.of(context).pushNamed(Page.page_home_widget);
                   },
                   textColor: Colors.white,
                   color: Colors.orange,
-                  child: new Text("长按按钮组件"))),
+                  child: new Text("长按被拖动"))),
           new MaterialButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(Page.page_home_widget_bg);
