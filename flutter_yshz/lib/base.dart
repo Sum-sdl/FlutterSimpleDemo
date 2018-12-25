@@ -1,21 +1,45 @@
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_yshz/net/base_net.dart';
+import 'package:flutter_yshz/resource.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class BaseConfig {
   //网络请求
-  Dio dio = DioFactory.getInstance().getDio();
+  @protected
+  Dio get dio => DioFactory.getInstance().getDio();
 
   //加载组件
-  Widget showLoading() {
+  Widget showLoadingWidget() {
     return Center(child: CircularProgressIndicator());
   }
 
+  //加载组件
+  Widget showErrorWidget() {
+    return Center(child: Text("网络异常"));
+  }
+
+  Widget showNetImageWidget(String url) {
+    if (url == null || url.length == 0) {
+      return Image.asset(ResImages.image_error);
+    }
+    return CachedNetworkImage(
+      imageUrl: url,
+      fadeInDuration: const Duration(milliseconds: 300),
+      placeholder: Image.asset(
+        ResImages.image_error,
+        fit: BoxFit.cover,
+      ),
+      errorWidget: Image.asset(ResImages.image_error, fit: BoxFit.cover),
+      fit: BoxFit.fill,
+    );
+  }
+
   //提示
-  void showToast(String msg) {
+  void toastShow(String msg) {
     Fluttertoast.showToast(
         msg: msg,
         toastLength: Toast.LENGTH_SHORT,

@@ -61,6 +61,7 @@ flutter:
        - images/home_tab_mine_n.png
        - images/home_tab_shopcat_h.png
        - images/home_tab_shopcat_n.png
+       - images/a_banner_default.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

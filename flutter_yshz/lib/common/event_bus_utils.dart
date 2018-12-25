@@ -34,7 +34,6 @@ class FlutterEventBus {
       map[key] = bus;
     }
     bus.streamController.stream.listen(onData);
-    
   }
 
   static void autoRegister(State state, String key, Function onData) {

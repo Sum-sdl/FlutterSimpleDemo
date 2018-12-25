@@ -12,6 +12,7 @@ class ResImages {
   static const home_tab_mine_n = "images/home_tab_mine_n.png";
   static const home_tab_shop_car_h = "images/home_tab_shopcat_h.png";
   static const home_tab_shop_car_n = "images/home_tab_shopcat_n.png";
+  static const image_error = "images/a_banner_default.png";
 }
 
 class ResColors {

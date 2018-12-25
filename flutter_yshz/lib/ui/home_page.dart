@@ -9,7 +9,8 @@ class HomePage extends StatefulWidget {
   State<StatefulWidget> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with BaseConfig {
+class _HomePageState extends State<HomePage>
+    with BaseConfig, AutomaticKeepAliveClientMixin {
   List<Widget> pages;
   List<ChooseItem> bottomItems;
 
@@ -76,4 +77,7 @@ class _HomePageState extends State<HomePage> with BaseConfig {
           elevation: 5.0,
         ));
   }
+
+  @override
+  bool get wantKeepAlive => false;
 }
