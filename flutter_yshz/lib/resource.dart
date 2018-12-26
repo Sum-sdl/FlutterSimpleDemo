@@ -26,6 +26,7 @@ class ResColors {
   static const Color color_text_404040 = Color(0xFF404040);
   static const Color color_text_EEEEEE = Color(0xFFeeeeee);
   static const Color color_line = Color(0xFFe5e5e5);
+  static const Color color_grey = Color(0xFFe5e5e5);
 }
 
 class ResDimens {

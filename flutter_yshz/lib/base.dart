@@ -38,6 +38,19 @@ class BaseConfig {
     );
   }
 
+  Widget showNetEmptyImageWidget(String url) {
+    if (url == null || url.length == 0) {
+      return Container(color: Colors.orange);
+    }
+    return CachedNetworkImage(
+      imageUrl: url,
+      fadeInDuration: const Duration(milliseconds: 300),
+      placeholder: Container(color: Colors.orange),
+      errorWidget: Container(color: Colors.orange),
+      fit: BoxFit.fill,
+    );
+  }
+
   //提示
   void toastShow(String msg) {
     Fluttertoast.showToast(

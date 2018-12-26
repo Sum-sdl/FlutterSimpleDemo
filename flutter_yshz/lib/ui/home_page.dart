@@ -17,6 +17,9 @@ class _HomePageState extends State<HomePage>
   int _currentIndex = 0;
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   void initState() {
     super.initState();
     pages = new List();
@@ -61,6 +64,7 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: ResColors.colorBg,
         body: PageView.builder(
           itemBuilder: (context, index) {
             return pages[index];
@@ -78,6 +82,4 @@ class _HomePageState extends State<HomePage>
         ));
   }
 
-  @override
-  bool get wantKeepAlive => false;
 }
