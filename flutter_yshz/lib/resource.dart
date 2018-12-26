@@ -13,6 +13,12 @@ class ResImages {
   static const home_tab_shop_car_h = "images/home_tab_shopcat_h.png";
   static const home_tab_shop_car_n = "images/home_tab_shopcat_n.png";
   static const image_error = "images/a_banner_default.png";
+
+  static const car_choose_nor = "images/home_tab_shopcat_n.png";
+  static const car_choose_sel = "images/home_tab_shopcat_n.png";
+  static const car_good_add = "images/home_tab_shopcat_n.png";
+  static const car_good_reduce = "images/home_tab_shopcat_n.png";
+  static const car_shop_logo = "images/home_tab_shopcat_n.png";
 }
 
 class ResColors {
@@ -22,6 +28,7 @@ class ResColors {
   static const Color colorBg = Color(0xFFF4F4F4);
   static const Color color_text_333333 = Color(0xFF333333);
   static const Color color_text_666666 = Color(0xFF666666);
+  static const Color color_text_888888 = Color(0xFF888888);
   static const Color color_text_999999 = Color(0xFF999999);
   static const Color color_text_404040 = Color(0xFF404040);
   static const Color color_text_EEEEEE = Color(0xFFeeeeee);
@@ -34,6 +41,8 @@ class ResDimens {
       EdgeInsets.only(left: dimen_pub_padding);
 
   static const EdgeInsets padding = EdgeInsets.all(dimen_pub_padding);
+
+  static const EdgeInsets no_padding = EdgeInsets.all(0);
 
   static const double dimen_pub_padding = 14.0;
 

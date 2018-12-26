@@ -3,29 +3,22 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_yshz/base.dart';
 import 'package:flutter_yshz/bloc/bloc_provider.dart';
-import 'package:flutter_yshz/bloc/car_bloc.dart';
+import 'package:flutter_yshz/bloc/sort_bloc.dart';
 import 'package:flutter_yshz/common/widget/pub_title_widget.dart';
-import 'package:flutter_yshz/resource.dart';
 
-class HomePageCar extends StatefulWidget {
+class HouseList extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _HomePageCarState();
 }
 
-class _HomePageCarState extends State<HomePageCar>
-    with BaseConfig, AutomaticKeepAliveClientMixin, AutoBlocMixin {
-  CarBloc _carBloc = new CarBloc();
+class _HomePageCarState extends State<HouseList> with BaseConfig, AutomaticKeepAliveClientMixin, AutoBlocMixin {
+  SortBloc _carBloc = new SortBloc(false);
 
   @override
   bool get wantKeepAlive => true;
 
   @override
-  CarBloc get bloc => _carBloc;
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  SortBloc get bloc => _carBloc;
 
   @override
   Widget build(BuildContext context) {
@@ -46,18 +39,16 @@ class _HomePageCarState extends State<HomePageCar>
     return bloc.loadData();
   }
 
-  Widget buildChild(CarBean data) {
+  Widget buildChild(SortBean data) {
     return Column(
       children: <Widget>[
         PubTitleWidget(
-          titleText: "购物车",
-          needBack: false,
+          titleText: "爱心陪居",
         ),
         Expanded(
           child: RefreshIndicator(
             onRefresh: _refreshLoadData,
             child: new ListView.builder(
-              padding: ResDimens.no_padding,
               itemBuilder: (c, index) {
                 return Text("index $index");
               },

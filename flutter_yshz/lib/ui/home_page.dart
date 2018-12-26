@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_yshz/base.dart';
+import 'package:flutter_yshz/common/widget/bottom_nav_bar.dart';
 import 'package:flutter_yshz/resource.dart';
+import 'package:flutter_yshz/ui/home_page_car.dart';
 import 'package:flutter_yshz/ui/home_page_main.dart';
-import 'package:flutter_yshz/ui/widget/bottom_nav_bar.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -24,7 +25,7 @@ class _HomePageState extends State<HomePage>
     super.initState();
     pages = new List();
     pages.add(HomePageMain());
-    pages.add(Center(child: Text("index 2")));
+    pages.add(HomePageCar());
     pages.add(Center(child: Text("index 3")));
 
     bottomItems = new List();
