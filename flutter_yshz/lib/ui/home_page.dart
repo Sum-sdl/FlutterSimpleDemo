@@ -4,6 +4,7 @@ import 'package:flutter_yshz/common/widget/bottom_nav_bar.dart';
 import 'package:flutter_yshz/resource.dart';
 import 'package:flutter_yshz/ui/home_page_car.dart';
 import 'package:flutter_yshz/ui/home_page_main.dart';
+import 'package:flutter_yshz/ui/home_page_mine.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -26,7 +27,7 @@ class _HomePageState extends State<HomePage>
     pages = new List();
     pages.add(HomePageMain());
     pages.add(HomePageCar());
-    pages.add(Center(child: Text("index 3")));
+    pages.add(HomePageMine());
 
     bottomItems = new List();
     bottomItems.add(_createItem(
@@ -82,5 +83,4 @@ class _HomePageState extends State<HomePage>
           elevation: 5.0,
         ));
   }
-
 }

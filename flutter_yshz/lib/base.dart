@@ -22,9 +22,13 @@ class BaseConfig {
     return Center(child: Text("网络异常"));
   }
 
-  Widget showNetImageWidget(String url) {
+  Widget showNetImageWidgetImgError(String url) {
+    return showNetImageWidgetImgCustom(url, ResImages.image_error);
+  }
+
+  Widget showNetImageWidgetImgCustom(String url, String imgRes) {
     if (url == null || url.length == 0) {
-      return Image.asset(ResImages.image_error);
+      return Image.asset(imgRes);
     }
     return CachedNetworkImage(
       imageUrl: url,
@@ -33,20 +37,20 @@ class BaseConfig {
         ResImages.image_error,
         fit: BoxFit.cover,
       ),
-      errorWidget: Image.asset(ResImages.image_error, fit: BoxFit.cover),
+      errorWidget: Image.asset(imgRes, fit: BoxFit.cover),
       fit: BoxFit.fill,
     );
   }
 
-  Widget showNetEmptyImageWidget(String url) {
+  Widget showNetImageWidgetGreyColor(String url) {
     if (url == null || url.length == 0) {
-      return Container(color: Colors.orange);
+      return Container(color: ResColors.color_grey);
     }
     return CachedNetworkImage(
       imageUrl: url,
       fadeInDuration: const Duration(milliseconds: 300),
-      placeholder: Container(color: Colors.orange),
-      errorWidget: Container(color: Colors.orange),
+      placeholder: Container(color: ResColors.color_grey),
+      errorWidget: Container(color: ResColors.color_grey),
       fit: BoxFit.fill,
     );
   }

@@ -11,7 +11,19 @@ class Api {
   //测试
 //  static const String baseUrl = "http://yanglao.house365.com";
 
-  static const home = baseUrl + "/api/index/index";
+  static const home = "/api/index/index";
+
+  ///分类列表
+  static const sort_list = "/api/sort/getChildList";
+
+  ///分类->商品
+  static const sort_list_good = "/api/goods/getGoodsList";
+  static const sort_list_good_details = "/api/goods/getGoodsDetail";
+
+  ///购物车操作
+  static const car_add = "/api/card/add";
+  static const car_del = "/api/card/del";
+  static const car_edit = "/api/card/editNum";
 }
 
 class DioFactory {

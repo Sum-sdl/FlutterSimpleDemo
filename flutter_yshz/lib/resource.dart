@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 class ResImages {
   ResImages._();
 
+  static const image_error = "images/a_banner_default.png";
+
   static const home_icon_house = "images/home_icon_house.png";
   static const home_tab_home_h = "images/home_tab_home_h.png";
   static const home_tab_home_n = "images/home_tab_home_n.png";
@@ -12,7 +14,7 @@ class ResImages {
   static const home_tab_mine_n = "images/home_tab_mine_n.png";
   static const home_tab_shop_car_h = "images/home_tab_shopcat_h.png";
   static const home_tab_shop_car_n = "images/home_tab_shopcat_n.png";
-  static const image_error = "images/a_banner_default.png";
+
 
   static const car_choose_nor = "images/home_tab_shopcat_n.png";
   static const car_choose_sel = "images/home_tab_shopcat_n.png";

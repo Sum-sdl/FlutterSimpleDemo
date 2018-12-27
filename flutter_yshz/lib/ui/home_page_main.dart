@@ -49,28 +49,6 @@ class _HomePageMainState extends State<HomePageMain>
     return bloc.loadData();
   }
 
-  Widget opItem(String url, String name, String sortId, int childNum) {
-    return InkWell(
-      onTap: () {
-        RouterHelper.sort2List(context, name, sortId, childNum > 0);
-      },
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          SizedBox(width: 34, height: 34, child: showNetImageWidget(url)),
-          Padding(
-            padding: const EdgeInsets.only(top: 5.0),
-            child: Text(
-              name,
-              style: TextStyle(fontSize: 13.0),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
   Widget buildChild(HomeBean data) {
     return new ListView(
       shrinkWrap: false,
@@ -81,13 +59,15 @@ class _HomePageMainState extends State<HomePageMain>
           width: double.infinity,
           height: 240.0,
           child: new Swiper(
+            autoplayDelay: 4000,
+            duration: 500,
             autoplay: true,
             itemBuilder: (BuildContext context, int index) {
               return GestureDetector(
                 onTap: () {
                   toastShow("Index->$index");
                 },
-                child: showNetImageWidget(data.banner[index]["b_img"]),
+                child: showNetImageWidgetImgError(data.banner[index]["b_img"]),
               );
             },
             itemCount: data.banner.length,
@@ -107,8 +87,10 @@ class _HomePageMainState extends State<HomePageMain>
               childAspectRatio: 1.1,
               padding: const EdgeInsets.only(top: 0.0),
               children: data.sorts.map((t) {
-                return opItem(t["img"], t["name"], t["id"].toString(), t["hasChild"]);
-              }).toList()),
+                return opItem(
+                    t["img"], t["name"], t["id"].toString(), t["hasChild"]);
+              }).toList()
+                ..add(opItemHouse())),
         ),
         Container(
           color: Colors.white,
@@ -139,6 +121,54 @@ class _HomePageMainState extends State<HomePageMain>
           ),
         ),
       ],
+    );
+  }
+
+  Widget opItem(String url, String name, String sortId, int childNum) {
+    return InkWell(
+      onTap: () {
+        RouterHelper.sort2List(context, name, sortId, childNum > 0);
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          SizedBox(
+              width: 34, height: 34, child: showNetImageWidgetGreyColor(url)),
+          Padding(
+            padding: const EdgeInsets.only(top: 5.0),
+            child: Text(
+              name,
+              style: TextStyle(fontSize: 13.0),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget opItemHouse() {
+    return InkWell(
+      onTap: () {
+        RouterHelper.sort2HouseList(context);
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          SizedBox(
+              width: 34,
+              height: 34,
+              child: Image.asset(ResImages.home_icon_house)),
+          Padding(
+            padding: const EdgeInsets.only(top: 5.0),
+            child: Text(
+              "爱心陪居",
+              style: TextStyle(fontSize: 13.0),
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -182,11 +212,12 @@ class _HomePageMainState extends State<HomePageMain>
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style:
-            TextStyle(fontSize: 12.0, color: ResColors.color_text_888888),
+                TextStyle(fontSize: 12.0, color: ResColors.color_text_888888),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: SizedBox(height: 120.0, child: showNetEmptyImageWidget(url)),
+            child: SizedBox(
+                height: 120.0, child: showNetImageWidgetGreyColor(url)),
           ),
         ],
       ),
@@ -206,8 +237,8 @@ class _HomePageMainState extends State<HomePageMain>
         children: <Widget>[
           Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(
-                    left: 12.0, top: 10.0, bottom: 10.0, right: 10.0),
+            padding: const EdgeInsets.only(
+                left: 12.0, top: 10.0, bottom: 10.0, right: 10.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -227,8 +258,7 @@ class _HomePageMainState extends State<HomePageMain>
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
-                        fontSize: 13.0,
-                        color: ResColors.color_text_888888),
+                        fontSize: 13.0, color: ResColors.color_text_888888),
                   ),
                 ),
                 Text(
@@ -236,16 +266,15 @@ class _HomePageMainState extends State<HomePageMain>
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: TextStyle(
-                      fontSize: 13.0,
-                      color: ResColors.color_text_888888),
+                      fontSize: 13.0, color: ResColors.color_text_888888),
                 ),
               ],
             ),
-              )),
+          )),
           Padding(
             padding:
-            const EdgeInsets.only(top: 10.0, bottom: 10.0, right: 12.0),
-            child: showNetEmptyImageWidget(url),
+                const EdgeInsets.only(top: 10.0, bottom: 10.0, right: 12.0),
+            child: showNetImageWidgetGreyColor(url),
           ),
         ],
       ),

@@ -12,7 +12,8 @@ class HouseList extends StatefulWidget {
 }
 
 class _HomePageCarState extends State<HouseList> with BaseConfig, AutomaticKeepAliveClientMixin, AutoBlocMixin {
-  SortBloc _carBloc = new SortBloc(false);
+
+  SortBloc _carBloc = new SortBloc(false,"");
 
   @override
   bool get wantKeepAlive => true;
@@ -36,7 +37,7 @@ class _HomePageCarState extends State<HouseList> with BaseConfig, AutomaticKeepA
   }
 
   Future<void> _refreshLoadData() {
-    return bloc.loadData();
+    return bloc.onRefreshTop();
   }
 
   Widget buildChild(SortBean data) {

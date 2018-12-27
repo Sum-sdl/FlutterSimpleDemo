@@ -30,7 +30,7 @@ class _HomePageCarState extends State<SortList>
 
   @override
   void initState() {
-    _carBloc = new SortBloc(widget.hasChild);
+    _carBloc = new SortBloc(widget.hasChild, widget.sortId);
     super.initState();
   }
 
@@ -52,7 +52,7 @@ class _HomePageCarState extends State<SortList>
   }
 
   Future<void> _refreshLoadData() {
-    return bloc.loadData();
+    return bloc.onRefreshTop();
   }
 
   Widget buildChild(SortBean data) {
