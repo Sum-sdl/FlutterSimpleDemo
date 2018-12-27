@@ -202,9 +202,9 @@ class _HomePageMainState extends State<HomePageMain>
               title,
               maxLines: 1,
               style: TextStyle(
-                  fontSize: 18.0,
+                  fontSize: 17.0,
                   color: Colors.black,
-                  fontWeight: FontWeight.w500),
+                  fontWeight: FontWeight.w600),
             ),
           ),
           Text(
@@ -212,7 +212,7 @@ class _HomePageMainState extends State<HomePageMain>
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style:
-                TextStyle(fontSize: 12.0, color: ResColors.color_text_888888),
+                TextStyle(fontSize: 13.0, color: ResColors.color_text_888888),
           ),
           Padding(
             padding: const EdgeInsets.only(top: 8.0),
@@ -249,7 +249,7 @@ class _HomePageMainState extends State<HomePageMain>
                   style: TextStyle(
                       fontSize: 17.0,
                       color: Colors.black,
-                      fontWeight: FontWeight.w500),
+                      fontWeight: FontWeight.w600),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0, bottom: 8.0),
@@ -262,7 +262,7 @@ class _HomePageMainState extends State<HomePageMain>
                   ),
                 ),
                 Text(
-                  tip2 * 10,
+                  tip2,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: TextStyle(

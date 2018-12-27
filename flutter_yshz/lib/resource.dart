@@ -59,3 +59,8 @@ class ResDimens {
 
   ResDimens._();
 }
+
+class ResDeliver{
+//  static const Deliver padding_left =Deliver();
+
+}

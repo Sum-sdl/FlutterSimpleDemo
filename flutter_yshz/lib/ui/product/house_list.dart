@@ -13,7 +13,7 @@ class HouseList extends StatefulWidget {
 
 class _HomePageCarState extends State<HouseList> with BaseConfig, AutomaticKeepAliveClientMixin, AutoBlocMixin {
 
-  SortBloc _carBloc = new SortBloc(false,"");
+  SortBloc _carBloc;
 
   @override
   bool get wantKeepAlive => true;

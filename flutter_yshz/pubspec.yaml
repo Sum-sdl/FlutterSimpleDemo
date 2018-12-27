@@ -28,17 +28,25 @@ dependencies:
   cached_network_image: ^0.4.1+1
   transparent_image: ^0.1.0
   shared_preferences: ^0.4.2
-#  flutter_webview_plugin: ^0.2.1
+  flutter_webview_plugin: ^0.2.1
   image_picker: ^0.4.1
   flutter_swiper : ^1.1.4
   chewie: ^0.8.0
   path_provider: ^0.4.1
   realank_flutter_bloc: ^0.1.2
-
+  json_annotation: ^0.2.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  build_runner: ^0.9.0
+  json_serializable: ^0.5.4
+
+flutter_icons:
+  image_path: "images/ic_launcher.png"
+  android: true # can specify file name here e.g. "ic_launcher"
+  ios: true # can specify file name here e.g. "My-Launcher-Icon"
 
 
 # For information on the generic Dart part of this file, see the

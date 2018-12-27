@@ -43,13 +43,12 @@ mixin AutoBlocMixin<T extends StatefulWidget> on State<T> {
       bloc.initState();
     }
     super.initState();
-    print("AutoBlocMixin initState ${this.toStringShort()}");
   }
 
   @override
   void deactivate() {
     super.deactivate();
-    print("AutoBlocMixin deactivate");
+//    print("AutoBlocMixin deactivate");
   }
 
   @override
@@ -58,6 +57,6 @@ mixin AutoBlocMixin<T extends StatefulWidget> on State<T> {
       bloc.dispose();
     }
     super.dispose();
-    print("AutoBlocMixin dispose");
+//    print("AutoBlocMixin dispose");
   }
 }
